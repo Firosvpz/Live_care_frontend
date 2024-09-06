@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../../components/common/Header";
-const UserLanding: React.FC = () => {
+const ServiceProvivderLanding: React.FC = () => {
   return(
     <>
     <Header/>
@@ -9,4 +9,4 @@ const UserLanding: React.FC = () => {
   )
 };
 
-export default UserLanding;
+export default ServiceProvivderLanding;

@@ -1,27 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const user_data = localStorage.getItem("user_info");
+const user_data = localStorage.getItem("userInfo");
 
 const initialState = {
-  user_info: user_data ? JSON.parse(user_data) : null,
+  userInfo: user_data ? JSON.parse(user_data) : null,
 };
 
 const user_slice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    set_user_credential: (state, action) => {
-      state.user_info = action.payload;
-      localStorage.setItem("user_info", JSON.stringify(action.payload));
+    setUserCredential: (state, action) => {
+      state.userInfo = action.payload;
+      localStorage.setItem("userInfo", JSON.stringify(action.payload));
     },
-    remove_user_credential: (state) => {
-      state.user_info = null;
-      localStorage.removeItem("user_info");
+    removeUserCredential: (state) => {
+      state.userInfo = null;
+      localStorage.removeItem("userInfo");
     },
   },
 });
 
-export const { set_user_credential, remove_user_credential } =
+export const { setUserCredential, removeUserCredential } =
   user_slice.actions;
 
 export default user_slice.reducer;

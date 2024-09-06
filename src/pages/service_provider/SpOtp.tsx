@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import '../../css/user/user_otp.css'; 
-import { verify_sp_otp } from "../../api/sp_api";
+import '../../css/user/user_otp.css';
+import { verifySpOtp, resendSpOtp } from "../../api/sp_api";
 
 const ServiceProviderOtp: React.FC = () => {
   const navigate = useNavigate();
+  const [counter, setCounter] = useState(30);
   const [otpValues, setOtpValues] = useState(["", "", "", ""]);
 
   const handleOnChange = (index: number, value: string) => {
@@ -20,19 +21,32 @@ const ServiceProviderOtp: React.FC = () => {
       return toast.error("Enter a 4-digit OTP");
     }
 
-    const response = await verify_sp_otp(otp);
-
-    if (response.success) {
-      if (response.accessToken && response.refreshToken) {
-        localStorage.setItem("accessToken", response.accessToken);
-        localStorage.setItem("refreshToken", response.refreshToken);
-      }
+    const response = await verifySpOtp(otp);
+    if (response?.data.success) {
       toast.success("You've successfully registered!");
-      navigate("/");
+      navigate("/sp-login");
     } else {
-      toast.error(response.message || "Invalid OTP");
+      toast.error("Invalid OTP");
     }
   };
+
+  const handleResendOtp = async () => {
+    setCounter(30);
+    const response = await resendSpOtp();
+
+    if (response?.data.success) {
+      toast.success("New OTP sent");
+    } else {
+      toast.error("Something went wrong");
+    }
+  };
+
+  useEffect(() => {
+    const timer: any =
+      counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
+
+    return () => clearInterval(timer);
+  }, [counter]);
 
   return (
     <section className="otp-page-container">
@@ -55,10 +69,22 @@ const ServiceProviderOtp: React.FC = () => {
             />
           ))}
         </div>
-        <button
-          onClick={handleVerify}
-          className="otp-button"
-        >
+        <div className="flex justify-evenly text-white mt-2">
+          <p className="text-[#142057]">
+            Time remaining: <span className="font-medium">{counter}</span>
+          </p>
+          <p>
+            {counter === 0 && (
+              <button
+                onClick={handleResendOtp}
+                className="font-medium underline text-[#2F76FF] btn text-danger fw-bold"
+              >
+                Resend Otp
+              </button>
+            )}
+          </p>
+        </div>
+        <button onClick={handleVerify} className="otp-button">
           Verify
         </button>
       </div>

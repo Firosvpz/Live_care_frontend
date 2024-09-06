@@ -7,46 +7,46 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Col from "react-bootstrap/Col";
 import "../../css/user/user_login.css";
-// import { user_login } from "../../api/user_api";
+import { spLogin } from "../../api/sp_api";
 
-// interface IFormInput {
-//   email: string;
-//   password: string;
-// }
+interface IFormInput {
+  email: string;
+  password: string;
+}
 const ServiceProviderLogin: React.FC = () => {
-//   const navigate = useNavigate();
+  const navigate = useNavigate();
 //   // const dispatch = useDispatch()
 
-//   const {
-//     register,
-//     formState: { errors },
-//     handleSubmit,
-//   } = useForm<IFormInput>();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<IFormInput>();
 
-//   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-//     const { email, password } = data;
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    const { email, password } = data;
 
-//     const response = await user_login(email, password);
+    const response = await spLogin(email, password);
 
-//     if ('data' in response && response.data.success) {
-//       // const user_info = response.data.data; // Assuming this is where your user info is returned
-//       navigate("/user-home");
-//     } else {
-//       toast.error(response.data.message, {
-//         style: {
-//           border: "1px solid #dc3545",
-//           padding: "16px",
-//           color: "#721c24", // Text color
-//           backgroundColor: "#f8d7da", // Background color
-//           fontSize: "14px", // Ensure text size is readable
-//         },
-//         iconTheme: {
-//           primary: "#dc3545",
-//           secondary: "#721c24",
-//         },
-//       });
-//     }
-//   };
+    if (response) {
+      // const user_info = response.data.data; // Assuming this is where your user info is returned
+      navigate("/sp/sp-home");
+    } else {
+      toast.error(response.data.message, {
+        style: {
+          border: "1px solid #dc3545",
+          padding: "16px",
+          color: "#721c24", // Text color
+          backgroundColor: "#f8d7da", // Background color
+          fontSize: "14px", // Ensure text size is readable
+        },
+        iconTheme: {
+          primary: "#dc3545",
+          secondary: "#721c24",
+        },
+      });
+    }
+  };
   return (
     <section className="login-page-container">
       <div className="login-page-overlay"></div>
@@ -58,7 +58,7 @@ const ServiceProviderLogin: React.FC = () => {
           Providing compassionate and personalized care for seniors. Login to
           continue your journey with us.
         </p>
-        <Form>
+        <Form noValidate onSubmit={handleSubmit(onSubmit)}>
           <Form.Group
             as={Col}
             md="4"
@@ -72,13 +72,13 @@ const ServiceProviderLogin: React.FC = () => {
                 placeholder="Email"
                 aria-describedby="inputGroupPrepend"
                 autoComplete="off"
-                // {...register("email", {
-                //   required: true,
-                // })}
+                {...register("email", {
+                  required: true,
+                })}
               />
-              {/* {errors.email && (
+              {errors.email && (
                 <p className="text-red-500 text-sm mt-1">Email is required</p>
-              )} */}
+              )}
               <Form.Control.Feedback type="invalid">
                 Please choose an email.
               </Form.Control.Feedback>
@@ -95,11 +95,11 @@ const ServiceProviderLogin: React.FC = () => {
               type="password"
               placeholder="Password"
               autoComplete="off"
-            //   {...register("password", { required: true })}
+              {...register("password", { required: true })}
             />
-            {/* {errors.password && (
+            {errors.password && (
               <p className="text-red-500 text-sm mt-1">Password is required</p>
-            )} */}
+            )}
             <Form.Control.Feedback type="invalid">
               Please provide a valid password.
             </Form.Control.Feedback>

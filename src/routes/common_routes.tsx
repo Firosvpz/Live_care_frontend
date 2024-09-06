@@ -12,6 +12,7 @@ import UserLanding from "../pages/user/UserLanding";
 import ServiceProviderLogin from "../pages/service_provider/SpLogin";
 import ServiceProviderRegister from "../pages/service_provider/SpRegister";
 import ServiceProviderOtp from "../pages/service_provider/SpOtp";
+import ServiceProvivderLanding from "../pages/service_provider/spLanding";
 const CommonRoutes: React.FC = () => {
   return (
     <>
@@ -27,13 +28,14 @@ const CommonRoutes: React.FC = () => {
         <Routes>
           <Route path="/user-login" element={<UserLogin />} />
           <Route path="/user-register" element={<UserRegister />} />
-          <Route path="/user/verify-otp" element={<UserOtp />} />
+          <Route path="/user/verify-user-otp" element={<UserOtp />} />
           <Route path="/user-home" element={<UserLanding />} />
         </Routes>
         <Routes>
           <Route path="/sp-login" element={<ServiceProviderLogin/>}/>
           <Route path="/sp-register" element={<ServiceProviderRegister/>}/>
           <Route path="/sp/verify-sp-otp" element={<ServiceProviderOtp/>}/>
+          <Route path="/sp/sp-home" element={<ServiceProvivderLanding/>}/>
         </Routes>
       </Router>
        

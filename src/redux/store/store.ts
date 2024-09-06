@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import sp_slice from "../slices/user_slice";
+import user_slice from "../slices/user_slice";
+import sp_slice from "../slices/sp_slice";
 
 const store = configureStore({
   reducer: {
-    sp_info: sp_slice,
+    userInfo: user_slice,
+    spInfo:sp_slice
   },
 });
 

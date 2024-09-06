@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import Header from "../../components/common/Header";
 import "../../css/common/Home.css";
+import Footer from "../../components/common/Footer";
 const Home: React.FC = () => {
   return (
     <>
@@ -33,6 +34,7 @@ const Home: React.FC = () => {
         </div>
         <div className="banner-overlay"></div>
       </section>
+      <Footer/>
     </>
   );
 };

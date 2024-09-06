@@ -1,27 +1,27 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const sp_data = localStorage.getItem("sp_info");
+const sp_data = localStorage.getItem("spInfo");
 
 const initialState = {
-  sp_info: sp_data ? JSON.parse(sp_data) : null,
+  spInfo: sp_data ? JSON.parse(sp_data) : null,
 };
 
 const sp_slice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    set_sp_credential: (state, action) => {
-      state.sp_info = action.payload;
-      localStorage.setItem("sp_info", JSON.stringify(action.payload));
+    setServiceProviderCredential: (state, action) => {
+      state.spInfo = action.payload;
+      localStorage.setItem("spInfo", JSON.stringify(action.payload));
     },
-    remove_sp_credential: (state) => {
-      state.sp_info = null;
-      localStorage.removeItem("sp_info");
+    removeServiceProviderCredential: (state) => {
+      state.spInfo = null;
+      localStorage.removeItem("spInfo");
     },
   },
 });
 
-export const { set_sp_credential, remove_sp_credential } =
+export const { setServiceProviderCredential, removeServiceProviderCredential } =
   sp_slice.actions;
 
 export default sp_slice.reducer;

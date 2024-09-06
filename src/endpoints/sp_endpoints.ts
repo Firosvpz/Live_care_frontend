@@ -1,6 +1,9 @@
 export const sp_endpoints = {
     register: "/sp/sp-register",
-    verify_otp: "/sp/verify-sp-otp",
+    verifyOtp: "/sp/verify-sp-otp",
+    resentOtp:"/sp/resend-sp-otp",
+    login:"/sp/sp-login",
+    verifyDetails:"/sp/verifiy-details",
     home:"/sp/sp-home"
   };
   

@@ -5,7 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
 import toast from "react-hot-toast";
 import "../../css/user/user_register.css";
-import { user_register } from "../../api/user_api";
+import { userRegister } from "../../api/user_api";
 
 interface IFormInput {
   name: string;
@@ -33,7 +33,7 @@ const UserRegister: React.FC = () => {
     try {
       setLoading(true);
       const { name, email, password, phone_number, gender } = data;
-      const response = await user_register(
+      const response = await userRegister(
         name,
         email,
         password,
@@ -41,18 +41,17 @@ const UserRegister: React.FC = () => {
         gender,
       );
 
-      if (response) {
+      if (response?.data.success) {
         toast.success("Registration successful! Please verify your email.");
-        navigate("/user/verify-otp");
+        navigate("/user/verify-user-otp");
       } else {
         toast.error("Email already in use. Please log in or choose another.");
+        setLoading(false)
       }
     } catch (error) {
       toast.error("Registration failed. Please try again.");
       console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   return (

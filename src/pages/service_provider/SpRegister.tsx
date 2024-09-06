@@ -5,8 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
 import toast from "react-hot-toast";
 import "../../css/user/user_register.css";
-import { sp_register } from "../../api/sp_api";
-
+import { spRegister } from "../../api/sp_api";
 
 interface IFormInput {
     name: string;
@@ -33,10 +32,11 @@ interface IFormInput {
       try {
         setLoading(true);
         const { name, email, password, phone_number } = data;
-        const response = await sp_register(name, email, password, phone_number);
-        console.log('response:',response);
+        const response = await spRegister(name, email, password, phone_number);
+        console.log('regRespo:',response);
         
-        if (response) {
+        
+        if (response?.data.success) {
           toast.success("Registration successful! Please verify your email.");
           navigate("/sp/verify-sp-otp");
         } else {
@@ -201,7 +201,7 @@ interface IFormInput {
               {loading ? <FaSpinner className="animate-spin" /> : "Register"}
             </Button>
   
-            <Link to="/user-login">
+            <Link to="/sp-login">
               <Button variant="link" className="signup-btn">
                 Already have an account? Login here
               </Button>

@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Col from "react-bootstrap/Col";
 import "../../css/user/user_login.css";
-import { user_login } from "../../api/user_api";
+import { userLogin } from "../../api/user_api";
 
 interface IFormInput {
   email: string;
@@ -26,7 +26,7 @@ const UserLogin: React.FC = () => {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const { email, password } = data;
 
-    const response = await user_login(email, password);
+    const response = await userLogin(email, password);
 
     if ('data' in response && response.data.success) {
       // const user_info = response.data.data; // Assuming this is where your user info is returned
