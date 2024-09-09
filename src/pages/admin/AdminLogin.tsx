@@ -2,20 +2,20 @@ import React from "react";
 import { Button, Form } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Col from "react-bootstrap/Col";
 import "../../css/user/user_login.css";
-import { userLogin } from "../../api/user_api";
-import { setUserCredential } from "../../redux/slices/user_slice";
+import { verifyAdminLogin } from "../../api/admin_api";
+
 interface IFormInput {
   email: string;
   password: string;
 }
-const UserLogin: React.FC = () => {
+const AdminLogin: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
   const {
     register,
@@ -26,15 +26,12 @@ const UserLogin: React.FC = () => {
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const { email, password } = data;
 
-    const response = await userLogin(email, password);
-    console.log('ressss',response);
-    
+    const response = await verifyAdminLogin(email, password);
+
     if (response?.data.success) {
-      const userInfo = response.data.data.token
-      dispatch(setUserCredential(userInfo))
-      navigate("/user-home");
+      navigate("/admin/dashboard");
     } else {
-      toast.error(response.data.message, {
+      toast.error("Invalid credential", {
         style: {
           border: "1px solid #dc3545",
           padding: "16px",
@@ -54,12 +51,9 @@ const UserLogin: React.FC = () => {
       <div className="login-page-overlay"></div>
       <div className="login-form-container">
         <h1 className="login-title">
-          Welcome!! <span className="text-primary">LIVECARE</span>
+          Welcome!! <span className="text-primary">Admin</span>
         </h1>
-        <p className="login-caption">
-          Providing compassionate and personalized care for seniors. Login to
-          continue your journey with us.
-        </p>
+        
         <Form noValidate onSubmit={handleSubmit(onSubmit)}>
           <Form.Group
             as={Col}
@@ -130,4 +124,4 @@ const UserLogin: React.FC = () => {
   );
 };
 
-export default UserLogin;
+export default AdminLogin;

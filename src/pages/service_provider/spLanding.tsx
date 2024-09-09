@@ -1,12 +1,12 @@
 import React from "react";
-import Header from "../../components/common/Header";
+import SpHeader from "../../components/serviceprovider/SpHeader";
 const ServiceProvivderLanding: React.FC = () => {
-  return(
+  return (
     <>
-    <Header/>
-    <h1>USER HOME</h1>
+    <SpHeader/>
+      <h1>Service Provider HOME</h1>
     </>
-  )
+  );
 };
 
 export default ServiceProvivderLanding;

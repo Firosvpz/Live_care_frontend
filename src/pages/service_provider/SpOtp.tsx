@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import '../../css/user/user_otp.css';
+import "../../css/user/user_otp.css";
 import { verifySpOtp, resendSpOtp } from "../../api/sp_api";
 
 const ServiceProviderOtp: React.FC = () => {

@@ -1,10 +1,19 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import "./index.css";
+import ReactDOM from "react-dom/client"; // For React 18+
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom"; // Wrap with BrowserRouter
+import store from "./redux/store/store";
+import AppWrapper from "./AppWrapper"; 
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-);
+const rootElement = document.getElementById("root") as HTMLElement;
+
+if (rootElement) {
+  const root = ReactDOM.createRoot(rootElement);
+  root.render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <AppWrapper />
+      </BrowserRouter>
+    </Provider>
+  );
+}

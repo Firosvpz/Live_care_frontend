@@ -1,3 +1,4 @@
+// sp_slice.ts
 import { createSlice } from "@reduxjs/toolkit";
 
 const sp_data = localStorage.getItem("spInfo");
@@ -7,7 +8,7 @@ const initialState = {
 };
 
 const sp_slice = createSlice({
-  name: "auth",
+  name: "spInfo",
   initialState,
   reducers: {
     setServiceProviderCredential: (state, action) => {
@@ -18,10 +19,15 @@ const sp_slice = createSlice({
       state.spInfo = null;
       localStorage.removeItem("spInfo");
     },
+    updateServiceProviderInfo: (state, action) => {
+      state.spInfo = {
+        ...state.spInfo,
+        ...action.payload
+      };
+      localStorage.setItem("spInfo", JSON.stringify(state.spInfo));
+    },
   },
 });
 
-export const { setServiceProviderCredential, removeServiceProviderCredential } =
-  sp_slice.actions;
-
+export const { setServiceProviderCredential, removeServiceProviderCredential, updateServiceProviderInfo } = sp_slice.actions;
 export default sp_slice.reducer;

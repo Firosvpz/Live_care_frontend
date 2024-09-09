@@ -1,0 +1,91 @@
+/* AdminSidebar Styles */
+
+/* Sidebar */
+.admin-sidebar {
+    width: 250px;
+    background-color: #343a40;
+    color: white;
+    padding-top: 20px;
+    position: fixed;
+    top: 56px; /* Aligns with the height of the navbar */
+    left: -250px; /* Initially hidden off-screen */
+    height: calc(100% - 56px); /* Full height minus navbar height */
+    z-index: 1000;
+    transition: left 0.3s ease; /* Transition when toggling */
+  }
+  
+  .admin-sidebar.open {
+    left: 0; /* Slide in when open */
+  }
+  
+  .sidebar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .nav-item {
+    padding: 10px;
+  }
+  
+  .nav-item .nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    transition: background-color 0.15s ease, padding 0.15s ease;
+  }
+  
+ 
+  
+  .dropdown-menu {
+    padding-left: 15px;
+    background-color: #343a40;
+    color: white;
+    border: none;
+  }
+  
+  .dropdown-menu .nav-link {
+    padding-left: 30px;
+    transition: background-color 0.15s ease, padding-left 0.15s ease; /* Match hover transition */
+  }
+  
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .admin-sidebar {
+      top: 56px; /* Aligns with the height of the navbar */
+      height: calc(100% - 56px); /* Full height minus navbar height */
+    }
+  
+    .sidebar-nav .nav-item .nav-link {
+      padding: 10px 15px;
+    }
+  
+    .sidebar-nav .nav-item .nav-link:hover {
+      padding-left: 15px; /* Adjusted padding for smaller screens */
+    }
+  
+    .dropdown-menu .nav-link {
+      padding-left: 15px;
+    }
+  }
+  
+  /* Smooth Transition for Sidebar Toggle */
+  .admin-sidebar,
+  .nav-item .nav-link,
+  .dropdown-menu .nav-link {
+    transition: left 0.3s ease, padding-left 0.15s ease;
+  }
+  
+  /* Adjustments for Dropdown Arrows */
+  .nav-item.dropdown .nav-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .nav-item.dropdown .nav-link svg {
+    margin-left: 5px;
+  }
+  

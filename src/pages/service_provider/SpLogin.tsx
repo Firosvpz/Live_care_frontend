@@ -2,21 +2,25 @@ import React from "react";
 import { Button, Form } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 import toast from "react-hot-toast";
-// import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Col from "react-bootstrap/Col";
-import "../../css/user/user_login.css";
 import { spLogin } from "../../api/sp_api";
+import { setServiceProviderCredential } from "../../redux/slices/sp_slice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from '../../redux/store/store';
 
 interface IFormInput {
   email: string;
   password: string;
 }
-const ServiceProviderLogin: React.FC = () => {
-  const navigate = useNavigate();
-//   // const dispatch = useDispatch()
 
+const ServiceProviderLogin: React.FC = () => {
+  const spInfo = useSelector((state: RootState) => state.spInfo.spInfo); // Correctly accessing the Redux state
+  console.log("Current Service Provider Info:", spInfo);
+
+  const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
   const {
     register,
     formState: { errors },
@@ -25,28 +29,33 @@ const ServiceProviderLogin: React.FC = () => {
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const { email, password } = data;
+    try {
+      const response = await spLogin(email, password);
 
-    const response = await spLogin(email, password);
+      if (!response.success) {
+        toast.error(response.message);
+        return;
+      }
 
-    if (response) {
-      // const user_info = response.data.data; // Assuming this is where your user info is returned
-      navigate("/sp/sp-home");
-    } else {
-      toast.error(response.data.message, {
-        style: {
-          border: "1px solid #dc3545",
-          padding: "16px",
-          color: "#721c24", // Text color
-          backgroundColor: "#f8d7da", // Background color
-          fontSize: "14px", // Ensure text size is readable
-        },
-        iconTheme: {
-          primary: "#dc3545",
-          secondary: "#721c24",
-        },
-      });
+      console.log("API Response:", response);
+
+      const { hasCompletedDetails } = response.data;
+
+      if (!hasCompletedDetails) {
+        dispatch(setServiceProviderCredential(response.data.token));
+        console.log("Dispatching for incomplete details", response.data.token);
+        navigate("/sp/verify-details");
+      } else if (response.success) {
+        dispatch(setServiceProviderCredential(spInfo));
+        console.log("Dispatching for complete details",spInfo);
+        navigate("/sp/sp-home");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      toast.error("An error occurred during login. Please try again.");
     }
   };
+
   return (
     <section className="login-page-container">
       <div className="login-page-overlay"></div>
@@ -72,9 +81,7 @@ const ServiceProviderLogin: React.FC = () => {
                 placeholder="Email"
                 aria-describedby="inputGroupPrepend"
                 autoComplete="off"
-                {...register("email", {
-                  required: true,
-                })}
+                {...register("email", { required: true })}
               />
               {errors.email && (
                 <p className="text-red-500 text-sm mt-1">Email is required</p>

@@ -34,7 +34,7 @@ const Home: React.FC = () => {
         </div>
         <div className="banner-overlay"></div>
       </section>
-      <Footer/>
+      <Footer />
     </>
   );
 };

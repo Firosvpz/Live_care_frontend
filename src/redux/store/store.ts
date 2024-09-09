@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import user_slice from "../slices/user_slice";
 import sp_slice from "../slices/sp_slice";
+import admin_slice from "../slices/admin_slice";
 
 const store = configureStore({
   reducer: {
-    userInfo: user_slice,
-    spInfo:sp_slice
+    user: user_slice,
+    spInfo: sp_slice,
+    adminInfo:admin_slice
   },
 });
 
