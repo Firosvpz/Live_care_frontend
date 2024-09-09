@@ -1,8 +1,8 @@
 interface PropsType {
-    columns: number
+  columns: number;
 }
 
-const TableShimmer = ({columns}: PropsType) => {
+const TableShimmer = ({ columns }: PropsType) => {
   return (
     <tbody className="animate-pulse bg-white">
       {[...Array(5)].map((_, index) => (
@@ -10,7 +10,9 @@ const TableShimmer = ({columns}: PropsType) => {
           {[...Array(columns)].map((_, cellIndex) => (
             <td key={cellIndex} className="px-6 py-4 whitespace-nowrap">
               <div className="flex items-center">
-                <div className={`h-4 bg-gray-200 rounded ${cellIndex === 0 ? 'w-16' : 'w-24'}`}></div>
+                <div
+                  className={`h-4 bg-gray-200 rounded ${cellIndex === 0 ? "w-16" : "w-24"}`}
+                ></div>
               </div>
             </td>
           ))}

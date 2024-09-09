@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 import { resendOtp, verifyOtp } from "../../api/user_api";
 import "../../css/user/user_otp.css";
+
 const UserOtp: React.FC = () => {
   const navigate = useNavigate();
   const [counter, setCounter] = useState(30);
@@ -24,11 +26,19 @@ const UserOtp: React.FC = () => {
 
     if (response?.data.success) {
       toast.success("You've successfully registered!");
-      navigate("/user-home");
+      navigate("/user-login");
     } else {
-      toast.error("Invalid OTP");
+    
+      Swal.fire({
+        icon: "error",
+        title: "Invalid OTP",
+        text: "Please check the OTP and try again.",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#3085d6",
+      });
     }
   };
+
   const handleResendOtp = async () => {
     setCounter(30);
     const response = await resendOtp();
@@ -39,6 +49,7 @@ const UserOtp: React.FC = () => {
       toast.error("Something went wrong");
     }
   };
+
   useEffect(() => {
     const timer: any =
       counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
@@ -67,7 +78,7 @@ const UserOtp: React.FC = () => {
             />
           ))}
         </div>
-        <div className="flex  justify-evenly text-white mt-2 ">
+        <div className="flex justify-evenly text-white mt-2 ">
           <p className="text-[#142057] ">
             Time remaining : <span className="font-medium">{counter}</span>
           </p>

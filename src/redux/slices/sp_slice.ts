@@ -22,12 +22,16 @@ const sp_slice = createSlice({
     updateServiceProviderInfo: (state, action) => {
       state.spInfo = {
         ...state.spInfo,
-        ...action.payload
+        ...action.payload,
       };
       localStorage.setItem("spInfo", JSON.stringify(state.spInfo));
     },
   },
 });
 
-export const { setServiceProviderCredential, removeServiceProviderCredential, updateServiceProviderInfo } = sp_slice.actions;
+export const {
+  setServiceProviderCredential,
+  removeServiceProviderCredential,
+  updateServiceProviderInfo,
+} = sp_slice.actions;
 export default sp_slice.reducer;

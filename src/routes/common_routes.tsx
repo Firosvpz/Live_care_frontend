@@ -17,6 +17,9 @@ import ServiceProviderDetails from "../pages/service_provider/spVerifyDetails";
 import AdminLogin from "../pages/admin/AdminLogin";
 import Dashboard from "../pages/admin/Dashboard";
 import UsersList from "../pages/admin/UsersList";
+import ServiceProvidersList from "../pages/admin/SpList";
+import { UserProtectedRoute, PublicUserProtectedRoute, PublicSpProtectedRoute, PublicAdminProtectedRoute, SpProtectedRoute, AdminProtectedRoute } from '../components/ProtectedRoute';
+
 const CommonRoutes: React.FC = () => {
   return (
     <Routes>
@@ -26,25 +29,48 @@ const CommonRoutes: React.FC = () => {
       <Route path="/services" element={<Services />} />
       <Route path="/blogs" element={<Blogs />} />
       <Route path="/contacts" element={<Contact />} />
-      
+
+      {/* protected routes for logged-in users */}
+      <Route element={<PublicUserProtectedRoute />}>
+        <Route path="/user-login" element={<UserLogin />} />
+        <Route path="/user-register" element={<UserRegister />} />
+        <Route path="/user/verify-user-otp" element={<UserOtp />} />
+      </Route>
+
+       {/* protected routes for logged-in service providers */}
+      {/* <Route element={<PublicSpProtectedRoute />}> */}
+        <Route path="/sp-login" element={<ServiceProviderLogin />} />
+        <Route path="/sp-register" element={<ServiceProviderRegister />} />
+        <Route path="/sp/verify-sp-otp" element={<ServiceProviderOtp />} />
+      {/* </Route> */}
+
+       {/* protected routes for Admin */}
+      <Route element={<PublicAdminProtectedRoute />}>
+        <Route path="/admin-login" element={<AdminLogin />} />
+      </Route>
+
       {/* user routes */}
-      <Route path="/user-login" element={<UserLogin />} />
-      <Route path="/user-register" element={<UserRegister />} />
-      <Route path="/user/verify-user-otp" element={<UserOtp />} />
-      <Route path="/user-home" element={<UserLanding />} />
-      
+      <Route element={<UserProtectedRoute />}>
+        <Route path="/user/user-home" element={<UserLanding />} />
+      </Route>
+
       {/* service provider routes */}
-      <Route path="/sp-login" element={<ServiceProviderLogin />} />
-      <Route path="/sp-register" element={<ServiceProviderRegister />} />
-      <Route path="/sp/verify-sp-otp" element={<ServiceProviderOtp />} />
+      {/* <Route element={<SpProtectedRoute />}> */}
       <Route path="/sp/verify-details" element={<ServiceProviderDetails />} />
-      <Route path="/sp/sp-home" element={<ServiceProviderLanding />} />
+        <Route path="/sp/sp-home" element={<ServiceProviderLanding />} />
+      {/* </Route> */}
 
       {/* admin routes */}
-      <Route path="/admin-login" element={<AdminLogin />} />
-      <Route path="/admin/dashboard" element={<Dashboard />} />
-      <Route path="/admin/users-list" element={<UsersList />} />
+      <Route element={<AdminProtectedRoute />}>
+        <Route path="/admin/dashboard" element={<Dashboard />} />
+        <Route path="/admin/users-list" element={<UsersList />} />
+        <Route path="/admin/sp-list" element={<ServiceProvidersList />} />
+      </Route>
+
+      {/* Not Found */}
+      {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
   );
 };
+
 export default CommonRoutes;

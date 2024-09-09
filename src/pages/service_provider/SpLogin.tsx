@@ -32,8 +32,8 @@ const ServiceProviderLogin: React.FC = () => {
     try {
       const response = await spLogin(email, password);
 
-      if (!response.success) {
-        toast.error(response.message);
+      if (!response) {
+        toast.error(response.data.message);
         return;
       }
 
@@ -46,6 +46,9 @@ const ServiceProviderLogin: React.FC = () => {
         console.log("Dispatching for incomplete details", response.data.token);
         navigate("/sp/verify-details");
       } else if (response.success) {
+        const spInfo = response.data.token
+        console.log('spiNfooo',spInfo);
+        
         dispatch(setServiceProviderCredential(spInfo));
         console.log("Dispatching for complete details",spInfo);
         navigate("/sp/sp-home");

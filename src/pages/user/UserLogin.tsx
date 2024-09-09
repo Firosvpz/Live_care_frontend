@@ -15,7 +15,7 @@ interface IFormInput {
 }
 const UserLogin: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -27,14 +27,14 @@ const UserLogin: React.FC = () => {
     const { email, password } = data;
 
     const response = await userLogin(email, password);
-    console.log('ressss',response);
     
     if (response?.data.success) {
-      const userInfo = response.data.data.token
-      dispatch(setUserCredential(userInfo))
-      navigate("/user-home");
+      const userInfo = response.data.data.token;
+      toast.success("Login successful!");
+      dispatch(setUserCredential(userInfo));
+      navigate("/user/user-home");
     } else {
-      toast.error(response.data.message, {
+      toast.error(response?.data.message, {
         style: {
           border: "1px solid #dc3545",
           padding: "16px",
@@ -68,8 +68,8 @@ const UserLogin: React.FC = () => {
             className="login-form-input w-100"
           >
             <InputGroup hasValidation>
-              <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
-              <Form.Control
+              <InputGroup.Text  id="inputGroupPrepend">@</InputGroup.Text>
+              <Form.Control 
                 type="email"
                 placeholder="Email"
                 aria-describedby="inputGroupPrepend"
@@ -78,8 +78,9 @@ const UserLogin: React.FC = () => {
                   required: true,
                 })}
               />
+              
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">Email is required</p>
+                <p className="text-danger text-sm mt-1">Email is required</p>
               )}
               <Form.Control.Feedback type="invalid">
                 Please choose an email.
@@ -100,7 +101,7 @@ const UserLogin: React.FC = () => {
               {...register("password", { required: true })}
             />
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">Password is required</p>
+              <p className="text-danger text-sm mt-1">Password is required</p>
             )}
             <Form.Control.Feedback type="invalid">
               Please provide a valid password.

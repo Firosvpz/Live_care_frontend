@@ -1,0 +1,12 @@
+.body {
+  background-image: url("/images/image2.png"); /* Ensure the correct file extension */
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh; /* Full-page height */
+}
+
+.not-found-container {
+  text-align: center;
+  color: white;
+  padding-top: 20%;
+}

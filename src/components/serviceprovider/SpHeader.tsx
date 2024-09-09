@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import "../../css/common/Header.css";
 import { useDispatch } from "react-redux";
@@ -31,20 +32,21 @@ const SpHeader: React.FC = () => {
 
   const handleLogout = () => {
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "You won't be able to revert this!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, logout!',
-      cancelButtonText: 'Cancel'
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, logout!",
+      cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
         // Clear user credentials from Redux store
         dispatch(removeServiceProviderCredential());
+        toast.success("service provider logout successfully")
         navigate("/");
-        console.log('Logged out!');
+        console.log("Logged out!");
       }
     });
   };
@@ -81,7 +83,10 @@ const SpHeader: React.FC = () => {
                       {subitem.title}
                     </span>
                   ) : (
-                    <NavLink to={subitem.url} className="nav-link dropdown-item ">
+                    <NavLink
+                      to={subitem.url}
+                      className="nav-link dropdown-item "
+                    >
                       {subitem.title}
                     </NavLink>
                   )}
@@ -134,9 +139,7 @@ const SpHeader: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <ul className="navbar-nav mx-auto">
-            {menuList}
-          </ul>
+          <ul className="navbar-nav mx-auto">{menuList}</ul>
         </motion.div>
       </div>
     </nav>

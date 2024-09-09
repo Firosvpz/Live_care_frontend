@@ -78,6 +78,7 @@ export const userLogin = async (email: string, password: string) => {
 export const userHome = async () => {
   try {
     const response = await Api.get(user_endpoints.home);
+    console.log("Data:", response.data);
     return response.data;
   } catch (error) {
     console.log(error);

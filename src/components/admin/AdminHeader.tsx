@@ -1,19 +1,22 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons';
-import '../../css/common/Header.css';
-import { adminLogout } from '../../redux/slices/admin_slice';
+import React from "react";
+import { useDispatch } from "react-redux";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import "../../css/common/Header.css";
+import { adminLogout } from "../../redux/slices/admin_slice";
 
 interface AdminNavbarProps {
   isSidebarOpen: boolean;
   setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AdminNavbar: React.FC<AdminNavbarProps> = ({ isSidebarOpen, setSidebarOpen }) => {
+const AdminNavbar: React.FC<AdminNavbarProps> = ({
+  isSidebarOpen,
+  setSidebarOpen,
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -44,15 +47,15 @@ const AdminNavbar: React.FC<AdminNavbarProps> = ({ isSidebarOpen, setSidebarOpen
         <div className="container-fluid">
           {/* Sidebar Toggle Button */}
           <li className="nav-item ">
-                <button
-                  className="btn btn-dark"
-                  type="button"
-                  onClick={handleSidebarToggle}
-                  aria-label="Toggle sidebar"
-                >
-                  <FontAwesomeIcon icon={isSidebarOpen ? faTimes : faBars} />
-                </button>
-              </li>
+            <button
+              className="btn btn-dark"
+              type="button"
+              onClick={handleSidebarToggle}
+              aria-label="Toggle sidebar"
+            >
+              <FontAwesomeIcon icon={isSidebarOpen ? faTimes : faBars} />
+            </button>
+          </li>
           <a className="navbar-brand ms-3" href="/admin/dashboard">
             Admin<span className="text-info">Panel</span>
           </a>
@@ -63,7 +66,6 @@ const AdminNavbar: React.FC<AdminNavbarProps> = ({ isSidebarOpen, setSidebarOpen
                   Logout
                 </button>
               </li>
-              
             </ul>
           </div>
         </div>

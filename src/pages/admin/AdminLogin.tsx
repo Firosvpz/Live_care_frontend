@@ -2,12 +2,13 @@ import React from "react";
 import { Button, Form } from "react-bootstrap";
 import InputGroup from "react-bootstrap/InputGroup";
 import toast from "react-hot-toast";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Col from "react-bootstrap/Col";
 import "../../css/user/user_login.css";
 import { verifyAdminLogin } from "../../api/admin_api";
+import { setAdminCredential } from "../../redux/slices/admin_slice";
 
 interface IFormInput {
   email: string;
@@ -15,7 +16,7 @@ interface IFormInput {
 }
 const AdminLogin: React.FC = () => {
   const navigate = useNavigate();
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const {
     register,
@@ -29,6 +30,8 @@ const AdminLogin: React.FC = () => {
     const response = await verifyAdminLogin(email, password);
 
     if (response?.data.success) {
+      const adminInfo = response.data.token;
+      dispatch(setAdminCredential(adminInfo));
       navigate("/admin/dashboard");
     } else {
       toast.error("Invalid credential", {
@@ -53,7 +56,7 @@ const AdminLogin: React.FC = () => {
         <h1 className="login-title">
           Welcome!! <span className="text-primary">Admin</span>
         </h1>
-        
+
         <Form noValidate onSubmit={handleSubmit(onSubmit)}>
           <Form.Group
             as={Col}

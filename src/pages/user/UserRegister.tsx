@@ -202,17 +202,17 @@ const UserRegister: React.FC = () => {
             controlId="validationCustomGender"
             className="login-form-input w-100"
           >
-              <Form.Select
-                aria-label="Gender"
-                className="bg-transparent"
-                {...register("gender", { required: "Gender is required" })}
-                isInvalid={!!errors.gender}
-              >
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </Form.Select>
+            <Form.Select
+              aria-label="Gender"
+              className="bg-transparent"
+              {...register("gender", { required: "Gender is required" })}
+              isInvalid={!!errors.gender}
+            >
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </Form.Select>
             {errors.gender && (
               <Form.Control.Feedback type="invalid">
                 {errors.gender.message}

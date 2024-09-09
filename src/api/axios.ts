@@ -1,6 +1,8 @@
 import axios from "axios";
+import Swal from "sweetalert2"; // Import SweetAlert2
 import store from "../redux/store/store";
 import { removeUserCredential } from "../redux/slices/user_slice";
+import { removeServiceProviderCredential } from "../redux/slices/sp_slice";
 
 const Api = axios.create({
   baseURL: "http://localhost:4117",
@@ -11,24 +13,54 @@ export const setupInterceptors = (navigate: any) => {
   Api.interceptors.response.use(
     (response) => response,
     async (error) => {
-      if (error.response && error.response.status === 401) {
-        const state = store.getState();
-        console.log('State:', state); // Ensure this logs the correct state
-        const userInfo = state.user.userInfo;
-        console.log('UserInfo:', userInfo);
+      if (error.response) {
+        const { status } = error.response;
 
-        if (userInfo) {
-          store.dispatch(removeUserCredential());
-          navigate('/user-login');
-        } else {
-          console.log('No userInfo found in state');
+        if (status === 403) {
+          // Handle user authentication issues
+          const userState = store.getState();
+          console.log("User State:", userState);
+          const userInfo = userState.user.userInfo;
+          console.log("User Info:", userInfo);
+
+          if (userInfo) {
+            store.dispatch(removeUserCredential());
+            Swal.fire({
+              title: "Account Blocked",
+              text: "Your account has been blocked. You have been logged out.",
+              icon: "warning",
+              confirmButtonText: "OK",
+            }).then(() => {
+              navigate("/user-login");
+            });
+          } else {
+            console.log("No userInfo found in state");
+          }
+        } else if (status === 401) {
+          // Handle service provider authentication issues
+          const spState = store.getState();
+          console.log("Service Provider State:", spState);
+          const spInfo = spState.spInfo.spInfo;
+          console.log("Service Provider Info:", spInfo);
+
+          if (spInfo) {
+            store.dispatch(removeServiceProviderCredential());
+            Swal.fire({
+              title: "Account Blocked",
+              text: "Your account has been blocked. You have been logged out.",
+              icon: "warning",
+              confirmButtonText: "OK",
+            }).then(() => {
+              navigate("/sp-login");
+            });
+          } else {
+            console.log("No Service Provider Info found in state");
+          }
         }
       }
       return Promise.reject(error);
-    }
+    },
   );
 };
-
-
 
 export default Api;
