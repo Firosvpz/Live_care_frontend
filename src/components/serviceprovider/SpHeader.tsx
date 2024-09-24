@@ -44,7 +44,7 @@ const SpHeader: React.FC = () => {
       if (result.isConfirmed) {
         // Clear user credentials from Redux store
         dispatch(removeServiceProviderCredential());
-        toast.success("service provider logout successfully")
+        toast.success("service provider logout successfully");
         navigate("/");
         console.log("Logged out!");
       }
@@ -133,7 +133,7 @@ const SpHeader: React.FC = () => {
           <FontAwesomeIcon icon={clicked ? faTimes : faBars} />
         </button>
         <motion.div
-          className={`collapse navbar-collapse ${clicked ? "show" : ""}`}
+          className={` navbar-collapse ${clicked ? "show" : ""}`}
           id="navbarNav"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

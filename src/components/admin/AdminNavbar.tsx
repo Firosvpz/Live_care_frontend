@@ -11,8 +11,8 @@ export const NavList = [
     title: "Service Providers",
     path: "/admin/sp-list",
   },
-//   {
-//     title: "Categories",
-//     path: "/admin/categories",
-//   },
+    {
+      title: "Categories",
+      path: "/admin/categorys-list",
+    },
 ];

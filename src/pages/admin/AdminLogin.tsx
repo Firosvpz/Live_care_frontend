@@ -33,13 +33,13 @@ const AdminLogin: React.FC = () => {
       const adminInfo = response.data.token;
       dispatch(setAdminCredential(adminInfo));
       navigate("/admin/dashboard");
+      toast.success("admin login successfully");
     } else {
-      toast.error("Invalid credential", {
+      toast.error("Invalid email or password", {
         style: {
-          border: "1px solid #dc3545",
           padding: "16px",
-          color: "#721c24", // Text color
-          backgroundColor: "#f8d7da", // Background color
+          color: "red", // Text color
+          backgroundColor: "#fff", // Background color
           fontSize: "14px", // Ensure text size is readable
         },
         iconTheme: {
@@ -67,6 +67,7 @@ const AdminLogin: React.FC = () => {
             <InputGroup hasValidation>
               <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
               <Form.Control
+                className="w-75"
                 type="email"
                 placeholder="Email"
                 aria-describedby="inputGroupPrepend"
@@ -76,11 +77,10 @@ const AdminLogin: React.FC = () => {
                 })}
               />
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">Email is required</p>
+                <p className="text-danger  text-sm mt-1">
+                  Email is required !!
+                </p>
               )}
-              <Form.Control.Feedback type="invalid">
-                Please choose an email.
-              </Form.Control.Feedback>
             </InputGroup>
           </Form.Group>
 
@@ -97,31 +97,16 @@ const AdminLogin: React.FC = () => {
               {...register("password", { required: true })}
             />
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">Password is required</p>
+              <p className="text-danger text-start text-sm mt-1">
+                Password is required !!
+              </p>
             )}
-            <Form.Control.Feedback type="invalid">
-              Please provide a valid password.
-            </Form.Control.Feedback>
           </Form.Group>
 
-          <Button
-            variant="primary"
-            type="submit"
-            className="login-btn primary-login-btn"
-          >
+          <Button variant="primary" type="submit" className="login-btn w-50">
             Login
           </Button>
-
-          <Button variant="primary" className="login-btn google-login-btn">
-            Login with Google
-          </Button>
         </Form>
-
-        <Link to="/user-register">
-          <Button variant="link" className="signup-btn">
-            Don't have an account? Sign up here
-          </Button>
-        </Link>
       </div>
     </section>
   );

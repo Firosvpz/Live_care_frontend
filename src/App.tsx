@@ -1,6 +1,6 @@
 import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import CommonRoutes from "./routes/common_routes";
+import "react-toastify/dist/ReactToastify.css";
 
 const App: React.FC = () => {
   return (

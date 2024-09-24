@@ -6,8 +6,14 @@
   align-items: center;
   background-color: #343a40; /* Background color of the navbar */
   padding: 0 15px; /* Adjust padding as needed */
+  position: fixed; /* Make the navbar sticky */
+  top: 0; /* Stick to the top of the viewport */
+  z-index: 1000; /* Ensure it stays above other content */
+  width: 100%; /* Full width */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better separation */
 }
 
+/* Toggler Button */
 .navbar-toggler {
   background-color: #ffffff; /* White background for the button */
   border: none; /* Remove default border */
@@ -15,12 +21,14 @@
   cursor: pointer; /* Pointer cursor on hover */
   font-size: 1.2rem; /* Adjust icon size */
   margin-right: auto; /* Pushes the button to the left end */
+  transition: background-color 0.3s ease; /* Smooth background color transition */
 }
 
 .navbar-toggler:hover {
   background-color: #f0f0f0; /* Light gray background on hover */
 }
 
+/* Brand Text */
 .navbar-brand {
   color: #ffffff; /* Text color */
   margin-left: 10px; /* Adjust spacing between the button and the brand */

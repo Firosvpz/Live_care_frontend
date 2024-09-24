@@ -5,4 +5,8 @@ export const sp_endpoints = {
   login: "/sp/sp-login",
   verifyDetails: "/sp/verify-details",
   home: "/sp/sp-home",
+  serviceCategorys:'/sp/categories',
+  getProfileDetails:'/sp/sp-profile',
+  editProfile: "/sp/edit-profile",
+  editPassword: "/sp/edit-password",
 };

@@ -7,10 +7,10 @@ export const MenuList = [
     title: "About",
     url: "/about",
   },
-  {
-    title: "Services",
-    url: "/services",
-  },
+  // {
+  //   title: "Services",
+  //   url: "/services",
+  // },
   {
     title: "Blogs",
     url: "/blogs",

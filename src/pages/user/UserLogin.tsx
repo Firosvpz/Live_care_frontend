@@ -27,7 +27,7 @@ const UserLogin: React.FC = () => {
     const { email, password } = data;
 
     const response = await userLogin(email, password);
-    
+
     if (response?.data.success) {
       const userInfo = response.data.data.token;
       toast.success("Login successful!");
@@ -56,7 +56,7 @@ const UserLogin: React.FC = () => {
         <h1 className="login-title">
           Welcome!! <span className="text-primary">LIVECARE</span>
         </h1>
-        <p className="login-caption">
+        <p className="login-caption text-info">
           Providing compassionate and personalized care for seniors. Login to
           continue your journey with us.
         </p>
@@ -68,8 +68,11 @@ const UserLogin: React.FC = () => {
             className="login-form-input w-100"
           >
             <InputGroup hasValidation>
-              <InputGroup.Text  id="inputGroupPrepend">@</InputGroup.Text>
-              <Form.Control 
+              <InputGroup.Text id="inputGroupPrepend" className="border-info">
+                @
+              </InputGroup.Text>
+              <Form.Control
+                className="w-75 border-info"
                 type="email"
                 placeholder="Email"
                 aria-describedby="inputGroupPrepend"
@@ -78,9 +81,9 @@ const UserLogin: React.FC = () => {
                   required: true,
                 })}
               />
-              
+
               {errors.email && (
-                <p className="text-danger text-sm mt-1">Email is required</p>
+                <p className="text-danger text-sm mt-1">Email is required !!</p>
               )}
               <Form.Control.Feedback type="invalid">
                 Please choose an email.
@@ -98,10 +101,13 @@ const UserLogin: React.FC = () => {
               type="password"
               placeholder="Password"
               autoComplete="off"
+              className="border-info"
               {...register("password", { required: true })}
             />
             {errors.password && (
-              <p className="text-danger text-sm mt-1">Password is required</p>
+              <p className="text-danger text-start text-sm mt-1">
+                Password is required
+              </p>
             )}
             <Form.Control.Feedback type="invalid">
               Please provide a valid password.
@@ -111,14 +117,14 @@ const UserLogin: React.FC = () => {
           <Button
             variant="primary"
             type="submit"
-            className="login-btn primary-login-btn"
+            className="login-btn primary-login-btn w-50"
           >
             Login
           </Button>
 
-          <Button variant="primary" className="login-btn google-login-btn">
+          {/* <Button variant="primary" className="login-btn google-login-btn">
             Login with Google
-          </Button>
+          </Button> */}
         </Form>
 
         <Link to="/user-register">

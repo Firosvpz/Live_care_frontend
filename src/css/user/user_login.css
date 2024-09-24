@@ -27,13 +27,8 @@
   z-index: 2;
   max-width: 500px;
   width: 100%;
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.1
-  ); /* Slightly transparent background */
-  backdrop-filter: blur(8px); /* Blur effect */
+  background-color: rgb(0, 0, 0); /* Slightly transparent background */
+  /* backdrop-filter: blur(8px); Blur effect */
   padding: 40px;
   border-radius: 10px;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.733);
@@ -44,7 +39,7 @@
 .login-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #0d252c;
+  color: #ffffff7c;
   margin-bottom: 20px;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -171,3 +166,4 @@
     padding: 30px;
   }
 }
+  

@@ -1,0 +1,108 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
+
+body {
+  font-family: "Nunito", sans-serif;
+}
+
+/* Search Input Animation */
+input[type="text"] {
+  transition:
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+}
+
+/* Table Row Hover Effect */
+table tbody tr {
+  transition: background-color 0.3s ease;
+  /* background-color: #c6f6d5; */
+}
+
+table tbody tr:hover {
+  /* background-color: #f7fafc;  */
+}
+
+/* Button Hover Effect */
+button {
+  transition:
+    background-color 0.3s,
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Block/Unblock Button Color Transition */
+button.bg-green-100:hover {
+  background-color: #c6f6d5;
+}
+
+button.bg-red-100:hover {
+  background-color: #feb2b2;
+}
+
+/* Fade-in Effect for Table */
+table {
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Pagination Button Hover Animation */
+.pagination-button {
+  transition:
+    background-color 0.3s,
+    color 0.3s ease;
+}
+
+.pagination-button:hover {
+  background-color: #3182ce;
+  color: white;
+}
+
+/* Subtle Zoom-in Effect on Icons */
+button .icon {
+  transition: transform 0.3s ease;
+}
+
+button:hover .icon {
+  transform: scale(1.1);
+}
+
+/* Loader Animation for the Shimmer Effect */
+.shimmer {
+  background: linear-gradient(
+    to right,
+    #f6f7f8 0%,
+    #edeef1 20%,
+    #f6f7f8 40%,
+    #f6f7f8 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+
+  100% {
+    background-position: 1000px 0;
+  }
+}

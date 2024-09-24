@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Form, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
-import "../../css/user/verify_sp.css";
-import { verfiySpDetails } from "../../api/sp_api";
+import "../../css/user/verifySp.css";
+import { verfiySpDetails, fetchCategories } from "../../api/sp_api";
 
 interface IFormInput {
   gender: string;
@@ -19,12 +19,26 @@ interface IFormInput {
 
 const ServiceProviderDetails: React.FC = () => {
   const navigate = useNavigate();
+  const [categories, setCategories] = useState<string[]>([]);
 
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm<IFormInput>();
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const categoriesData = await fetchCategories();
+        console.log("categoriesData", categoriesData);
+        setCategories(categoriesData);
+      } catch (error) {
+        toast.error("Failed to load categories");
+      }
+    };
+    loadCategories();
+  }, []);
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
@@ -35,7 +49,7 @@ const ServiceProviderDetails: React.FC = () => {
         toast.success("Details updated");
         navigate("/sp/sp-home");
       } else {
-        toast.error("something went wrong");
+        toast.error("Something went wrong");
       }
     } catch (error) {
       console.error(error);
@@ -47,15 +61,16 @@ const ServiceProviderDetails: React.FC = () => {
       <div className="register-page-overlay"></div>
       <div className="register-form-container">
         <h1 className="register-title">
-          Details <span className="text-primary">HERE</span>
+          Upload <span className="text-primary">Details</span>
         </h1>
 
         <Form noValidate onSubmit={handleSubmit(onSubmit)}>
           <Row>
             <Col md={6} className="mb-3">
-              <Form.Group controlId="validationCustomGender">
+              <Form.Group controlId="validationCustomGender" className="register-form-input w-100">
                 <Form.Select
                   aria-label="Gender"
+                  className="form-select bg-dark text-white"
                   {...register("gender", { required: "Gender is required" })}
                   isInvalid={!!errors.gender}
                 >
@@ -71,7 +86,32 @@ const ServiceProviderDetails: React.FC = () => {
             </Col>
 
             <Col md={6} className="mb-3">
-              <Form.Group controlId="validationCustomSpecialization">
+              <Form.Group controlId="validationCustomService" className="register-form-input w-100">
+                <Form.Select
+                  aria-label="Service"
+                  className="form-select bg-dark text-white"
+                  {...register("service", { required: "Service is required" })}
+                  isInvalid={!!errors.service}
+                >
+                  <option value="">Select Service</option>
+                  {categories.length > 0 ? (
+                    categories.map((category, index) => (
+                      <option key={index} value={category}>
+                        {category}
+                      </option>
+                    ))
+                  ) : (
+                    <option value="">No services available</option>
+                  )}
+                </Form.Select>
+                <Form.Control.Feedback type="invalid">
+                  {errors.service?.message}
+                </Form.Control.Feedback>
+              </Form.Group>
+            </Col>
+
+            <Col md={6} className="mb-3">
+              <Form.Group controlId="validationCustomSpecialization" className="register-form-input w-100">
                 <Form.Control
                   type="text"
                   placeholder="Specialization"
@@ -88,7 +128,7 @@ const ServiceProviderDetails: React.FC = () => {
             </Col>
 
             <Col md={6} className="mb-3">
-              <Form.Group controlId="validationCustomQualification">
+              <Form.Group controlId="validationCustomQualification" className="register-form-input w-100">
                 <Form.Control
                   type="text"
                   placeholder="Qualification"
@@ -105,28 +145,7 @@ const ServiceProviderDetails: React.FC = () => {
             </Col>
 
             <Col md={6} className="mb-3">
-              <Form.Group controlId="validationCustomService">
-                <Form.Select
-                  aria-label="Service"
-                  {...register("service", { required: "Service is required" })}
-                  isInvalid={!!errors.service}
-                >
-                  <option value="">Select a Service</option>
-                  <option value="Doctor">Doctor</option>
-                  <option value="Nurse">Nurse</option>
-                  <option value="preDeliveryCare">Pre-Delivery Care</option>
-                  <option value="PostDeliveryCare">Post-Delivery Care</option>
-                  <option value="HomeTaker">Home Taker</option>
-                  <option value="YogaTherapy">Yoga Therapy</option>
-                </Form.Select>
-                <Form.Control.Feedback type="invalid">
-                  {errors.service?.message}
-                </Form.Control.Feedback>
-              </Form.Group>
-            </Col>
-
-            <Col md={6} className="mb-3">
-              <Form.Group controlId="validationCustomExpYear">
+              <Form.Group controlId="validationCustomExpYear" className="register-form-input w-100">
                 <Form.Control
                   type="number"
                   placeholder="Years of Experience"
@@ -147,7 +166,7 @@ const ServiceProviderDetails: React.FC = () => {
             </Col>
 
             <Col md={6} className="mb-3">
-              <Form.Group controlId="validationCustomRate">
+              <Form.Group controlId="validationCustomRate" className="register-form-input w-100">
                 <Form.Control
                   type="number"
                   placeholder="Rate"
@@ -168,11 +187,10 @@ const ServiceProviderDetails: React.FC = () => {
             </Col>
 
             <Col md={6} className="mb-3">
-              <Form.Group controlId="validationCustomProfilePic">
+              <Form.Group controlId="validationCustomProfilePic" className="register-form-input w-100">
                 <Form.Label className="text-light">Profile photo</Form.Label>
                 <Form.Control
                   type="file"
-                  placeholder="Profile Photo"
                   autoComplete="off"
                   {...register("profile_picture", {
                     required: "Profile picture is required",
@@ -186,13 +204,10 @@ const ServiceProviderDetails: React.FC = () => {
             </Col>
 
             <Col md={6} className="mb-3">
-              <Form.Group controlId="validationCustomExpCert">
-                <Form.Label className="text-light">
-                  Experience certificate
-                </Form.Label>
+              <Form.Group controlId="validationCustomExpCert" className="register-form-input w-100">
+                <Form.Label className="text-light">Experience certificate</Form.Label>
                 <Form.Control
                   type="file"
-                  placeholder="Experience Certificate"
                   autoComplete="off"
                   {...register("experience_crt", {
                     required: "Experience certificate is required",
@@ -206,7 +221,7 @@ const ServiceProviderDetails: React.FC = () => {
             </Col>
 
             <Col md={12} className="d-flex justify-content-center">
-              <Button variant="primary" type="submit" className="w-100">
+              <Button variant="primary" type="submit" className="register-btn w-50">
                 Submit
               </Button>
             </Col>

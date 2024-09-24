@@ -4,10 +4,21 @@ import AdminSidebar from "../../components/admin/AdminSidebar";
 import { getServiceProviders, blockServiceProvider } from "../../api/admin_api";
 import Pagination from "../../components/common/pagination";
 import toast from "react-hot-toast";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Link } from "react-router-dom";
 import TableShimmer from "../../components/common/Table";
 import Swal from "sweetalert2";
-import { FiUser, FiMail, FiPhone, FiLock, FiUnlock } from "react-icons/fi";
+
+import {
+  FiSearch,
+  FiUser,
+  FiMail,
+  FiPhone,
+  FiLock,
+  FiUnlock,
+  FiEye,
+  FiCheckCircle ,
+  FiXCircle
+} from "react-icons/fi";
 import "../../css/admin/users_list.css";
 
 interface ServiceProvider {
@@ -127,38 +138,46 @@ const ServiceProvidersList: React.FC = () => {
       />
       <AdminSidebar isOpen={isSidebarOpen} />
       <div className="container p-4">
-        <main className="flex flex-col items-center ml-auto mr-0 p-6 bg-white rounded-lg shadow-md w-full max-w-4xl">
+        <main className="flex flex-col items-center mx-auto p-6  rounded-lg shadow-md w-full max-w-6xl">
           <h1 className="text-center text-2xl font-semibold mb-6">
             Service Providers List
           </h1>
-          <div className="w-full max-w-lg mb-8 text-end">
+          <div className="relative w-full max-w-lg mb-8 text-end">
+
             <input
               type="text"
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
               placeholder="Search for service providers"
               value={search}
               onChange={(e) => handleSearch(e.target.value)}
             />
+
+          </div>
+          <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+
           </div>
           <div className="w-full rounded-lg shadow-md overflow-x-auto">
             <table className="w-full min-w-max">
-              <thead className="bg-gray-50">
+              <thead className="bg-blue-50">
                 <tr>
-                  <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-5 py-4 text-center text-md font-bold text-red-900 uppercase tracking-wider">
                     ID
                   </th>
-                  <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-5 py-4 text-center text-md font-bold text-red-900 uppercase tracking-wider">
                     Name
                   </th>
-                  <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-5 py-4 text-center text-md font-bold text-red-900 uppercase tracking-wider">
                     Email
                   </th>
-                  <th className="px-5 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-5 py-4 text-center text-md font-bold text-red-900 uppercase tracking-wider">
                     Mobile
                   </th>
-                  <th className="px-5 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th></th>
+
+                  <th className="px-5 py-4 text-center text-md font-bold text-red-900 uppercase tracking-wider">
                     Action
                   </th>
+                  <th></th>
                 </tr>
               </thead>
 
@@ -168,57 +187,87 @@ const ServiceProvidersList: React.FC = () => {
                 <tbody className="divide-y divide-gray-200">
                   {filteredServiceProviders.map((user, index) => (
                     <tr key={user._id} className="hover:bg-gray-50">
-                      <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500 text-center">
+                      <td className="px-4 py-4 text-center text-sm text-gray-500">
                         {index + 1}
                       </td>
-                      <td className="px-4 py-4 whitespace-nowrap text-center">
+                      <td className="px-4 py-4 text-center">
                         <div className="flex items-center justify-center">
-                          <div className="flex-shrink-0 h-10 w-10">
-                            <FiUser className="h-10 w-10 text-gray-400" />
-                          </div>
-                          <div className="ml-4">
-                            <div className="text-sm font-medium text-gray-900">
-                              {user.name}
-                            </div>
+                          {/* <FiUser className="h-5 w-5 text-red-400" /> */}
+                          <img
+                            className="h-10 w-10 rounded-full object-cover"
+                            src={user.profile_picture || "https://via.placeholder.com/40"}
+                            alt={user.name}
+                            style={{ width: "40px", height: "40px" }}
+                          />
+                          <div className="text-sm font-medium text-gray-800">
+
+                            {user.name}
                           </div>
                         </div>
                       </td>
-                      <td className="px-4 py-4 whitespace-nowrap text-center">
+                      <td className="px-4 py-4 text-center">
                         <div className="flex items-center justify-center">
-                          <FiMail className="text-gray-400 mr-2" />
-                          <div className="text-sm text-gray-900">
+                          <FiMail className="text-red-400 mr-2" />
+                          <span className="text-sm text-gray-800">
                             {user.email}
-                          </div>
+                          </span>
                         </div>
                       </td>
-                      <td className="px-4 py-4 whitespace-nowrap text-center">
+                      <td className="px-4 py-4 text-center">
                         <div className="flex items-center justify-center">
-                          <FiPhone className="text-gray-400 mr-2" />
-                          <div className="text-sm text-gray-900">
+                          <FiPhone className="text-red-400 mr-2" />
+                          <span className="text-sm text-gray-800">
                             {user.phone_number}
-                          </div>
+                          </span>
                         </div>
                       </td>
-                      <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <button
-                          onClick={() => showBlockModal(user)}
-                          className={`inline-flex items-center px-4 py-2 text-sm font-semibold rounded-full shadow-sm transition-all duration-300 ease-in-out ${
-                            user.is_blocked
-                              ? "bg-white text-green-700 border border-green-300 hover:bg-green-50 hover:border-green-400 focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-                              : "bg-white text-red-700 border border-red-300 hover:bg-red-50 hover:border-red-400 focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-                          } hover:shadow-md focus:outline-none`}
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.is_approved ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                            }`}
                         >
-                          {user.is_blocked ? (
+                          {user.is_approved ? (
                             <>
-                              <FiUnlock className="mr-2 h-4 w-4 stroke-2" />{" "}
-                              Unblock
+                              <FiCheckCircle className="mr-1" /> {/* Green check icon */}
+                              Approved {/* Green text */}
                             </>
                           ) : (
                             <>
-                              <FiLock className="mr-2 h-4 w-4 stroke-2" /> Block
+                              <FiXCircle className="mr-1" /> {/* Red cross icon */}
+                              Not Approved {/* Red text */}
+                            </>
+                          )}
+                        </span>
+                      </td>
+
+                      <td className="px-4 py-4 text-center">
+
+                        <button
+                          onClick={() => showBlockModal(user)}
+                          className={`inline-flex items-center px-4 py-2 text-sm font-semibold rounded-full shadow-sm transition-all duration-300 ease-in-out ${user.is_blocked
+                              ? "bg-white text-green-700 border border-green-300 hover:bg-green-50"
+                              : "bg-white text-red-700 border border-red-300 hover:bg-red-50"
+                            }`}
+                        >
+                          {user.is_blocked ? (
+                            <>
+                              <FiUnlock className="mr-2 h-4 w-4" /> Unblock
+                            </>
+                          ) : (
+                            <>
+                              <FiLock className="mr-2 h-4 w-4" /> Block
                             </>
                           )}
                         </button>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                        <Link
+                          to={`/admin/sp-list/${user._id}`}
+                          className="text-indigo-600 hover:text-indigo-900"
+                        >
+                          <FiEye className="inline-block mr-1" />
+                          View
+                        </Link>
                       </td>
                     </tr>
                   ))}

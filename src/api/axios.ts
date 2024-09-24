@@ -1,5 +1,5 @@
 import axios from "axios";
-import Swal from "sweetalert2"; // Import SweetAlert2
+import Swal from "sweetalert2";
 import store from "../redux/store/store";
 import { removeUserCredential } from "../redux/slices/user_slice";
 import { removeServiceProviderCredential } from "../redux/slices/sp_slice";

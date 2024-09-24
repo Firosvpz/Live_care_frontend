@@ -133,13 +133,13 @@ const UserHeader: React.FC = () => {
           <FontAwesomeIcon icon={clicked ? faTimes : faBars} />
         </button>
         <motion.div
-          className={`collapse navbar-collapse ${clicked ? "show" : ""}`}
+          className={` navbar-collapse ${clicked ? "show" : ""}`}
           id="navbarNav"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <ul className="navbar-nav mx-auto">{menuList}</ul>
+          <ul className="navbar-nav mx-auto btn">{menuList}</ul>
         </motion.div>
       </div>
     </nav>

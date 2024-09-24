@@ -14,10 +14,8 @@ export const spRegister = async (
       password,
       phone_number,
     });
-    if (!response) {
-      throw new Error("Data not found");
-    }
-    const token = response.data.data;
+
+    const token = response?.data.data;
     localStorage.setItem("spOtp", token);
     return response;
   } catch (error) {
@@ -37,6 +35,7 @@ export const verifySpOtp = async (otp: string) => {
         },
       },
     );
+    console.log("resssssssssssss", response);
 
     if (response.data.success) {
       localStorage.removeItem("spOtp");
@@ -88,12 +87,12 @@ export const spHome = async () => {
 interface ServiceProviderDetails {
   gender: string;
   service: string;
-  specialization: string;
+  specialization?: string;
   qualification: string;
   exp_year: number;
-  profile_picture: File[];
+  profile_picture?: File[];
   rate: number;
-  experience_crt: File[];
+  experience_crt?: File[];
 }
 
 export const verfiySpDetails = async (spDetails: ServiceProviderDetails) => {
@@ -124,3 +123,43 @@ export const verfiySpDetails = async (spDetails: ServiceProviderDetails) => {
     console.log(error);
   }
 };
+
+export const fetchCategories = async () => {
+  try {
+    const response = await Api.get(sp_endpoints.serviceCategorys);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching categories", error);
+    return [];
+  }
+}
+
+export const getSpProfileDetails = async () => {
+  try {
+    const { data } = await Api.get(sp_endpoints.getProfileDetails);
+    console.log("datas:", data);
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const editProfile = async (details: ServiceProviderDetails) => {
+  try {
+    const {data} = await Api.put(sp_endpoints.editProfile, {details});
+    return data
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const editPassword = async (currentPassword: string, newPassword: string) => {
+  try {
+      const {data} = await Api.put(sp_endpoints.editPassword, {currentPassword, newPassword})
+      return data 
+  } catch (error: any) {
+      console.log(error)
+      return error.response.data
+  }
+}

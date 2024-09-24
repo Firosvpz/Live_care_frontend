@@ -1,10 +1,24 @@
 /* Navbar.css */
 
+/* Navbar container */
+.navbar {
+  display: flex;
+  align-items: center;
+  background-color: #343a40; /* Background color of the navbar */
+  padding: 0 15px; /* Adjust padding as needed */
+  position: -webkit-sticky; /* For Safari */
+  position: sticky; /* Sticky positioning */
+  top: 0; /* Stick to the top */
+  width: 100%; /* Full width */
+  z-index: 1000; /* Ensure it stays above other content */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better separation */
+}
+
 /* Custom styling for the brand logo */
 .navbar-brand {
   font-weight: bold;
   font-size: 1.5rem;
-  color: #f8f9fa; /* Default Bootstrap light color */
+  color: #f8f9fa;
 }
 
 .navbar-brand .text-info {
@@ -26,18 +40,26 @@
 
 /* Custom styling for the navbar toggler (hamburger icon) */
 .navbar-toggler {
-  border: none;
-  outline: none;
+  background-color: #ffffff; /* White background for the button */
+  border: none; /* Remove default border */
+  color: #000000; /* Text color */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 1.2rem; /* Adjust icon size */
+  transition: background-color 0.3s ease; /* Smooth background color transition */
+}
+
+.navbar-toggler:hover {
+  background-color: #f0f0f0; /* Light gray background on hover */
 }
 
 .navbar-toggler:focus {
-  box-shadow: none;
+  box-shadow: none; /* Remove box-shadow on focus */
 }
 
 /* Adjusting the dropdown menu styles for mobile view */
 .collapse.navbar-collapse.show {
-  background-color: rgba(0, 0, 0, 0.8);
-  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.8); /* Dark background for dropdown */
+  padding: 1rem; /* Add padding for dropdown content */
 }
 
 /* Optional: adding transition to the dropdown */

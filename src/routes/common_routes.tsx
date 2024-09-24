@@ -18,7 +18,21 @@ import AdminLogin from "../pages/admin/AdminLogin";
 import Dashboard from "../pages/admin/Dashboard";
 import UsersList from "../pages/admin/UsersList";
 import ServiceProvidersList from "../pages/admin/SpList";
-import { UserProtectedRoute, PublicUserProtectedRoute, PublicSpProtectedRoute, PublicAdminProtectedRoute, SpProtectedRoute, AdminProtectedRoute } from '../components/ProtectedRoute';
+import {
+  UserProtectedRoute,
+  PublicUserProtectedRoute,
+  // PublicSpProtectedRoute,
+  PublicAdminProtectedRoute,
+  // SpProtectedRoute,
+  AdminProtectedRoute,
+} from "../components/ProtectedRoute";
+import UserProfile from "../pages/user/UserProfile";
+import CategoryManagement from "../pages/admin/Category";
+import AddCategory from "../pages/admin/AddCategory";
+import ServiceProviderProfile from "../pages/service_provider/SpProfile";
+import SingleServiceProviderDetails from "../pages/admin/SpDetails";
+import ApprovedSp from "../pages/user/ServiceProvider";
+import ProviderDetails from "../pages/user/SpViewDetails";
 
 const CommonRoutes: React.FC = () => {
   return (
@@ -37,14 +51,14 @@ const CommonRoutes: React.FC = () => {
         <Route path="/user/verify-user-otp" element={<UserOtp />} />
       </Route>
 
-       {/* protected routes for logged-in service providers */}
+      {/* protected routes for logged-in service providers */}
       {/* <Route element={<PublicSpProtectedRoute />}> */}
-        <Route path="/sp-login" element={<ServiceProviderLogin />} />
-        <Route path="/sp-register" element={<ServiceProviderRegister />} />
-        <Route path="/sp/verify-sp-otp" element={<ServiceProviderOtp />} />
+      <Route path="/sp-login" element={<ServiceProviderLogin />} />
+      <Route path="/sp-register" element={<ServiceProviderRegister />} />
+      <Route path="/sp/verify-sp-otp" element={<ServiceProviderOtp />} />
       {/* </Route> */}
 
-       {/* protected routes for Admin */}
+      {/* protected routes for Admin */}
       <Route element={<PublicAdminProtectedRoute />}>
         <Route path="/admin-login" element={<AdminLogin />} />
       </Route>
@@ -52,12 +66,34 @@ const CommonRoutes: React.FC = () => {
       {/* user routes */}
       <Route element={<UserProtectedRoute />}>
         <Route path="/user/user-home" element={<UserLanding />} />
+        <Route path="/user/get-profile" element={<UserProfile/>}/>
+        <Route path="/user/service-providers" element={<ApprovedSp/>}/>
+        <Route path="/user/sp-details/:id" element={<ProviderDetails/>}/>
       </Route>
 
       {/* service provider routes */}
       {/* <Route element={<SpProtectedRoute />}> */}
       <Route path="/sp/verify-details" element={<ServiceProviderDetails />} />
-        <Route path="/sp/sp-home" element={<ServiceProviderLanding />} />
+      <Route path="/sp/sp-home" element={<ServiceProviderLanding />} />
+      <Route
+  path="/sp/sp-profile"
+  element={
+    <ServiceProviderProfile
+      setShowEdit={(show) => console.log("setShowEdit", show)}
+      serviceProviderDetails={{
+        name: "",
+        phone_number: "",
+        email: "",
+        service: "",
+        gender: "",
+        qualification: "",
+        exp_year: 0,
+        rate: 0,
+      }}
+      onProfileEdit={(updatedData) => console.log("onProfileEdit", updatedData)}
+    />
+  }
+/>
       {/* </Route> */}
 
       {/* admin routes */}
@@ -65,6 +101,9 @@ const CommonRoutes: React.FC = () => {
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/users-list" element={<UsersList />} />
         <Route path="/admin/sp-list" element={<ServiceProvidersList />} />
+        <Route path="/admin/sp-list/:id" element={<SingleServiceProviderDetails/>}/>
+        <Route path="/admin/categorys-list" element={<CategoryManagement/>}/>
+        <Route path="/admin/add-category" element={<AddCategory/>}/>
       </Route>
 
       {/* Not Found */}

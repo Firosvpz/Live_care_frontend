@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import "../../css/user/user_otp.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock, faRedoAlt } from "@fortawesome/free-solid-svg-icons";
 import { verifySpOtp, resendSpOtp } from "../../api/sp_api";
+import Swal from "sweetalert2";
 
 const ServiceProviderOtp: React.FC = () => {
   const navigate = useNavigate();
@@ -22,11 +25,18 @@ const ServiceProviderOtp: React.FC = () => {
     }
 
     const response = await verifySpOtp(otp);
-    if (response?.data.success) {
+
+    if (response?.data) {
       toast.success("You've successfully registered!");
       navigate("/sp-login");
     } else {
-      toast.error("Invalid OTP");
+      Swal.fire({
+        icon: "error",
+        title: "Invalid OTP",
+        text: "Please check the OTP and try again.",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#3085d6",
+      });
     }
   };
 
@@ -52,8 +62,12 @@ const ServiceProviderOtp: React.FC = () => {
     <section className="otp-page-container">
       <div className="otp-page-overlay"></div>
       <div className="otp-box">
-        <h1 className="otp-title">OTP Verification</h1>
-        <p className="otp-caption">
+        <h1 className="otp-title">
+          <span className="text-primary">
+            OTP<span className="text-light"> VERIFICATION</span>
+          </span>
+        </h1>
+        <p className="otp-caption text-info">
           A One-Time Password (OTP) has been sent to your registered email.
           Please enter it below to verify your account.
         </p>
@@ -70,21 +84,30 @@ const ServiceProviderOtp: React.FC = () => {
           ))}
         </div>
         <div className="flex justify-evenly text-white mt-2">
-          <p className="text-[#142057]">
-            Time remaining: <span className="font-medium">{counter}</span>
+          <p className="otp-timer bg-dark text-info fw-bold p-2 rounded d-flex align-items-center justify-content-center">
+            <FontAwesomeIcon icon={faClock} />
+            &nbsp; :&nbsp; {counter}
           </p>
-          <p>
-            {counter === 0 && (
-              <button
-                onClick={handleResendOtp}
-                className="font-medium underline text-[#2F76FF] btn text-danger fw-bold"
-              >
-                Resend Otp
-              </button>
-            )}
-          </p>
+
+          {counter === 0 ? (
+            <button
+              onClick={handleResendOtp}
+              className=" active bg-dark text-info fw-bold p-2 rounded d-flex align-items-center justify-content-center"
+            >
+              <FontAwesomeIcon icon={faRedoAlt} />
+              &nbsp; resend
+            </button>
+          ) : (
+            <button
+              className=" bg-dark text-secondary fw-bold p-2 rounded d-flex align-items-center justify-content-center"
+              disabled
+            >
+              <FontAwesomeIcon icon={faRedoAlt} />
+              &nbsp; resend
+            </button>
+          )}
         </div>
-        <button onClick={handleVerify} className="otp-button">
+        <button onClick={handleVerify} className="otp-button mt-3 w-50">
           Verify
         </button>
       </div>

@@ -16,7 +16,9 @@ export const SpProtectedRoute = () => {
 
 // Protected Route for logged-in admins
 export const AdminProtectedRoute = () => {
-  const adminInfo = useSelector((state: RootState) => state.adminInfo.adminInfo);
+  const adminInfo = useSelector(
+    (state: RootState) => state.adminInfo.adminInfo,
+  );
   return adminInfo ? <Outlet /> : <Navigate to="/admin-login" />;
 };
 
@@ -34,6 +36,8 @@ export const PublicSpProtectedRoute = () => {
 
 // Public Route for admins (only accessible when not logged in)
 export const PublicAdminProtectedRoute = () => {
-  const adminInfo = useSelector((state: RootState) => state.adminInfo.adminInfo);
+  const adminInfo = useSelector(
+    (state: RootState) => state.adminInfo.adminInfo,
+  );
   return !adminInfo ? <Outlet /> : <Navigate to="/admin/dashboard" />;
 };

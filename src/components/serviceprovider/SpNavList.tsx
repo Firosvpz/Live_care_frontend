@@ -1,16 +1,13 @@
 export const SpMenuList = [
   {
     title: "Home",
-    url: "/",
+    url: "/sp/sp-home",
   },
   {
     title: "About",
     url: "/about",
   },
-  {
-    title: "Services",
-    url: "/services",
-  },
+ 
   {
     title: "Blogs",
     url: "/blogs",
@@ -23,7 +20,7 @@ export const SpMenuList = [
     title: "Profile",
     url: "",
     submenu: [
-      { title: "User-profile", url: "/user-profile" },
+      { title: "Profile", url: "/sp/sp-profile" },
       { title: "Logout", url: "/logout" },
     ],
   },

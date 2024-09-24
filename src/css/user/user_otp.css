@@ -1,16 +1,23 @@
-/* UserOtp.css */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap");
 
-.otp-page-container {
-  position: relative;
-  background-image: url("/images/login.jpg");
-  background-size: cover;
-  background-position: center;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+body {
+  font-family: "Nunito", sans-serif;
 }
 
+/* OTP Page Container */
+.otp-page-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: rgba(0, 0, 0, 0.6) url("/images/login.jpg") no-repeat center
+    center/cover;
+  overflow: hidden;
+  padding: 20px;
+}
+
+/* OTP Page Overlay */
 .otp-page-overlay {
   position: absolute;
   top: 0;
@@ -21,70 +28,144 @@
   z-index: 1;
 }
 
+/* OTP Box */
 .otp-box {
-  background-color: transparent;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
   z-index: 2;
   max-width: 400px;
   width: 100%;
+  background-color: rgba(34, 34, 34, 0.85); /* Similar dark background */
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
+/* OTP Title */
 .otp-title {
-  font-size: 1.5rem;
-  color: #cccccc;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff; /* White text */
+  margin-bottom: 20px;
+  text-transform: uppercase;
 }
 
+/* OTP Caption */
 .otp-caption {
-  font-size: 0.875rem;
-  color: #fff;
-  margin-bottom: 2rem;
-  text-align: center;
+  font-size: 1rem;
+  color: #e0e0e0; /* Light Gray */
+  margin-bottom: 20px;
 }
 
+/* OTP Input Container */
 .otp-input-container {
   display: flex;
   justify-content: center;
   margin-bottom: 1.5rem;
 }
 
+/* OTP Input */
 .otp-input {
   width: 3rem;
   height: 3rem;
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.3); /* Transparent black background */
   margin: 0 0.5rem;
-  border: 1px solid #cccccc;
+  border: 1px solid #28b0ff; /* Matches the register form input border */
   border-radius: 4px;
   text-align: center;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+  color: #ffffff; /* White text */
   transition: border-color 0.3s ease;
 }
 
 .otp-input:focus {
-  border-color: #007bff;
+  border-color: #28b0ff;
+  background-color: rgba(255, 255, 255, 0.1);
   outline: none;
 }
 
+/* Timer and Resend Button Container */
+.otp-timer-resend {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  color: #ffffff; /* White text for timer */
+  font-size: 0.95rem;
+}
+
+/* Timer */
+.otp-timer {
+  color: #ffcc00;
+  font-weight: bold;
+}
+
+/* Resend OTP Button (Inactive State) */
+.otp-resend-btn {
+  color: #7d7d7d;
+  background-color: transparent;
+  border: none;
+  cursor: not-allowed;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+/* Resend OTP Button (Active State) */
+.otp-resend-btn.active {
+  color: #2f76ff; /* Blue color when active */
+  cursor: pointer;
+  font-weight: 700;
+  text-decoration: underline;
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.otp-resend-btn.active:hover {
+  color: #1e90ff; /* Slightly brighter blue on hover */
+  transform: scale(1.05); /* Small zoom effect */
+}
+
+/* OTP Button */
 .otp-button {
   width: 100%;
-  padding: 0.75rem;
-  background-color: #6841128b;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
+  padding: 10px 0;
   font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-weight: 600;
+  background-color: #28b0ff; /* Same as register button */
+  color: #000000; /* Black text */
+  border: none;
+  border-radius: 50px;
+  margin-bottom: 15px;
+  transition: all 0.3s ease;
 }
 
 .otp-button:hover {
-  background-color: #7d642f;
+  background-color: #1e90ff; /* Slightly brighter on hover */
+  transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .otp-title {
+    font-size: 1.8rem;
+  }
+
+  .otp-caption {
+    font-size: 0.9rem;
+  }
+
+  .otp-box {
+    padding: 20px;
+  }
+
+  .otp-timer-resend {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .otp-timer {
+    margin-bottom: 10px;
+  }
 }

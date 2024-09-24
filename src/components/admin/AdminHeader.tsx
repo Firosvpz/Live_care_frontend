@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import "../../css/common/Header.css";
@@ -37,7 +37,7 @@ const AdminNavbar: React.FC<AdminNavbarProps> = ({
     if (result.isConfirmed) {
       dispatch(adminLogout());
       navigate("/admin-login");
-      toast.success("Logout Successful!");
+      toast.success("Logout Successfully!");
     }
   };
 
@@ -59,7 +59,7 @@ const AdminNavbar: React.FC<AdminNavbarProps> = ({
           <a className="navbar-brand ms-3" href="/admin/dashboard">
             Admin<span className="text-info">Panel</span>
           </a>
-          <div className="collapse navbar-collapse" id="navbarNav">
+          <div className=" navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
                 <button onClick={handleLogout} className="btn btn-danger">

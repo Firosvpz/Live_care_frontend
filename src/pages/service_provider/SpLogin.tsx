@@ -8,7 +8,7 @@ import Col from "react-bootstrap/Col";
 import { spLogin } from "../../api/sp_api";
 import { setServiceProviderCredential } from "../../redux/slices/sp_slice";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from '../../redux/store/store';
+import { AppDispatch, RootState } from "../../redux/store/store";
 
 interface IFormInput {
   email: string;
@@ -46,11 +46,11 @@ const ServiceProviderLogin: React.FC = () => {
         console.log("Dispatching for incomplete details", response.data.token);
         navigate("/sp/verify-details");
       } else if (response.success) {
-        const spInfo = response.data.token
-        console.log('spiNfooo',spInfo);
-        
+        const spInfo = response.data.token;
+        console.log("spiNfooo", spInfo);
+
         dispatch(setServiceProviderCredential(spInfo));
-        console.log("Dispatching for complete details",spInfo);
+        console.log("Dispatching for complete details", spInfo);
         navigate("/sp/sp-home");
       }
     } catch (error) {
@@ -66,7 +66,7 @@ const ServiceProviderLogin: React.FC = () => {
         <h1 className="login-title">
           Welcome!! <span className="text-primary">LIVECARE</span>
         </h1>
-        <p className="login-caption">
+        <p className="login-caption text-info">
           Providing compassionate and personalized care for seniors. Login to
           continue your journey with us.
         </p>
@@ -78,16 +78,17 @@ const ServiceProviderLogin: React.FC = () => {
             className="login-form-input w-100"
           >
             <InputGroup hasValidation>
-              <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
+              <InputGroup.Text id="inputGroupPrepend" className="border-info">@</InputGroup.Text>
               <Form.Control
                 type="email"
                 placeholder="Email"
                 aria-describedby="inputGroupPrepend"
                 autoComplete="off"
+                className="border-info w-75"
                 {...register("email", { required: true })}
               />
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">Email is required</p>
+                <p className="text-danger text-sm mt-1">Email is required</p>
               )}
               <Form.Control.Feedback type="invalid">
                 Please choose an email.
@@ -105,10 +106,11 @@ const ServiceProviderLogin: React.FC = () => {
               type="password"
               placeholder="Password"
               autoComplete="off"
+              className="border-info"
               {...register("password", { required: true })}
             />
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">Password is required</p>
+              <p className="text-danger  text-start  text-sm mt-1">Password is required</p>
             )}
             <Form.Control.Feedback type="invalid">
               Please provide a valid password.
@@ -118,14 +120,14 @@ const ServiceProviderLogin: React.FC = () => {
           <Button
             variant="primary"
             type="submit"
-            className="login-btn primary-login-btn"
+            className="login-btn primary-login-btn w-50 "
           >
             Login
           </Button>
 
-          <Button variant="primary" className="login-btn google-login-btn">
+          {/* <Button variant="primary" className="login-btn google-login-btn">
             Login with Google
-          </Button>
+          </Button> */}
         </Form>
 
         <Link to="/sp-register">

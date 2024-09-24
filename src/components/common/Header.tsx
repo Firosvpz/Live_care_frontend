@@ -95,7 +95,7 @@ const Header: React.FC = () => {
           <FontAwesomeIcon icon={clicked ? faTimes : faBars} />
         </button>
         <motion.div
-          className={`collapse navbar-collapse ${clicked ? "show" : ""}`}
+          className={` navbar-collapse ${clicked ? "show" : ""}`} //collapse
           id="navbarNav"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
