@@ -1,6 +1,6 @@
 import { user_endpoints } from "../endpoints/user_endpoints";
 import Api from "./axios";
-import { ServiceProvider } from '../types/serviceproviders';
+import { ServiceProvider } from "../types/serviceproviders";
 
 export const userRegister = async (
   name: string,
@@ -88,53 +88,48 @@ export const userHome = async () => {
 
 export const getProfileDetails = async () => {
   try {
-    const {data}=await Api.get(user_endpoints.userProfile)
-    return data
+    const { data } = await Api.get(user_endpoints.userProfile);
+    return data;
   } catch (error) {
     console.log(error);
-    
   }
-}
+};
 
 export const editProfile = async (formData: any) => {
   try {
-    
-    const {data} = await Api.put(user_endpoints.editProfile,formData,{
-      headers:{
-        "Content-Type": "application/json"
-      }
-    })
-    console.log('apidata',data);
-    return data
-    
-    
+    const { data } = await Api.put(user_endpoints.editProfile, formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("apidata", data);
+    return data;
   } catch (error) {
     console.log(error);
   }
-}
+};
 export const editPassword = async (
   currentPassword: string,
-  newPassword: string
+  newPassword: string,
 ) => {
   try {
-    const {data} = await Api.put(user_endpoints.editPassword,{
-      currentPassword,newPassword
-    })
-    
+    const { data } = await Api.put(user_endpoints.editPassword, {
+      currentPassword,
+      newPassword,
+    });
+
     return data;
-   
-    
   } catch (error) {
     console.log(error);
-    
   }
-}
+};
 
-
-export const fetchApprovedAndUnblockedProviders = async (): Promise< ServiceProvider[]>  => {
+export const fetchApprovedAndUnblockedProviders = async (): Promise<
+  ServiceProvider[]
+> => {
   try {
     const response = await Api.get(user_endpoints.serviceProviders);
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error("Failed to fetch providers:", error);
     throw new Error("Failed to fetch providers");
@@ -143,10 +138,10 @@ export const fetchApprovedAndUnblockedProviders = async (): Promise< ServiceProv
 
 export const getServiceProviderDetails = async (id: string) => {
   try {
-    console.log('gyv');
-    
+    console.log("gyv");
+
     const response = await Api.get(
-      user_endpoints.getServiceProviderDetails + `/${id}`
+      user_endpoints.getServiceProviderDetails + `/${id}`,
     );
     console.log("res", response);
 
@@ -154,4 +149,4 @@ export const getServiceProviderDetails = async (id: string) => {
   } catch (error) {
     console.log(error);
   }
-}
+};

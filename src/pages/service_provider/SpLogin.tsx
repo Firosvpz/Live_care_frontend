@@ -78,7 +78,9 @@ const ServiceProviderLogin: React.FC = () => {
             className="login-form-input w-100"
           >
             <InputGroup hasValidation>
-              <InputGroup.Text id="inputGroupPrepend" className="border-info">@</InputGroup.Text>
+              <InputGroup.Text id="inputGroupPrepend" className="border-info">
+                @
+              </InputGroup.Text>
               <Form.Control
                 type="email"
                 placeholder="Email"
@@ -110,7 +112,9 @@ const ServiceProviderLogin: React.FC = () => {
               {...register("password", { required: true })}
             />
             {errors.password && (
-              <p className="text-danger  text-start  text-sm mt-1">Password is required</p>
+              <p className="text-danger  text-start  text-sm mt-1">
+                Password is required
+              </p>
             )}
             <Form.Control.Feedback type="invalid">
               Please provide a valid password.

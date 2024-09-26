@@ -2,7 +2,13 @@ import { useState, useEffect, useCallback } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { getCategorys, unlistCategory } from "../../api/admin_api";
 import toast from "react-hot-toast";
-import { FiPlus, FiList, FiTrash2, FiCheckSquare, FiLayers } from 'react-icons/fi';
+import {
+  FiPlus,
+  FiList,
+  FiTrash2,
+  FiCheckSquare,
+  FiLayers,
+} from "react-icons/fi";
 import Pagination from "../../components/common/pagination";
 import AdminNavbar from "../../components/admin/AdminHeader";
 import CategoryShimmer from "../../components/common/CategoryShimmmer";
@@ -48,11 +54,15 @@ const CategoryManagement = () => {
   const handleUnlist = async (categoryId: string) => {
     const response = await unlistCategory(categoryId);
     if (response.data) {
-      toast.success(response.data.isListed ? "Category Listed" : "Category Unlisted");
+      toast.success(
+        response.data.isListed ? "Category Listed" : "Category Unlisted",
+      );
       setCategories((prevCategories) =>
         prevCategories.map((category) =>
-          category._id === categoryId ? { ...category, isListed: !category.isListed } : category
-        )
+          category._id === categoryId
+            ? { ...category, isListed: !category.isListed }
+            : category,
+        ),
       );
     } else {
       toast.error("Failed to unlist category!");
@@ -68,7 +78,9 @@ const CategoryManagement = () => {
   }, [currentPage, limit, fetchCategories]);
 
   const listedCategories = categories.filter((category) => category.isListed);
-  const unlistedCategories = categories.filter((category) => !category.isListed);
+  const unlistedCategories = categories.filter(
+    (category) => !category.isListed,
+  );
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -76,13 +88,18 @@ const CategoryManagement = () => {
 
   return (
     <>
-      <AdminNavbar isSidebarOpen={isSidebarOpen} setSidebarOpen={setIsSidebarOpen} />
+      <AdminNavbar
+        isSidebarOpen={isSidebarOpen}
+        setSidebarOpen={setIsSidebarOpen}
+      />
       <AdminSidebar isOpen={isSidebarOpen} />
 
       <div className="min-h-screen p-8">
         <div className="container mx-auto">
           <div className="flex flex-col sm:flex-row justify-between items-center mb-12">
-            <h1 className="text-3xl font-bold mb-4 sm:mb-0 text-gray-800">Category Management</h1>
+            <h1 className="text-3xl font-bold mb-4 sm:mb-0 text-gray-800">
+              Category Management
+            </h1>
             <div className="flex space-x-4">
               <button
                 onClick={() => navigate("/admin/add-category")}
@@ -110,19 +127,25 @@ const CategoryManagement = () => {
                   className="bg-white rounded-lg overflow-hidden border border-gray-300 shadow hover:shadow-lg transition duration-300"
                 >
                   <div className="p-4 border-b border-gray-200">
-                    <h5 className="text-xl font-semibold text-gray-800 truncate">{category.categoryName}</h5>
+                    <h5 className="text-xl font-semibold text-gray-800 truncate">
+                      {category.categoryName}
+                    </h5>
                   </div>
                   <div className="p-4">
                     <div className="flex flex-wrap gap-2 mb-4">
                       {category.subCategories.map((subCategory, index) => (
-                        <span key={index} className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
+                        <span
+                          key={index}
+                          className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm"
+                        >
                           {subCategory}
                         </span>
                       ))}
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-gray-600 text-sm flex items-center">
-                        <FiLayers className="mr-1" /> {category.subCategories.length} Sub-Category
+                        <FiLayers className="mr-1" />{" "}
+                        {category.subCategories.length} Sub-Category
                       </span>
                       <button
                         onClick={() => handleUnlist(category._id)}
@@ -138,7 +161,11 @@ const CategoryManagement = () => {
           )}
 
           {/* Pagination */}
-          <Pagination currentPage={currentPage} onPageChange={handlePageChange} totalPages={totalPages} />
+          <Pagination
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+            totalPages={totalPages}
+          />
 
           {/* Custom Modal */}
           {isModalOpen && (
@@ -149,20 +176,27 @@ const CategoryManagement = () => {
                     <FiList className="inline-block mr-2" />
                     Unlisted Categories
                   </h3>
-                  <button onClick={toggleModal} className="text-red-500 hover:text-red-700">
+                  <button
+                    onClick={toggleModal}
+                    className="text-red-500 hover:text-red-700"
+                  >
                     Close
                   </button>
                 </div>
                 <div className="p-4 h-[400px] overflow-y-auto">
                   {unlistedCategories.length === 0 ? (
-                    <p className="text-center text-gray-500 py-4">No unlisted categories available.</p>
+                    <p className="text-center text-gray-500 py-4">
+                      No unlisted categories available.
+                    </p>
                   ) : (
                     unlistedCategories.map((category) => (
                       <div
                         key={category._id}
                         className="bg-white border border-blue-200 rounded-lg m-3 p-4 flex justify-between items-center hover:bg-blue-50 transition duration-300"
                       >
-                        <h4 className="font-semibold text-blue-800 text-lg">{category.categoryName}</h4>
+                        <h4 className="font-semibold text-blue-800 text-lg">
+                          {category.categoryName}
+                        </h4>
                         <button
                           onClick={() => handleUnlist(category._id)}
                           className="bg-blue-600 hover:bg-blue-700 text-white py-1 px-4 rounded-md text-sm transition duration-300"

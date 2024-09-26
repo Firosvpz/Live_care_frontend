@@ -2,8 +2,28 @@ import React, { useState, useEffect } from "react";
 import UserHeader from "../../components/user/Header";
 import { getProfileDetails } from "../../api/user_api";
 import Footer from "../../components/common/Footer";
+import toast from "react-hot-toast";
+import { fetchCategories } from "../../api/sp_api";
+import { motion } from "framer-motion";
+import { Button, Carousel } from "react-bootstrap";
+
 const UserLanding: React.FC = () => {
   const [profileData, setProfileData] = useState<{ name: string } | null>(null);
+  const [categories, setCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const categoriesData = await fetchCategories();
+        console.log("categoriesData", categoriesData);
+        setCategories(categoriesData);
+      } catch (error) {
+        toast.error("Failed to load categories");
+      }
+    };
+    loadCategories();
+  }, []);
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -20,66 +40,197 @@ const UserLanding: React.FC = () => {
   return (
     <>
       <UserHeader />
-      <div className="relative bg-cover bg-center h-screen" style={{ backgroundImage: 'url("/images/userLand.jpg")' }}>
-        {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-black opacity-40"></div>
-        <div className="relative flex flex-col items-center justify-center h-full w-full text-white">
-          <h1 className="text-5xl md:text-7xl font-bold slide-in">Welcome, {profileData?.name}</h1>
-          <p className="mt-4 text-xl md:text-2xl fade-in">Your trusted partner in senior citizen care</p>
-        </div>
-      </div>
+      <section
+  className="relative h-screen flex items-center justify-center bg-cover bg-center"
+  style={{ backgroundImage: `url('/images/userLand.jpg')` }}
+>
+  <div className="absolute inset-0 bg-black/80 z-0"></div>
+  <div className="container relative z-10 text-center lg:text-left">
+    <div className="row align-items-center justify-center">
+      <Carousel
+        indicators={false}
+        controls={false}
+        interval={3000}
+        className="py-8 w-100 md:w-6/4 mx-auto text-center shadow-lg rounded-lg"
+      >
+        <h5 className="mb-14">
+          <motion.div
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="text-5xl lg:text-5xl font-bold leading-tight text-white"
+          >
+            Welcome <span className="text-info">{profileData?.name}</span>
+          </motion.div>
+        </h5>
 
-      <section className="py-16 bg-gray-100">
-        <div className="container mx-auto text-center">
-          <h2 className="text-4xl font-semibold mb-8">Our Services</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {["Consultation", "Home Care", "Nursing Services"].map((service) => (
-              <div
-                key={service}
-                className="bg-white rounded-lg shadow-lg p-8 transition-transform duration-300 transform hover:scale-105 hover:shadow-xl"
+        {categories.length > 0 ? (
+          categories.map((category, index) => (
+            <Carousel.Item key={index}>
+              <motion.div
+                initial={{ opacity: 0, y: 60 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: 'easeOut' }}
+                className="p-8 shadow-xl rounded-lg transform transition-transform hover:scale-105 hover:shadow-2xl"
               >
-                <h3 className="text-2xl font-bold mb-4">{service}</h3>
-                <p className="text-gray-600">Providing the best {service.toLowerCase()} for your needs.</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16">
-        <div className="container mx-auto text-center">
-          <h2 className="text-4xl font-semibold mb-8">Testimonials</h2>
-          <div className="flex flex-col md:flex-row md:justify-center gap-6">
-            {[
-              { name: "John Doe", text: "The service was exceptional!" },
-              { name: "Jane Smith", text: "Highly recommend for senior care." },
-            ].map((testimonial) => (
-              <div
-                key={testimonial.name}
-                className="bg-gray-200 rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow"
+                <div className="text-6xl font-bold text-info mb-4 text-center lg:text-left">
+                  {category} Services
+                </div>
+                <div className="mt-4 text-lg text-white leading-relaxed italic text-center lg:text-left">
+                  Discover exceptional {category} services tailored to your needs. At
+                  LiveCare, we prioritize your comfort and well-being with the utmost
+                  care and professionalism.
+                </div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, ease: 'easeOut' }}
+                  className="mt-8"
+                >
+                  <button
+                    className="px-6 py-3 btn btn-outline-info border-r-2 text-info rounded-lg text-lg font-semibold shadow-md hover:bg-transparent transition flex items-center justify-center space-x-2"
+                  >
+                    <span>Go for a Service</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6 text-info"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                  </button>
+                </motion.div>
+              </motion.div>
+            </Carousel.Item>
+          ))
+        ) : (
+          <Carousel.Item>
+            <motion.div
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+              className="p-8 shadow-xl rounded-lg transform transition-transform hover:scale-105 hover:shadow-2xl"
+            >
+              <h3 className="text-3xl font-semibold text-red-600 mb-4 text-center lg:text-left">
+                No Services Available
+              </h3>
+              <p className="mt-4 text-lg italic text-info leading-relaxed text-center lg:text-left">
+                Please check back soon. We’re expanding our services to offer
+                the best care experience for you.
+              </p>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, ease: 'easeOut' }}
+                className="mt-8"
               >
-                <p className="italic text-lg">"{testimonial.text}"</p>
-                <h4 className="mt-4 font-bold text-xl">{testimonial.name}</h4>
+                <button
+                  className="px-6 py-3 bg-info text-white rounded-lg text-lg font-semibold shadow-md hover:bg-blue-500 transition"
+                >
+                  Book a Service
+                </button>
+              </motion.div>
+            </motion.div>
+          </Carousel.Item>
+        )}
+      </Carousel>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+  {/* Services Section */}
+  <section className="relative py-20 bg-gradient-to-r from-gray-50 via-white to-gray-100 overflow-hidden">
+  {/* Container for content */}
+  <div className="container text-center relative z-10">
+    <div className="text-5xl font-bold text-primary mb-12 tracking-wide">
+      Our Premium Services
+    </div>
+    
+    {/* Carousel Component */}
+    <Carousel
+      indicators={true}
+      controls={true}
+      interval={2000}  // Slightly faster interval
+      className="py-8"
+    >
+      {categories.length > 0 ? (
+        categories.map((category, index) => (
+          <Carousel.Item key={index}>
+            <motion.div
+              initial={{ opacity: 0, y: 60 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+              className="row justify-center"
+            >
+              <div className="col-lg-10 col-md-8">
+                {/* Animated Content Block */}
+                <motion.div
+                  initial={{ scale: 0.9 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.6, ease: 'easeInOut' }}
+                  className="p-8 bg-white shadow-xl rounded-lg transform transition-transform hover:scale-105 hover:shadow-2xl"
+                >
+                  <h3 className="text-3xl font-semibold text-purple-600 mb-4">
+                    {category} Services
+                  </h3>
+                  <p className="mt-4 text-lg text-gray-700 leading-relaxed italic">
+                    Discover exceptional {category} services tailored to your needs. At LiveCare, we prioritize your comfort and well-being with the utmost care and professionalism.
+                  </p>
+                
+                </motion.div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </motion.div>
+          </Carousel.Item>
+        ))
+      ) : (
+        <Carousel.Item>
+          <motion.div
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="row justify-center"
+          >
+            <div className="col-lg-10 col-md-8">
+              {/* Fallback Content Block */}
+              <motion.div
+                initial={{ scale: 0.9 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.6, ease: 'easeInOut' }}
+                className="p-8 bg-white shadow-xl rounded-lg transform transition-transform hover:scale-105 hover:shadow-2xl"
+              >
+                <h3 className="text-3xl font-semibold text-red-600 mb-4">
+                  No Services Available
+                </h3>
+                <p className="mt-4 text-lg italic text-gray-700 leading-relaxed">
+                  Please check back soon. We’re expanding our services to offer the best care experience for you.
+                </p>
+              </motion.div>
+            </div>
+          </motion.div>
+        </Carousel.Item>
+      )}
+    </Carousel>
+  </div>
 
-      <section className="py-16 bg-gray-100">
-        <div className="container mx-auto">
-          <h2 className="text-4xl font-semibold text-center mb-8">FAQs</h2>
-          <div className="bg-white rounded-lg p-8 shadow-lg">
-            <h3 className="font-semibold text-xl mb-4">What services do you offer?</h3>
-            <p className="text-gray-600">We offer a range of services including home care, consultations, and nursing services tailored for senior citizens.</p>
+  {/* Background Visual Effects */}
+  <div className="absolute inset-0 bg-gradient-to-t from-transparent to-blue-300 opacity-50"></div>
+  <div className="absolute top-0 left-0 w-72 h-72 bg-purple-200 rounded-full opacity-20 mix-blend-multiply filter blur-xl"></div>
+  <div className="absolute bottom-0 right-0 w-72 h-72 bg-blue-300 rounded-full opacity-20 mix-blend-multiply filter blur-xl"></div>
+</section>
+     
 
-            <h3 className="font-semibold text-xl mt-6 mb-4">How can I contact you?</h3>
-            <p className="text-gray-600">You can reach us through our contact page or by calling our support line.</p>
-          </div>
-        </div>
-      </section>
-
-    <Footer/>
+      <Footer />
     </>
   );
 };

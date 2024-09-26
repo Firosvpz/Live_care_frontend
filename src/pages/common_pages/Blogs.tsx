@@ -1,8 +1,8 @@
 import React from "react";
-import Header from "../../components/common/Header";
+import UserHeader from "../../components/user/Header";
 
 const Blogs: React.FC = () => {
-  return <Header />;
+  return <UserHeader />;
 };
 
 export default Blogs;

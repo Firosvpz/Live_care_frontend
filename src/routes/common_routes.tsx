@@ -66,9 +66,9 @@ const CommonRoutes: React.FC = () => {
       {/* user routes */}
       <Route element={<UserProtectedRoute />}>
         <Route path="/user/user-home" element={<UserLanding />} />
-        <Route path="/user/get-profile" element={<UserProfile/>}/>
-        <Route path="/user/service-providers" element={<ApprovedSp/>}/>
-        <Route path="/user/sp-details/:id" element={<ProviderDetails/>}/>
+        <Route path="/user/get-profile" element={<UserProfile />} />
+        <Route path="/user/service-providers" element={<ApprovedSp />} />
+        <Route path="/user/sp-details/:id" element={<ProviderDetails />} />
       </Route>
 
       {/* service provider routes */}
@@ -76,24 +76,26 @@ const CommonRoutes: React.FC = () => {
       <Route path="/sp/verify-details" element={<ServiceProviderDetails />} />
       <Route path="/sp/sp-home" element={<ServiceProviderLanding />} />
       <Route
-  path="/sp/sp-profile"
-  element={
-    <ServiceProviderProfile
-      setShowEdit={(show) => console.log("setShowEdit", show)}
-      serviceProviderDetails={{
-        name: "",
-        phone_number: "",
-        email: "",
-        service: "",
-        gender: "",
-        qualification: "",
-        exp_year: 0,
-        rate: 0,
-      }}
-      onProfileEdit={(updatedData) => console.log("onProfileEdit", updatedData)}
-    />
-  }
-/>
+        path="/sp/sp-profile"
+        element={
+          <ServiceProviderProfile
+            setShowEdit={(show) => console.log("setShowEdit", show)}
+            serviceProviderDetails={{
+              name: "",
+              phone_number: "",
+              email: "",
+              service: "",
+              gender: "",
+              qualification: "",
+              exp_year: 0,
+              rate: 0,
+            }}
+            onProfileEdit={(updatedData) =>
+              console.log("onProfileEdit", updatedData)
+            }
+          />
+        }
+      />
       {/* </Route> */}
 
       {/* admin routes */}
@@ -101,9 +103,12 @@ const CommonRoutes: React.FC = () => {
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/users-list" element={<UsersList />} />
         <Route path="/admin/sp-list" element={<ServiceProvidersList />} />
-        <Route path="/admin/sp-list/:id" element={<SingleServiceProviderDetails/>}/>
-        <Route path="/admin/categorys-list" element={<CategoryManagement/>}/>
-        <Route path="/admin/add-category" element={<AddCategory/>}/>
+        <Route
+          path="/admin/sp-list/:id"
+          element={<SingleServiceProviderDetails />}
+        />
+        <Route path="/admin/categorys-list" element={<CategoryManagement />} />
+        <Route path="/admin/add-category" element={<AddCategory />} />
       </Route>
 
       {/* Not Found */}

@@ -6,13 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import "../../css/common/Header.css";
 
-// Define the shape of the menu items in MenuList
-interface MenuItem {
-  url: string;
-  title: string;
-  submenu?: { title: string; url: string }[];
-}
-
 const Header: React.FC = () => {
   const [clicked, setClicked] = useState<boolean>(false);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
@@ -25,84 +18,68 @@ const Header: React.FC = () => {
     setDropdownOpen(false);
   };
 
-  const menuList = MenuList.map(
-    ({ url, title, submenu }: MenuItem, index: number) => {
-      if (submenu) {
-        return (
-          <li
-            key={index}
-            className={`nav-item dropdown ${index === MenuList.length - 1 ? "ms-auto" : ""}`}
-            onMouseEnter={handleDropdownMouseEnter}
-            onMouseLeave={handleDropdownMouseLeave}
-          >
-            <span
-              className="nav-link dropdown-toggle"
-              id="navbarDropdown"
-              role="button"
-              aria-expanded={dropdownOpen ? "true" : "false"}
-            >
-              {title}
-            </span>
-            <ul
-              className={`dropdown-menu bg-dark ${dropdownOpen ? "show" : ""}`}
-              aria-labelledby="navbarDropdown"
-            >
-              {submenu.map((subitem, subindex) => (
-                <li key={subindex}>
-                  <NavLink to={subitem.url} className="nav-link dropdown-item">
-                    {subitem.title}
-                  </NavLink>
-                </li>
-              ))}
-            </ul>
-          </li>
-        );
-      }
-      return (
-        <li key={index} className="nav-item">
-          <NavLink to={url} className="nav-link">
-            {title}
-          </NavLink>
-        </li>
-      );
-    },
-  );
-
   const handleClick = () => {
     setClicked(!clicked);
   };
 
+  const menuList = MenuList.map(({ url, title, submenu }, index) => {
+    if (submenu) {
+      return (
+        <li
+          key={index}
+          className="nav-item dropdown"
+          onMouseEnter={handleDropdownMouseEnter}
+          onMouseLeave={handleDropdownMouseLeave}
+        >
+          <span className="nav-link dropdown-toggle cursor-pointer text-white" role="button">
+            {title}
+          </span>
+          <motion.ul
+            className={`dropdown-menu submenu ${dropdownOpen ? "block" : "hidden"}`}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: dropdownOpen ? 1 : 0, y: dropdownOpen ? 0 : -10 }}
+            transition={{ duration: 0.3 }}
+          >
+            {submenu.map((subitem, subindex) => (
+              <li key={subindex}>
+                <NavLink to={subitem.url} className="nav-link dropdown-item text-white">
+                  {subitem.title}
+                </NavLink>
+              </li>
+            ))}
+          </motion.ul>
+        </li>
+      );
+    }
+    return (
+      <li key={index} className="nav-item">
+        <NavLink to={url} className="nav-link text-white">
+          {title}
+        </NavLink>
+      </li>
+    );
+  });
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-dark  sticky-top">
       <div className="container-fluid">
         <a className="navbar-brand ms-3" href="/">
-          <motion.span
-            initial={{ x: -200 }}
-            animate={{ x: 0 }}
-            transition={{ type: "spring", stiffness: 50 }}
-          >
-            LIVE<span className="text-info">CARE</span>
-          </motion.span>
+          <span className="brand-text text-white">LIVE<span className="text-highlight">CARE</span></span>
         </a>
+       
         <button
           className="navbar-toggler"
           type="button"
           onClick={handleClick}
           aria-controls="navbarNav"
-          aria-expanded={clicked ? "true" : "false"}
+          aria-expanded={clicked}
           aria-label="Toggle navigation"
         >
           <FontAwesomeIcon icon={clicked ? faTimes : faBars} />
         </button>
-        <motion.div
-          className={` navbar-collapse ${clicked ? "show" : ""}`} //collapse
-          id="navbarNav"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <ul className="navbar-nav mx-auto">{menuList}</ul>
-        </motion.div>
+        <div className={`navbar-collapse ${clicked ? "show" : ""}`} id="navbarNav">
+          <ul className="navbar-nav mx-auto text-white">{menuList}</ul>
+        </div>
       </div>
     </nav>
   );

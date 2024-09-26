@@ -57,7 +57,6 @@ export const blockServiceProvider = async (id: string) => {
   }
 };
 
-
 interface categoryData {
   categoryName: string;
   subCategories: string[];
@@ -66,12 +65,12 @@ export const addCategory = async (categoryData: categoryData) => {
   try {
     console.log(categoryData);
     const { categoryName, subCategories } = categoryData;
-    
+
     const response = await Api.post(admin_endpoints.addCategory, {
       categoryName,
       subCategories,
     });
-    return response.data
+    return response.data;
   } catch (error: any) {
     console.log("Error adding category", error);
     if (error.response) {
@@ -80,13 +79,13 @@ export const addCategory = async (categoryData: categoryData) => {
     } else {
       throw new Error("Failed to add category");
     }
-  }  
-}
+  }
+};
 
 export const getCategorys = async (page: number, limit: number) => {
   try {
     const response = await Api.get(
-      admin_endpoints.getCategorys + `?page=${page}&limit=${limit}`
+      admin_endpoints.getCategorys + `?page=${page}&limit=${limit}`,
     );
     return response.data;
   } catch (error) {
@@ -97,7 +96,7 @@ export const getCategorys = async (page: number, limit: number) => {
 export const unlistCategory = async (categoryId: string) => {
   try {
     const response = await Api.put(
-      admin_endpoints.unlistCategory + `/${categoryId}`
+      admin_endpoints.unlistCategory + `/${categoryId}`,
     );
     console.log("resp: ", response);
     return response.data;
@@ -109,7 +108,7 @@ export const unlistCategory = async (categoryId: string) => {
 export const getServiceProviderDetails = async (id: string) => {
   try {
     const response = await Api.get(
-      admin_endpoints.getServiceProvidersDetails + `/${id}`
+      admin_endpoints.getServiceProvidersDetails + `/${id}`,
     );
     console.log("res", response);
 
@@ -121,10 +120,10 @@ export const getServiceProviderDetails = async (id: string) => {
 
 export const approveServiceProvider = async (serviceProviderId: string) => {
   try {
-    console.log('gv',serviceProviderId);
-    
+    console.log("gv", serviceProviderId);
+
     const response = await Api.put(
-      admin_endpoints.approveServiceProvider + `/${serviceProviderId}`
+      admin_endpoints.approveServiceProvider + `/${serviceProviderId}`,
     );
     return response;
   } catch (error) {

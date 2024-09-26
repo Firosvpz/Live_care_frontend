@@ -7,7 +7,7 @@ export const admin_endpoints = {
   getServiceProvidersDetails: "/admin/sp-details",
   blockServiceProvider: "/admin/block-sp",
   approveServiceProvider: "/admin/approve-sp",
-  addCategory: '/admin/add-category',
-  getCategorys: '/admin/categorys-list',
-  unlistCategory: '/admin/unlist-category',
+  addCategory: "/admin/add-category",
+  getCategorys: "/admin/categorys-list",
+  unlistCategory: "/admin/unlist-category",
 };

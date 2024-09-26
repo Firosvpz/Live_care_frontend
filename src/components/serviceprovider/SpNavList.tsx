@@ -7,7 +7,7 @@ export const SpMenuList = [
     title: "About",
     url: "/about",
   },
- 
+
   {
     title: "Blogs",
     url: "/blogs",

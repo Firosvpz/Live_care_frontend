@@ -1,16 +1,16 @@
 import { TagsInput } from "react-tag-input-component";
 import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
-import { addCategory } from "../../api/admin_api"; 
+import { addCategory } from "../../api/admin_api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { FiPackage, FiPlus, FiChevronLeft } from 'react-icons/fi';
+import { FiPackage, FiPlus, FiChevronLeft } from "react-icons/fi";
 import AdminNavbar from "../../components/admin/AdminHeader";
 import AdminSidebar from "../../components/admin/AdminSidebar";
 import { useState } from "react";
 
 interface CategoryData {
-    categoryName: string;
-    subCategories: string[];
+  categoryName: string;
+  subCategories: string[];
 }
 
 const AddCategory = () => {
@@ -25,8 +25,8 @@ const AddCategory = () => {
     formState: { errors },
   } = useForm<CategoryData>({
     defaultValues: {
-      categoryName: '',
-      subCategories: [], 
+      categoryName: "",
+      subCategories: [],
     },
   });
 
@@ -52,7 +52,10 @@ const AddCategory = () => {
 
   return (
     <>
-      <AdminNavbar isSidebarOpen={isSidebarOpen} setSidebarOpen={setIsSidebarOpen} />
+      <AdminNavbar
+        isSidebarOpen={isSidebarOpen}
+        setSidebarOpen={setIsSidebarOpen}
+      />
       <AdminSidebar isOpen={isSidebarOpen} />
       <div className="max-w-2xl mx-auto p-8 bg-white rounded-lg shadow-lg border border-gray-200 mt-5">
         <div className="flex items-center justify-between mb-8">
@@ -70,7 +73,10 @@ const AddCategory = () => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           <div>
-            <label htmlFor="categoryName" className="block text-lg font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="categoryName"
+              className="block text-lg font-medium text-gray-700 mb-2"
+            >
               Name of Category
             </label>
             <input
@@ -78,15 +84,22 @@ const AddCategory = () => {
               type="text"
               placeholder="Enter category name"
               className="w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out"
-              {...register("categoryName", { required: "Category name is required" })}
+              {...register("categoryName", {
+                required: "Category name is required",
+              })}
             />
             {errors.categoryName && (
-              <p className="text-red-600 text-sm mt-1">{errors.categoryName.message}</p>
+              <p className="text-red-600 text-sm mt-1">
+                {errors.categoryName.message}
+              </p>
             )}
           </div>
 
           <div>
-            <label htmlFor="subCategories" className="block text-lg font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="subCategories"
+              className="block text-lg font-medium text-gray-700 mb-2"
+            >
               Sub-Categories
             </label>
             <TagsInput
@@ -95,7 +108,8 @@ const AddCategory = () => {
               name="subCategories"
               placeHolder="Enter sub-categories and press enter"
               classNames={{
-                input: "w-full p-4 border border-gray-300 rounded-md shadow-sm transition duration-300 ease-in-out",
+                input:
+                  "w-full p-4 border border-gray-300 rounded-md shadow-sm transition duration-300 ease-in-out",
                 tag: "bg-blue-100 text-blue-800 rounded-full px-3 py-1 m-1 text-sm font-semibold",
               }}
             />

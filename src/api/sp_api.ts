@@ -132,7 +132,7 @@ export const fetchCategories = async () => {
     console.error("Error fetching categories", error);
     return [];
   }
-}
+};
 
 export const getSpProfileDetails = async () => {
   try {
@@ -147,19 +147,25 @@ export const getSpProfileDetails = async () => {
 
 export const editProfile = async (details: ServiceProviderDetails) => {
   try {
-    const {data} = await Api.put(sp_endpoints.editProfile, {details});
-    return data
+    const { data } = await Api.put(sp_endpoints.editProfile, { details });
+    return data;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
-export const editPassword = async (currentPassword: string, newPassword: string) => {
+export const editPassword = async (
+  currentPassword: string,
+  newPassword: string,
+) => {
   try {
-      const {data} = await Api.put(sp_endpoints.editPassword, {currentPassword, newPassword})
-      return data 
+    const { data } = await Api.put(sp_endpoints.editPassword, {
+      currentPassword,
+      newPassword,
+    });
+    return data;
   } catch (error: any) {
-      console.log(error)
-      return error.response.data
+    console.log(error);
+    return error.response.data;
   }
-}
+};
