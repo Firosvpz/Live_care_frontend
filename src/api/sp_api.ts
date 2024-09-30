@@ -229,3 +229,16 @@ export const getDomains = async () => {
     toast.error(error.response?.data?.message || "An error occurred while adding the slot.");
   }
 };
+
+export const editSlot = async (slotId: string, slotData: any) => {
+  try {
+    const response = await Api.put(sp_endpoints.editSlot+`/${slotId}`, slotData);
+    console.log("Backend response", response); 
+    console.log("Backend responsedata", response.data); 
+
+
+    return response.data;
+  } catch (error:any) {
+    throw new Error(error.response?.data?.message || 'Error updating slot');
+  }
+};

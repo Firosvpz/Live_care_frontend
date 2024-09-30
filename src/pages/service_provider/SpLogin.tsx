@@ -39,13 +39,14 @@ const ServiceProviderLogin: React.FC = () => {
 
       console.log("API Response:", response);
 
-      const { hasCompletedDetails } = response.data;
+      // const { hasCompletedDetails } = response.data;
 
-      if (!hasCompletedDetails) {
-        dispatch(setServiceProviderCredential(response.data.token));
-        console.log("Dispatching for incomplete details", response.data.token);
-        navigate("/sp/verify-details");
-      } else if (response.success) {
+      // if (!hasCompletedDetails) {
+      //   dispatch(setServiceProviderCredential(response.data.token));
+      //   console.log("Dispatching for incomplete details", response.data.token);
+      //   navigate("/sp/verify-details");
+      // } else
+       if (response.success) {
         const spInfo = response.data.token;
         console.log("spiNfooo", spInfo);
 

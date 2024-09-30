@@ -5,16 +5,20 @@ export const SpMenuList = [
   },
   {
     title: "About",
-    url: "/about",
+    url: "/sp/about",
   },
 
+  // {
+  //   title: "Blogs",
+  //   url: "/blogs",
+  // },
   {
-    title: "Blogs",
-    url: "/blogs",
+    title: "Slots",
+    url: "/sp/get-slots",
   },
   {
     title: "Contact",
-    url: "/contacts",
+    url: "/sp/contacts",
   },
   {
     title: "Profile",

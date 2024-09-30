@@ -2,11 +2,26 @@ import React from "react";
 import "../../css/common/Contact.css";
 import UserHeader from "../../components/user/Header";
 import Footer from "../../components/common/Footer";
+import SpHeader from "../../components/serviceprovider/SpHeader";
+import { useLocation } from "react-router-dom";
+import Header from "../../components/common/Header";
 
 const Contact: React.FC = () => {
+  const location = useLocation();
+
+  // Conditionally render the header based on the route path
+  const renderHeader = () => {
+    if (location.pathname.includes("sp")) {
+      return <SpHeader />;
+    } else if((location.pathname.includes("user"))) {
+      return <UserHeader />;
+    }else {
+      return <Header/>
+    }
+  };
   return (
     <>
-      <UserHeader />
+    {renderHeader()}
       <div className="bg-gray-100 contact-container">
         <section className="hero bg-blue-500 text-white text-center py-16">
           <h1 className="text-4xl font-bold">Contact LiveCare</h1>

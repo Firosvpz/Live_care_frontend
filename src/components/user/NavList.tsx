@@ -5,7 +5,7 @@ export const UserMenuList = [
   },
   {
     title: "About",
-    url: "/about",
+    url: "/user/about",
   },
   {
     title: "Blogs",
@@ -13,7 +13,7 @@ export const UserMenuList = [
   },
   {
     title: "Contact",
-    url: "/contacts",
+    url: "/user/contacts",
   },
   {
     title: "Profile",

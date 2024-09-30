@@ -2,11 +2,27 @@ import React from "react";
 import "../../css/common/About.css";
 import UserHeader from "../../components/user/Header";
 import Footer from "../../components/common/Footer";
+import SpHeader from "../../components/serviceprovider/SpHeader";
+import { useLocation } from "react-router-dom";
+import Header from "../../components/common/Header";
 
 const About: React.FC = () => {
+  const location = useLocation();
+
+  // Conditionally render the header based on the route path
+  const renderHeader = () => {
+    if (location.pathname.includes("sp")) {
+      return <SpHeader />;
+    } else if((location.pathname.includes("user"))) {
+      return <UserHeader />;
+    }else {
+      return <Header/>
+    }
+  };
+
   return (
     <>
-      <UserHeader />
+        {renderHeader()}
       <div className="bg-gray-100 about-container">
         <section className="hero">
           <div className="text-5xl font-semibold  mb-12 tracking-wide">

@@ -3,14 +3,13 @@ import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getSlotsList, getSpProfileDetails } from '../../api/sp_api';
 import { RootState } from '../../redux/store/store';
-import { Pagination } from 'react-bootstrap';
-import TableShimmer from '../../components/common/Table';
 import { debounce } from 'lodash';
 import { updateServiceProviderInfo } from '../../redux/slices/sp_slice';
 import Footer from '../../components/common/Footer';
-import UserHeader from '../../components/user/Header';
-
-
+import SpHeader from '../../components/serviceprovider/SpHeader';
+import { Button, Card, CardBody, CardTitle, CardText, Input } from 'reactstrap';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import '../../css/serviceprovider/slotList.css'; // Import the CSS file
 interface Schedule {
     from: string;
     to: string;
@@ -30,26 +29,22 @@ interface Slot {
 const SlotsList = () => {
     const navigate = useNavigate();
     const location = useLocation();
-
     const dispatch = useDispatch();
     const [slotsList, setSlotsList] = useState<Slot[]>([]);
     const [showPopUp, setShowPopUp] = useState(false);
     const [loading, setLoading] = useState(false);
-
     const [searchQuery, setSearchQuery] = useState('');
-
     const [searchParams, setSearchParams] = useSearchParams();
     const [totalPages, setTotalPages] = useState(1);
     const currentPage = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '4');
-
     const providerInfo = useSelector((state: RootState) => state.spInfo.spInfo);
 
     const handleAddSlot = async () => {
         const refreshedProviderInfo = await fetchProviderInfo();
-        console.log('refershed',refreshedProviderInfo);
-        
-        if (!refreshedProviderInfo || !refreshedProviderInfo.is_approved) {
+        console.log('isap', refreshedProviderInfo);
+
+        if (!refreshedProviderInfo || refreshedProviderInfo.is_approved !== "Approved") {
             setShowPopUp(true);
             return;
         }
@@ -72,7 +67,6 @@ const SlotsList = () => {
     const fetchProviderSlotsList = async (page: number, limit: number, query = '') => {
         setLoading(true);
         const response = await getSlotsList(page, limit, query);
-
         if (response.success) {
             setSlotsList(response.data);
             setTotalPages(response.totalPages);
@@ -110,87 +104,73 @@ const SlotsList = () => {
 
     return (
         <>
-            <UserHeader />
-            <div style={{ maxWidth: '1000px', margin: 'auto', padding: '1.5rem' }}>
-                <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>Slots List</h1>
-                <button onClick={handleAddSlot} style={{ padding: '0.75rem 1.5rem', color: '#fff', backgroundColor: '#007bff', border: 'none', borderRadius: '0.25rem', cursor: 'pointer', marginBottom: '1rem' }}>
-                    Add Slot
-                </button>
-                <input
-                    type="text"
-                    placeholder="Search by title or date..."
-                    value={searchQuery}
-                    onChange={handleSearch}
-                    style={{ width: '100%', padding: '0.5rem', border: '1px solid #ddd', borderRadius: '0.25rem', marginBottom: '1rem' }}
-                />
-                {loading ? (
-                    <TableShimmer />
-                ) : (
-                    <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '1rem' }}>
-                        <thead>
-                            <tr>
-                                <th style={{ borderBottom: '1px solid #ddd', padding: '0.75rem' }}>Title</th>
-                                <th style={{ borderBottom: '1px solid #ddd', padding: '0.75rem' }}>From</th>
-                                <th style={{ borderBottom: '1px solid #ddd', padding: '0.75rem' }}>To</th>
-                                <th style={{ borderBottom: '1px solid #ddd', padding: '0.75rem' }}>Price</th>
-                                <th style={{ borderBottom: '1px solid #ddd', padding: '0.75rem' }}>Status</th>
-                                <th style={{ borderBottom: '1px solid #ddd', padding: '0.75rem' }}>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {slotsList.length > 0 ? (
-                                slotsList.map((slot) => (
-                                    slot.schedule.map((schedule, index) => (
-                                        <tr key={`${slot._id}-${index}`}>
-                                            <td style={{ borderBottom: '1px solid #ddd', padding: '0.75rem' }}>{schedule.title}</td>
-                                            <td style={{ borderBottom: '1px solid #ddd', padding: '0.75rem' }}>{new Date(schedule.from).toLocaleString()}</td>
-                                            <td style={{ borderBottom: '1px solid #ddd', padding: '0.75rem' }}>{new Date(schedule.to).toLocaleString()}</td>
-                                            <td style={{ borderBottom: '1px solid #ddd', padding: '0.75rem' }}>${schedule.price}</td>
-                                            <td style={{
-                                                borderBottom: '1px solid #ddd',
-                                                padding: '0.75rem',
-                                                color: isExpired(new Date(schedule.from), schedule.status) ? 'grey' : (schedule.status === 'open' ? 'green' : 'red')
-                                            }}>
-                                                {isExpired(new Date(schedule.from), schedule.status) ? 'Expired' : schedule.status}
-                                            </td>
-                                            <td style={{ borderBottom: '1px solid #ddd', padding: '0.75rem' }}>
-                                                {!isExpired(new Date(schedule.from), schedule.status) && schedule.status === 'open' && (
-                                                    <button
-                                                        onClick={() => handleEditSlot(slot._id)}
-                                                        style={{ padding: '0.5rem 1rem', color: '#fff', backgroundColor: '#007bff', border: 'none', borderRadius: '0.25rem', cursor: 'pointer' }}
-                                                    >
-                                                        Edit
-                                                    </button>
-                                                )}
-                                            </td>
-                                        </tr>
-                                    ))
+            <SpHeader />
+            <div className="slots-list-container"> {/* Apply the background styles here */}
+                <div className="text-4xl text-center font-bold mb-6 bg-gradient-to-r from-black/100 to-purple-600 text-white p-4 rounded-lg shadow-md">
+                    Your Upcoming Bookings!
+                </div>
+
+                <div className="flex justify-between mb-4">
+                    <button
+                        className="mt-4 inline-flex items-center text-sm font-medium btn btn-danger hover:text-dark"
+                        onClick={() => window.history.back()}
+                    >
+                        <FaArrowLeft className="mr-2 " /> Back to Home
+                    </button>
+                    <button className="mt-4 p-6 inline-flex items-center  text-sm font-medium btn btn-success hover:text-dark" onClick={handleAddSlot}>
+                        Add Slot
+                        <FaArrowRight className="mr-2 ms-2" />
+                    </button>
+                </div>
+                <div className="input-container mb-4">
+                    <Input
+                        type="text"
+                        placeholder="Search by title or date..."
+                        value={searchQuery}
+                        onChange={handleSearch}
+                        className="input-field"
+                    />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {loading ? (
+                        <p className="text-center">Loading...</p>
+                    ) : (
+                        slotsList.length > 0 ? (
+                            slotsList.map((slot) => (
+                                slot.schedule.map((schedule, index) => (
+                                    <Card key={`${slot._id}-${index}`} className="shadow-lg p-4">
+                                        <CardBody>
+                                            <CardTitle tag="h5" className="text-lg font-semibold">{schedule.title}</CardTitle>
+                                            <CardText className="text-gray-700">
+                                                <strong>From:</strong> {new Date(schedule.from).toLocaleString()}<br />
+                                                <strong>To:</strong> {new Date(schedule.to).toLocaleString()}<br />
+                                                <strong>Price:</strong> ${schedule.price}<br />
+                                                <strong>Status:</strong>
+                                                <span style={{ color: isExpired(new Date(schedule.from), schedule.status) ? 'grey' : (schedule.status === 'open' ? 'green' : 'red') }}>
+                                                    {isExpired(new Date(schedule.from), schedule.status) ? 'Expired' : schedule.status}
+                                                </span>
+                                            </CardText>
+                                            {!isExpired(new Date(schedule.from), schedule.status) && schedule.status === 'open' && (
+                                                <Button color="primary" className="mt-2" onClick={() => handleEditSlot(slot._id)}>Edit</Button>
+                                            )}
+                                        </CardBody>
+                                    </Card>
                                 ))
-                            ) : (
-                                <tr>
-                                    <td colSpan={6} style={{ textAlign: 'center', padding: '1rem' }}>No slots available</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                )}
-                {/* <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={(page) => {
-                        setSearchParams({ page: page.toString(), limit: limit.toString(), search: searchQuery });
-                    }}
-                /> */}
+                            ))
+                        ) : (
+                            <p className="text-center">No slots available</p>
+                        )
+                    )}
+                </div>
             </div>
             <Footer />
             {showPopUp && (
-                <div style={{ position: 'fixed', top: '0', left: '0', right: '0', bottom: '0', backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <div style={{ backgroundColor: '#fff', padding: '2rem', borderRadius: '0.25rem', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
-                        <h2>Approval Required</h2>
+                <div className="popup"> {/* Use the popup class */}
+                    <div className="popup-content"> {/* Apply the popup content styles */}
+                        <h2 className="text-xl font-semibold">Approval Required</h2>
                         <p>Your profile needs to be approved before you can add a slot.</p>
-                        <button onClick={() => setShowPopUp(false)} style={{ padding: '0.75rem 1.5rem', color: '#fff', backgroundColor: '#007bff', border: 'none', borderRadius: '0.25rem', cursor: 'pointer' }}>
-                            Close
-                        </button>
+                        <Button color="primary" onClick={() => setShowPopUp(false)}>Close</Button>
                     </div>
                 </div>
             )}

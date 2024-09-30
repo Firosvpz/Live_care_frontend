@@ -140,6 +140,28 @@ const UserLanding: React.FC = () => {
         </div>
       </section>
 
+         {/* Video Call and Chat Section */}
+         <section className="py-16 bg-white">
+        <div className="container mx-auto text-center">
+          <h2 className="text-4xl font-bold text-gray-800 mb-8">Connect Through Video Calls & Chats</h2>
+          <p className="text-lg text-gray-600 mb-12">
+            Our innovative platform allows you to communicate directly with service providers via video calls and chat. Enjoy personalized care and support from the comfort of your home.
+          </p>
+          <motion.div
+            className="p-6 bg-indigo-100 shadow-lg rounded-lg mx-auto"
+            whileHover={{ scale: 1.05 }}
+          >
+            <h3 className="text-3xl font-semibold text-indigo-600 mb-4">How It Works</h3>
+            <p className="text-lg text-gray-600">
+              1. Choose your service <br />
+              2. Connect with a provider via video call or chat <br />
+              3. Receive the care you need, tailored to your preferences.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+
       {/* Services Section */}
       <section className="relative py-20 bg-gradient-to-r from-gray-50 via-white to-gray-100 overflow-hidden">
         {/* Container for content */}

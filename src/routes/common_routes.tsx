@@ -21,9 +21,9 @@ import ServiceProvidersList from "../pages/admin/SpList";
 import {
   UserProtectedRoute,
   PublicUserProtectedRoute,
-  // PublicSpProtectedRoute,
+  PublicSpProtectedRoute,
   PublicAdminProtectedRoute,
-  // SpProtectedRoute,
+  SpProtectedRoute,
   AdminProtectedRoute,
 } from "../components/ProtectedRoute";
 import UserProfile from "../pages/user/UserProfile";
@@ -39,6 +39,7 @@ import BlogList from "../pages/user/Blogs";
 import ProviderAndSlotDetails from "../pages/user/SlotDetails";
 import AddSlot from "../pages/service_provider/AddSlot";
 import SlotsList from "../pages/service_provider/SlotList";
+import EditSlot from "../pages/service_provider/EditSlot";
 
 
 const CommonRoutes: React.FC = () => {
@@ -59,13 +60,11 @@ const CommonRoutes: React.FC = () => {
       </Route>
 
       {/* protected routes for logged-in service providers */}
-      {/* <Route element={<PublicSpProtectedRoute />}> */}
+      <Route element={<PublicSpProtectedRoute />}>
       <Route path="/sp-login" element={<ServiceProviderLogin />} />
       <Route path="/sp-register" element={<ServiceProviderRegister />} />
       <Route path="/sp/verify-sp-otp" element={<ServiceProviderOtp />} />
-      <Route path="/sp/add-slot" element={<AddSlot />} />
-      <Route path="/sp/get-slots" element={<SlotsList />} />
-      {/* </Route> */}
+      </Route>
 
       {/* protected routes for Admin */}
       <Route element={<PublicAdminProtectedRoute />}>
@@ -83,7 +82,7 @@ const CommonRoutes: React.FC = () => {
       </Route>
 
       {/* service provider routes */}
-      {/* <Route element={<SpProtectedRoute />}> */}
+      <Route element={<SpProtectedRoute />}>
       <Route path="/sp/verify-details" element={<ServiceProviderDetails />} />
       <Route path="/sp/sp-home" element={<ServiceProviderLanding />} />
       <Route
@@ -107,7 +106,10 @@ const CommonRoutes: React.FC = () => {
           />
         }
       />
-      {/* </Route> */}
+       <Route path="/sp/add-slot" element={<AddSlot />} />
+       <Route path="/sp/get-slots" element={<SlotsList />} />
+       <Route path="/sp/edit-slot/:slotId" element={<EditSlot />} />
+      </Route>
 
       {/* admin routes */}
       <Route element={<AdminProtectedRoute />}>

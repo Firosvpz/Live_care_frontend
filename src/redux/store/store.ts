@@ -11,6 +11,8 @@
     },
   });
 
+  console.log('reduxStore',store);
+  
   export type RootState = ReturnType<typeof store.getState>; //for use with `useSelector`
   export type AppDispatch = typeof store.dispatch; // for use with `useDispatch`
 

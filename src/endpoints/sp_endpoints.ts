@@ -11,5 +11,6 @@ export const sp_endpoints = {
   editPassword: "/sp/edit-password",
   addSlot: '/sp/add-slot',
   getSlots: '/sp/get-slots',
-  getDomains:"/sp/get-domains"
+  getDomains:"/sp/get-domains",
+  editSlot:"/sp/edit-slot"
 };
