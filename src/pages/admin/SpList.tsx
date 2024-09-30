@@ -29,7 +29,7 @@ interface ServiceProvider {
   is_blocked: boolean;
   service: string;
   specialization: string;
-  is_approved: string;
+  is_approved:  "Approved" | "Pending" | "Rejected"
   qualification: string;
   profile_picture: string;
   experience_crt: string;
@@ -221,36 +221,40 @@ const ServiceProvidersList: React.FC = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
-                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                            user.is_approved
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.is_approved === "Approved"
                               ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
+                              : user.is_approved === "Rejected"
+                                ? "bg-red-100 text-red-800"
+                                : "bg-yellow-100 text-yellow-800" // Pending
+                            }`}
                         >
-                          {user.is_approved ? (
+                          {user.is_approved === "Approved" ? (
                             <>
-                              <FiCheckCircle className="mr-1" />{" "}
-                              {/* Green check icon */}
+                              <FiCheckCircle className="mr-1" /> {/* Green check icon */}
                               Approved {/* Green text */}
+                            </>
+                          ) : user.is_approved === "Rejected" ? (
+                            <>
+                              <FiXCircle className="mr-1" /> {/* Red cross icon */}
+                              Rejected {/* Red text */}
                             </>
                           ) : (
                             <>
-                              <FiXCircle className="mr-1" />{" "}
-                              {/* Red cross icon */}
-                              Not Approved {/* Red text */}
+                              <FiEye className="mr-1" /> {/* Yellow eye icon for Pending */}
+                              Pending {/* Yellow text */}
                             </>
                           )}
                         </span>
                       </td>
 
+
                       <td className="px-4 py-4 text-center">
                         <button
                           onClick={() => showBlockModal(user)}
-                          className={`inline-flex items-center px-4 py-2 text-sm font-semibold rounded-full shadow-sm transition-all duration-300 ease-in-out ${
-                            user.is_blocked
+                          className={`inline-flex items-center px-4 py-2 text-sm font-semibold rounded-full shadow-sm transition-all duration-300 ease-in-out ${user.is_blocked
                               ? "bg-white text-green-700 border border-green-300 hover:bg-green-50"
                               : "bg-white text-red-700 border border-red-300 hover:bg-red-50"
-                          }`}
+                            }`}
                         >
                           {user.is_blocked ? (
                             <>

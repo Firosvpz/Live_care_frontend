@@ -150,3 +150,29 @@ export const getServiceProviderDetails = async (id: string) => {
     console.log(error);
   }
 };
+
+export const fetchBlogs = async (page: number, limit: number) => {
+  try {
+    const response = await Api.get(
+      `${user_endpoints.getBlogs}?page=${page}&limit=${limit}`
+    );
+    return response.data; // Assumes the API response has data in the body
+  } catch (error) {
+    console.error("Failed to fetch blogs:", error);
+    throw new Error("Failed to fetch blogs");
+  }
+};
+
+export const getServiceProviderSlotDetails = async (
+  serviceProviderId: string
+) => {
+  try {
+    const response = await Api.get(
+      user_endpoints.getSlotDetails + `/${serviceProviderId}`,
+      {}
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -113,9 +113,10 @@ const UserHeader: React.FC = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark sticky-top">
       <div className="container-fluid">
-        
-      <a className="navbar-brand ms-3" href="/">
-          <span className="brand-text text-white">LIVE<span className="text-highlight">CARE</span></span>
+        <a className="navbar-brand ms-3" href="/">
+          <span className="brand-text text-white">
+            LIVE<span className="text-highlight">CARE</span>
+          </span>
           {/* <br />
           <div className="text-white font-sm">Your health is our priority</div> */}
         </a>

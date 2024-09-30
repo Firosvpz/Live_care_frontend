@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Footer from "../../components/common/Footer";
 import SpHeader from "../../components/serviceprovider/SpHeader";
 import { getSpProfileDetails } from "../../api/sp_api";
+import { motion } from "framer-motion";
 
 const ServiceProviderLanding: React.FC = () => {
   const [profileData, setProfileData] = useState<{
@@ -28,11 +29,18 @@ const ServiceProviderLanding: React.FC = () => {
         className="relative bg-cover bg-center h-screen"
         style={{ backgroundImage: 'url("/public/images/spHomee.jpg")' }}
       >
-        <div className="absolute inset-0 bg-black opacity-60"></div>
+        <div className="absolute inset-0 bg-black/80 z-0"></div>
         <div className="relative flex flex-col items-center justify-center h-full w-full text-white text-center p-8">
-          <h1 className="text-5xl md:text-7xl font-bold mb-4 slide-in">
-            Welcome {profileData?.name}
-          </h1>
+        <h5 className="mb-14">
+                <motion.div
+                  initial={{ opacity: 0, y: -30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  className="text-5xl lg:text-5xl font-bold leading-tight text-white"
+                >
+                  Welcome <span className="text-info">{profileData?.name}</span>
+                </motion.div>
+              </h5>
           <p className="mt-2 text-xl md:text-2xl fade-in">
             Empowering you in senior care excellence
           </p>
@@ -85,7 +93,7 @@ const ServiceProviderLanding: React.FC = () => {
                 <h4 className="mt-4 font-bold text-lg">{testimonial.name}</h4>
               </div>
             ))}
-          </div>
+          </div>  
         </div>
       </section>
 

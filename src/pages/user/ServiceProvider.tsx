@@ -92,10 +92,7 @@ const ApprovedSp: React.FC = () => {
               <div className="row">
                 {filteredProviders.length > 0 ? (
                   filteredProviders.map((provider) => (
-                    <div
-                      key={provider._id}
-                      className="col-md-4 mb-4"
-                    >
+                    <div key={provider._id} className="col-md-4 mb-4">
                       <div className="card h-100 shadow-lg border border-gray-200 rounded-lg hover:shadow-2xl transition-shadow duration-300">
                         <div className="p-4 flex flex-col items-center">
                           <img
@@ -117,7 +114,6 @@ const ApprovedSp: React.FC = () => {
                               <strong>Specialization:</strong>{" "}
                               {provider.specialization}
                             </p>
-                           
                           </div>
                           <button
                             className="mt-4 px-4 py-2 bg-blue-700 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors duration-300 shadow-md"

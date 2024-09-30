@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
-// import "../../css/common/Header.module.css";
 import { adminLogout } from "../../redux/slices/admin_slice";
+import "../../css/admin/admin_navbar.css"; 
 
 interface AdminNavbarProps {
   isSidebarOpen: boolean;
@@ -42,35 +42,39 @@ const AdminNavbar: React.FC<AdminNavbarProps> = ({
   };
 
   return (
-    <>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid">
-          {/* Sidebar Toggle Button */}
-          <li className="nav-item ">
-            <button
-              className="btn btn-dark"
-              type="button"
-              onClick={handleSidebarToggle}
-              aria-label="Toggle sidebar"
-            >
-              <FontAwesomeIcon icon={isSidebarOpen ? faTimes : faBars} />
-            </button>
-          </li>
-          <a className="navbar-brand ms-3" href="/admin/dashboard">
-            Admin<span className="text-info">Panel</span>
-          </a>
-          <div className=" navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item">
-                <button onClick={handleLogout} className="btn btn-danger">
-                  Logout
-                </button>
-              </li>
-            </ul>
-          </div>
+    <nav className="glass-navbar sticky top-0 z-50 backdrop-blur-md shadow-lg">
+      <div className="container mx-auto px-4 flex items-center justify-between py-4">
+        {/* Sidebar Toggle Button */}
+        <button
+          onClick={handleSidebarToggle}
+          className="p-3 rounded-full bg-gray-900/70 text-white toggle-btn shadow-lg"
+          aria-label="Toggle sidebar"
+        >
+          <FontAwesomeIcon
+            icon={isSidebarOpen ? faTimes : faBars}
+            className="w-6 h-6 animate-pulse"
+          />
+        </button>
+
+        {/* Navbar Brand */}
+        <a
+          href="/admin/dashboard"
+          className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500 hover:scale-105 transition-transform duration-300"
+        >
+          Admin<span className="text-indigo-400">Panel</span>
+        </a>
+
+        {/* Logout Button */}
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={handleLogout}
+            className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-6 py-2 rounded-full hover:scale-105 hover:bg-red-600 transition-transform duration-300 shadow-xl"
+          >
+            Logout
+          </button>
         </div>
-      </nav>
-    </>
+      </div>
+    </nav>
   );
 };
 

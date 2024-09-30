@@ -9,7 +9,9 @@ const About: React.FC = () => {
       <UserHeader />
       <div className="bg-gray-100 about-container">
         <section className="hero">
-          <div className="text-5xl font-semibold  mb-12 tracking-wide">About LiveCare</div>
+          <div className="text-5xl font-semibold  mb-12 tracking-wide">
+            About LiveCare
+          </div>
           <p>Your trusted partner in senior consultation services</p>
         </section>
         <main className="container mx-auto py-10 px-5">

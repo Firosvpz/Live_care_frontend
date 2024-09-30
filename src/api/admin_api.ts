@@ -120,7 +120,7 @@ export const getServiceProviderDetails = async (id: string) => {
 
 export const approveServiceProvider = async (serviceProviderId: string) => {
   try {
-    console.log("gv", serviceProviderId);
+    // console.log("gv", serviceProviderId);
 
     const response = await Api.put(
       admin_endpoints.approveServiceProvider + `/${serviceProviderId}`,
@@ -128,5 +128,75 @@ export const approveServiceProvider = async (serviceProviderId: string) => {
     return response;
   } catch (error) {
     console.log("Error in approving ServiceProvider");
+  }
+};
+
+export const rejectServiceProvider = async (serviceProviderId: string) => {
+  try {
+    console.log("gv", serviceProviderId);
+
+    const response = await Api.put(
+      admin_endpoints.rejectServiceProvider + `/${serviceProviderId}`,
+    );
+    return response;
+  } catch (error) {
+    console.log("Error in rejecting ServiceProvider");
+  }
+};
+
+export const getBlogs = async (page: number, limit: number) => {
+  try {
+    const response = await Api.get(
+      admin_endpoints.getBlogs + `?page=${page}&limit=${limit}`
+    );
+    console.log("Fetched blogs:", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("Error fetching blogs:", error);
+    return { success: false, data: [], total: 0 }; // Ensure it returns a consistent structure
+  }
+};
+
+export const unlistBlog = async (blogId: string) => {
+  try {
+    const response = await Api.put(admin_endpoints.unlistBlog + `/${blogId}`);
+    console.log("Response from unlisting:", response.data);
+    return response.data;
+  } catch (error) {
+    console.log("Error unlisting blog:", error);
+    throw error; // Ensure errors are thrown so they can be caught in the component
+  }
+};
+
+
+export const addBlog = async (formData: FormData) => {
+  try {
+    const response = await Api.post(admin_endpoints.addBlog, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error: any) {
+    console.log("Error adding blog", error);
+    if (error.response) {
+      console.log(error.response);
+      return error.response.data;
+    } else {
+      throw new Error("Failed to add blog");
+    }
+  }
+};
+
+export const updateBlogStatus = async (blogId: string, isListed: boolean) => {
+  try {
+    const response = await Api.put(
+      `${admin_endpoints.updateBlogStatus}/${blogId}`,
+      { isListed }
+    );
+    return response.data;
+  } catch (error) {
+    console.log("Error updating blog status:", error);
+    throw error; // Rethrow the error to handle it in the component
   }
 };

@@ -187,9 +187,9 @@ const ServiceProviderProfile: React.FC<EditSpProps> = ({
                   {...register("phone_number", {
                     required: "Mobile number is required",
                     pattern: {
-                        value: /^[0]?[789]\d{9}$/,
-                        message: "Enter a valid number",
-                      },
+                      value: /^[0]?[789]\d{9}$/,
+                      message: "Enter a valid number",
+                    },
                   })}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm pl-10 focus:border-indigo-300"
                 />

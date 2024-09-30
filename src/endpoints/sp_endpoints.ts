@@ -9,4 +9,7 @@ export const sp_endpoints = {
   getProfileDetails: "/sp/sp-profile",
   editProfile: "/sp/edit-profile",
   editPassword: "/sp/edit-password",
+  addSlot: '/sp/add-slot',
+  getSlots: '/sp/get-slots',
+  getDomains:"/sp/get-domains"
 };

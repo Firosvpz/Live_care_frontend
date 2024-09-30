@@ -10,4 +10,6 @@ export const user_endpoints = {
   editPassword: "/user/edit-password",
   serviceProviders: "/user/service-providers",
   getServiceProviderDetails: "/user/sp-details",
+  getBlogs:"/user/blogs",
+  getSlotDetails:"/user/slot-details"
 };

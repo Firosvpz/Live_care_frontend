@@ -33,6 +33,13 @@ import ServiceProviderProfile from "../pages/service_provider/SpProfile";
 import SingleServiceProviderDetails from "../pages/admin/SpDetails";
 import ApprovedSp from "../pages/user/ServiceProvider";
 import ProviderDetails from "../pages/user/SpViewDetails";
+import BlogManagement from "../pages/admin/BlogsList";
+import AddBlog from "../pages/admin/AddBlogs";
+import BlogList from "../pages/user/Blogs";
+import ProviderAndSlotDetails from "../pages/user/SlotDetails";
+import AddSlot from "../pages/service_provider/AddSlot";
+import SlotsList from "../pages/service_provider/SlotList";
+
 
 const CommonRoutes: React.FC = () => {
   return (
@@ -56,6 +63,8 @@ const CommonRoutes: React.FC = () => {
       <Route path="/sp-login" element={<ServiceProviderLogin />} />
       <Route path="/sp-register" element={<ServiceProviderRegister />} />
       <Route path="/sp/verify-sp-otp" element={<ServiceProviderOtp />} />
+      <Route path="/sp/add-slot" element={<AddSlot />} />
+      <Route path="/sp/get-slots" element={<SlotsList />} />
       {/* </Route> */}
 
       {/* protected routes for Admin */}
@@ -69,6 +78,8 @@ const CommonRoutes: React.FC = () => {
         <Route path="/user/get-profile" element={<UserProfile />} />
         <Route path="/user/service-providers" element={<ApprovedSp />} />
         <Route path="/user/sp-details/:id" element={<ProviderDetails />} />
+        <Route path="/user/blogs" element={<BlogList />} />
+        <Route path="/user/slot-details" element={<ProviderAndSlotDetails />} />
       </Route>
 
       {/* service provider routes */}
@@ -109,6 +120,9 @@ const CommonRoutes: React.FC = () => {
         />
         <Route path="/admin/categorys-list" element={<CategoryManagement />} />
         <Route path="/admin/add-category" element={<AddCategory />} />
+        <Route path="/admin/blogs" element={<BlogManagement/>} />
+        <Route path="/admin/add-blogs" element={<AddBlog/>} />
+        
       </Route>
 
       {/* Not Found */}

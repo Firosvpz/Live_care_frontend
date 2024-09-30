@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   approveServiceProvider,
+  rejectServiceProvider,
   getServiceProviderDetails,
 } from "../../api/admin_api";
 import toast from "react-hot-toast";
@@ -15,11 +16,11 @@ import {
   FiBook,
   FiFileText,
 } from "react-icons/fi";
-import { FaArrowLeft, FaBars } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 import AdminNavbar from "../../components/admin/AdminHeader";
 import AdminSidebar from "../../components/admin/AdminSidebar";
 import Footer from "../../components/common/Footer";
-import { Button, Spinner } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 
 // Interface for service provider details
 interface ServiceProviderDetails {
@@ -29,7 +30,7 @@ interface ServiceProviderDetails {
   service: string;
   gender: string;
   specialization: string;
-  is_approved: boolean;
+  is_approved: "Approved" | "Pending" | "Rejected";
   is_blocked: boolean;
   qualification: string;
   profile_picture: string;
@@ -43,7 +44,8 @@ const SingleServiceProviderDetails: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [serviceProviderDetails, setServiceProviderDetails] =
     useState<ServiceProviderDetails | null>(null);
-  const [openModal, setOpenModal] = useState(false);
+  const [openApprovalModal, setOpenApprovalModal] = useState(false);
+  const [openRejectModal, setOpenRejectModal] = useState(false);
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState(true);
 
@@ -73,14 +75,27 @@ const SingleServiceProviderDetails: React.FC = () => {
   const handleApproval = async () => {
     try {
       const response = await approveServiceProvider(id as string);
-
       if (response) {
-        setOpenModal(false);
+        setOpenApprovalModal(false);
         toast.success("Service Provider Approved");
         fetchServiceProviderDetails(id as string);
       }
     } catch (error) {
       toast.error("Failed to approve service provider");
+    }
+  };
+
+  // Handle service provider rejection
+  const handleReject = async () => {
+    try {
+      const response = await rejectServiceProvider(id as string);
+      if (response) {
+        setOpenRejectModal(false);
+        toast.success("Service Provider Rejected");
+        fetchServiceProviderDetails(id as string);
+      }
+    } catch (error) {
+      toast.error("Failed to reject service provider");
     }
   };
 
@@ -111,20 +126,21 @@ const SingleServiceProviderDetails: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="max-w-7xl mx-auto bg-gradient-to-br from-teal-300 to-teal-900 shadow-lg rounded-2xl p-8 w-50 h-75 mt-4"
+              className="max-w-7xl mx-auto bg-gradient-to-br from-teal-300 to-teal-900 shadow-lg rounded-2xl p-8 mt-4"
             >
               <button
-                className=" inline-flex text-sm font-medium text-gray-1000  hover:text-white"
+                className="inline-flex text-sm font-medium text-gray-1000 hover:text-white mb-4"
                 onClick={() => window.history.back()}
               >
-                <FaArrowLeft className="mr-2 mb-3" /> Back to Home
+                <FaArrowLeft className="mr-2" /> Back to Home
               </button>
-              <div className="md:flex ">
+              <div className="md:flex">
                 <ProfileSidebar serviceProvider={serviceProviderDetails} />
                 <MainContent
                   serviceProvider={serviceProviderDetails}
                   onDocumentView={handleDocumentView}
-                  onApprove={() => setOpenModal(true)}
+                  onApprove={() => setOpenApprovalModal(true)}
+                  onReject={() => setOpenRejectModal(true)}
                 />
               </div>
             </motion.div>
@@ -134,9 +150,14 @@ const SingleServiceProviderDetails: React.FC = () => {
             </p>
           )}
           <ApprovalModal
-            open={openModal}
-            onClose={() => setOpenModal(false)}
+            open={openApprovalModal}
+            onClose={() => setOpenApprovalModal(false)}
             onApprove={handleApproval}
+          />
+          <RejectModal
+            open={openRejectModal}
+            onClose={() => setOpenRejectModal(false)}
+            onReject={handleReject}
           />
         </main>
       </div>
@@ -153,7 +174,7 @@ const ProfileSidebar: React.FC<{ serviceProvider: ServiceProviderDetails }> = ({
     initial={{ x: -100, opacity: 0 }}
     animate={{ x: 0, opacity: 1 }}
     transition={{ duration: 0.5 }}
-    className="md:w-1/3 h-50 bg-teal-700 text-white  rounded-2xl p-3 flex flex-col items-center justify-center "
+    className="md:w-1/3 h-50 bg-teal-700 text-white rounded-2xl p-3 flex flex-col items-center justify-center"
   >
     <motion.img
       initial={{ scale: 0.9, opacity: 0 }}
@@ -163,18 +184,10 @@ const ProfileSidebar: React.FC<{ serviceProvider: ServiceProviderDetails }> = ({
       alt={serviceProvider.name}
       className="w-40 h-40 rounded-full mb-3 border-4 border-white shadow-lg"
     />
-    <div className="">
+    <div>
       <DetailItem icon={<FiUser />} label="Name" value={serviceProvider.name} />
-      <DetailItem
-        icon={<FiMail />}
-        label="Email"
-        value={serviceProvider.email}
-      />
-      <DetailItem
-        icon={<FiPhone />}
-        label="Mobile"
-        value={serviceProvider.phone_number.toString()}
-      />
+      <DetailItem icon={<FiMail />} label="Email" value={serviceProvider.email} />
+      <DetailItem icon={<FiPhone />} label="Mobile" value={serviceProvider.phone_number.toString()} />
     </div>
   </motion.div>
 );
@@ -184,7 +197,8 @@ const MainContent: React.FC<{
   serviceProvider: ServiceProviderDetails;
   onDocumentView: (url?: string) => void;
   onApprove: () => void;
-}> = ({ serviceProvider, onDocumentView, onApprove }) => (
+  onReject: () => void;
+}> = ({ serviceProvider, onDocumentView, onApprove, onReject }) => (
   <motion.div
     initial={{ x: 100, opacity: 0 }}
     animate={{ x: 0, opacity: 1 }}
@@ -193,55 +207,44 @@ const MainContent: React.FC<{
   >
     {serviceProvider.hasCompletedDetails ? (
       <div className="text-center">
-        <h2 className="text-3xl font-bold mb-3 text-white">
-          Professional Profile
-        </h2>
-        <DetailItem
-          icon={<FiBriefcase />}
-          label="Gender"
-          value={serviceProvider.gender}
-        />
-        <DetailItem
-          icon={<FiClock />}
-          label="Years of Experience"
-          value={serviceProvider.exp_year.toString()}
-        />
-        <DetailItem
-          icon={<FiBook />}
-          label="Specialization"
-          value={serviceProvider.specialization}
-        />
-        <DetailItem
-          icon={<FiBook />}
-          label="Qualification"
-          value={serviceProvider.qualification}
-        />
+        <h2 className="text-3xl font-bold mb-3 text-white">Professional Profile</h2>
+        <DetailItem icon={<FiBriefcase />} label="Gender" value={serviceProvider.gender} />
+        <DetailItem icon={<FiClock />} label="Years of Experience" value={serviceProvider.exp_year.toString()} />
+        <DetailItem icon={<FiBook />} label="Specialization" value={serviceProvider.specialization} />
+        <DetailItem icon={<FiBook />} label="Qualification" value={serviceProvider.qualification} />
 
         <div className="mt-8 space-y-4">
           <div className="flex justify-center space-x-4 mb-5">
-            {" "}
-            {/* Flex container for buttons */}
             <DocumentButton
               icon={<FiFileText />}
               label="View Experience Certificate"
               onClick={() => onDocumentView(serviceProvider.experience_crt)}
             />
-            {/* Approve Button */}
-            {!serviceProvider.is_approved && (
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={onApprove}
-                className="bg-gradient-to-r from-green-400 to-teal-500 text-white font-bold py-2 px-4 rounded-full shadow-lg hover:shadow-xl transition-transform"
-              >
-                Approve
-              </motion.button>
+            {serviceProvider.is_approved !== "Approved" && serviceProvider.is_approved !== "Rejected" && ( 
+              <>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={onApprove}
+                  className="bg-gradient-to-r from-green-400 to-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg"
+                >
+                  Approve
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={onReject}
+                  className="bg-gradient-to-r from-red-400 to-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg"
+                >
+                  Reject
+                </motion.button>
+              </>
             )}
           </div>
         </div>
       </div>
     ) : (
-      <p className="text-white">Profile registration is incomplete.</p>
+      <p className="text-center text-white">Profile details are not complete.</p>
     )}
   </motion.div>
 );
@@ -252,61 +255,70 @@ const DocumentButton: React.FC<{
   label: string;
   onClick: () => void;
 }> = ({ icon, label, onClick }) => (
-  <motion.button
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
+  <button
     onClick={onClick}
-    className="flex items-center justify-center bg-teal-600 text-white font-bold py-2 px-4 rounded-full shadow-lg hover:shadow-xl transition duration-300"
+    className="flex items-center bg-blue-500 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-blue-600 transition"
   >
-    <span className="mr-2">{icon}</span>
-    {label}
-  </motion.button>
+    {icon}
+    <span className="ml-2">{label}</span>
+  </button>
 );
 
-const DetailItem: React.FC<{
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-}> = ({ icon, label, value }) => (
-  <div className="flex items-center mb-4 text-white">
-    <div className="text-2xl mr-3">{icon}</div>
-    <div className="text-left">
-      <h4 className="text-lg font-semibold">{label}</h4>
-      <p>{value}</p>
-    </div>
+// Detail Item Component
+const DetailItem: React.FC<{ icon: React.ReactNode; label: string; value: string }> = ({ icon, label, value }) => (
+  <div className="flex items-center mb-2">
+    <div className="mr-2 text-lg">{icon}</div>
+    <span className="text-lg font-semibold">{label}: </span>
+    <span className="text-lg ml-1">{value}</span>
   </div>
 );
 
-// Modal for Approval Confirmation
+// Approval Modal Component
 const ApprovalModal: React.FC<{
   open: boolean;
   onClose: () => void;
   onApprove: () => void;
-}> = ({ open, onClose, onApprove }) => {
-  if (!open) return null;
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
-    >
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h3 className="text-xl font-semibold mb-4">Confirm Approval</h3>
-        <p className="text-gray-600 mb-6">
-          Are you sure you want to approve this service provider?
-        </p>
-        <div className="flex justify-end space-x-4">
-          <Button variant="secondary" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button variant="success" onClick={onApprove}>
-            Approve
-          </Button>
-        </div>
-      </div>
-    </motion.div>
-  );
-};
+}> = ({ open, onClose, onApprove }) => (
+  <Modal show={open} onHide={onClose}>
+    <Modal.Header closeButton>
+      <Modal.Title>Approve Service Provider</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <p>Are you sure you want to approve this service provider?</p>
+    </Modal.Body>
+    <Modal.Footer>
+      <Button variant="secondary" onClick={onClose}>
+        Cancel
+      </Button>
+      <Button variant="primary" onClick={onApprove}>
+        Approve
+      </Button>
+    </Modal.Footer>
+  </Modal>
+);
+
+// Reject Modal Component
+const RejectModal: React.FC<{
+  open: boolean;
+  onClose: () => void;
+  onReject: () => void;
+}> = ({ open, onClose, onReject }) => (
+  <Modal show={open} onHide={onClose}>
+    <Modal.Header closeButton>
+      <Modal.Title>Reject Service Provider</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+      <p>Are you sure you want to reject this service provider?</p>
+    </Modal.Body>
+    <Modal.Footer>
+      <Button variant="secondary" onClick={onClose}>
+        Cancel
+      </Button>
+      <Button variant="danger" onClick={onReject}>
+        Reject
+      </Button>
+    </Modal.Footer>
+  </Modal>
+);
 
 export default SingleServiceProviderDetails;

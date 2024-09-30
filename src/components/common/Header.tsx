@@ -31,18 +31,27 @@ const Header: React.FC = () => {
           onMouseEnter={handleDropdownMouseEnter}
           onMouseLeave={handleDropdownMouseLeave}
         >
-          <span className="nav-link dropdown-toggle cursor-pointer text-white" role="button">
+          <span
+            className="nav-link dropdown-toggle cursor-pointer text-white"
+            role="button"
+          >
             {title}
           </span>
           <motion.ul
             className={`dropdown-menu submenu ${dropdownOpen ? "block" : "hidden"}`}
             initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: dropdownOpen ? 1 : 0, y: dropdownOpen ? 0 : -10 }}
+            animate={{
+              opacity: dropdownOpen ? 1 : 0,
+              y: dropdownOpen ? 0 : -10,
+            }}
             transition={{ duration: 0.3 }}
           >
             {submenu.map((subitem, subindex) => (
               <li key={subindex}>
-                <NavLink to={subitem.url} className="nav-link dropdown-item text-white">
+                <NavLink
+                  to={subitem.url}
+                  className="nav-link dropdown-item text-white"
+                >
                   {subitem.title}
                 </NavLink>
               </li>
@@ -64,9 +73,11 @@ const Header: React.FC = () => {
     <nav className="navbar navbar-expand-lg navbar-dark  sticky-top">
       <div className="container-fluid">
         <a className="navbar-brand ms-3" href="/">
-          <span className="brand-text text-white">LIVE<span className="text-highlight">CARE</span></span>
+          <span className="brand-text text-white">
+            LIVE<span className="text-highlight">CARE</span>
+          </span>
         </a>
-       
+
         <button
           className="navbar-toggler"
           type="button"
@@ -77,7 +88,10 @@ const Header: React.FC = () => {
         >
           <FontAwesomeIcon icon={clicked ? faTimes : faBars} />
         </button>
-        <div className={`navbar-collapse ${clicked ? "show" : ""}`} id="navbarNav">
+        <div
+          className={`navbar-collapse ${clicked ? "show" : ""}`}
+          id="navbarNav"
+        >
           <ul className="navbar-nav mx-auto text-white">{menuList}</ul>
         </div>
       </div>

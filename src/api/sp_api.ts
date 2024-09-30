@@ -1,5 +1,7 @@
+import toast from "react-hot-toast";
 import { sp_endpoints } from "../endpoints/sp_endpoints";
 import Api from "./axios";
+
 
 export const spRegister = async (
   name: string,
@@ -167,5 +169,63 @@ export const editPassword = async (
   } catch (error: any) {
     console.log(error);
     return error.response.data;
+  }
+};
+
+interface Services {
+  value: string;
+  label: string;
+}
+
+interface SlotData {
+  description: string;
+  timeFrom: Date;
+  timeTo: Date;
+  title: string;
+  status?: "open" | "booked";
+  price: number;
+  date: Date | null;
+  services: Services[]
+  
+}
+
+export const addSlot = async (slotData: SlotData) => {
+  try {
+    const response = await Api.post(sp_endpoints.addSlot, { slotData });
+    return response.data;
+  } catch (error: any) {
+    console.error('Error adding slot:', error.response?.data?.message || error.message || error);
+    toast.error(error.response?.data?.message || "An error occurred while adding the slot.");
+  }
+  
+};
+
+export const getSlotsList = async (
+  page: number,
+  limit: number,
+  query: string
+) => {
+  try {
+    const response = await Api.get(
+      sp_endpoints.getSlots +
+        `?searchQuery=${query}&page=${page}&limit=${limit}`
+    );
+    console.log("Backend response", response); 
+    console.log("Backend responsedata", response.data);     
+    return response.data;
+  } catch (error: any) {
+    return error.response.data;
+  }
+};
+
+export const getDomains = async () => {
+  try {
+    console.log('gvgh');
+    
+    const response = await Api.get(sp_endpoints.getDomains);
+    return response.data;
+  } catch (error: any) {
+    console.error('Error adding slot:', error.response?.data?.message || error.message || error);
+    toast.error(error.response?.data?.message || "An error occurred while adding the slot.");
   }
 };

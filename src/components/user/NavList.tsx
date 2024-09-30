@@ -9,7 +9,7 @@ export const UserMenuList = [
   },
   {
     title: "Blogs",
-    url: "/blogs",
+    url: "/user/blogs",
   },
   {
     title: "Contact",
