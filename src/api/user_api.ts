@@ -176,3 +176,14 @@ export const getServiceProviderSlotDetails = async (
     console.log(error);
   }
 };
+
+export const getScheduledIbookings = async (page: number, limit: number) => {
+  try {
+    const response = await Api.get(
+      user_endpoints.getScheduledBookings + `?page=${page}&limit=${limit}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

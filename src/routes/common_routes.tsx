@@ -78,7 +78,7 @@ const CommonRoutes: React.FC = () => {
         <Route path="/user/service-providers" element={<ApprovedSp />} />
         <Route path="/user/sp-details/:id" element={<ProviderDetails />} />
         <Route path="/user/blogs" element={<BlogList />} />
-        <Route path="/user/slot-details" element={<ProviderAndSlotDetails />} />
+        <Route path="/user/slot-details/:serviceProviderId" element={<ProviderAndSlotDetails />} />
       </Route>
 
       {/* service provider routes */}

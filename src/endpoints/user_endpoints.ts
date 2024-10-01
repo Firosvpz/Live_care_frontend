@@ -11,5 +11,7 @@ export const user_endpoints = {
   serviceProviders: "/user/service-providers",
   getServiceProviderDetails: "/user/sp-details",
   getBlogs:"/user/blogs",
-  getSlotDetails:"/user/slot-details"
+  getSlotDetails:"/user/slot-details",
+  getScheduledBookings: "/user/get-scheduled-Bookings",
+
 };
