@@ -16,8 +16,8 @@ import {
   FiLock,
   FiUnlock,
   FiEye,
-  FiCheckCircle ,
-  FiXCircle
+  FiCheckCircle,
+  FiXCircle,
 } from "react-icons/fi";
 import "../../css/admin/users_list.css";
 
@@ -29,7 +29,7 @@ interface ServiceProvider {
   is_blocked: boolean;
   service: string;
   specialization: string;
-  is_approved: string;
+  is_approved:  "Approved" | "Pending" | "Rejected"
   qualification: string;
   profile_picture: string;
   experience_crt: string;
@@ -143,7 +143,6 @@ const ServiceProvidersList: React.FC = () => {
             Service Providers List
           </h1>
           <div className="relative w-full max-w-lg mb-8 text-end">
-
             <input
               type="text"
               className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
@@ -151,11 +150,8 @@ const ServiceProvidersList: React.FC = () => {
               value={search}
               onChange={(e) => handleSearch(e.target.value)}
             />
-
           </div>
-          <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-
-          </div>
+          <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></div>
           <div className="w-full rounded-lg shadow-md overflow-x-auto">
             <table className="w-full min-w-max">
               <thead className="bg-blue-50">
@@ -195,12 +191,14 @@ const ServiceProvidersList: React.FC = () => {
                           {/* <FiUser className="h-5 w-5 text-red-400" /> */}
                           <img
                             className="h-10 w-10 rounded-full object-cover"
-                            src={user.profile_picture || "https://via.placeholder.com/40"}
+                            src={
+                              user.profile_picture ||
+                              "https://via.placeholder.com/40"
+                            }
                             alt={user.name}
                             style={{ width: "40px", height: "40px" }}
                           />
                           <div className="text-sm font-medium text-gray-800">
-
                             {user.name}
                           </div>
                         </div>
@@ -223,25 +221,34 @@ const ServiceProvidersList: React.FC = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span
-                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.is_approved ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.is_approved === "Approved"
+                              ? "bg-green-100 text-green-800"
+                              : user.is_approved === "Rejected"
+                                ? "bg-red-100 text-red-800"
+                                : "bg-yellow-100 text-yellow-800" // Pending
                             }`}
                         >
-                          {user.is_approved ? (
+                          {user.is_approved === "Approved" ? (
                             <>
                               <FiCheckCircle className="mr-1" /> {/* Green check icon */}
                               Approved {/* Green text */}
                             </>
-                          ) : (
+                          ) : user.is_approved === "Rejected" ? (
                             <>
                               <FiXCircle className="mr-1" /> {/* Red cross icon */}
-                              Not Approved {/* Red text */}
+                              Rejected {/* Red text */}
+                            </>
+                          ) : (
+                            <>
+                              <FiEye className="mr-1" /> {/* Yellow eye icon for Pending */}
+                              Pending {/* Yellow text */}
                             </>
                           )}
                         </span>
                       </td>
 
-                      <td className="px-4 py-4 text-center">
 
+                      <td className="px-4 py-4 text-center">
                         <button
                           onClick={() => showBlockModal(user)}
                           className={`inline-flex items-center px-4 py-2 text-sm font-semibold rounded-full shadow-sm transition-all duration-300 ease-in-out ${user.is_blocked

@@ -5,19 +5,15 @@ export const UserMenuList = [
   },
   {
     title: "About",
-    url: "/about",
-  },
-  {
-    title: "Service Providers",
-    url: "/user/service-providers",
+    url: "/user/about",
   },
   {
     title: "Blogs",
-    url: "/blogs",
+    url: "/user/blogs",
   },
   {
     title: "Contact",
-    url: "/contacts",
+    url: "/user/contacts",
   },
   {
     title: "Profile",

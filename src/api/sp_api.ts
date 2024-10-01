@@ -1,5 +1,7 @@
+import toast from "react-hot-toast";
 import { sp_endpoints } from "../endpoints/sp_endpoints";
 import Api from "./axios";
+
 
 export const spRegister = async (
   name: string,
@@ -132,7 +134,7 @@ export const fetchCategories = async () => {
     console.error("Error fetching categories", error);
     return [];
   }
-}
+};
 
 export const getSpProfileDetails = async () => {
   try {
@@ -147,19 +149,96 @@ export const getSpProfileDetails = async () => {
 
 export const editProfile = async (details: ServiceProviderDetails) => {
   try {
-    const {data} = await Api.put(sp_endpoints.editProfile, {details});
-    return data
+    const { data } = await Api.put(sp_endpoints.editProfile, { details });
+    return data;
   } catch (error) {
     console.log(error);
   }
+};
+
+export const editPassword = async (
+  currentPassword: string,
+  newPassword: string,
+) => {
+  try {
+    const { data } = await Api.put(sp_endpoints.editPassword, {
+      currentPassword,
+      newPassword,
+    });
+    return data;
+  } catch (error: any) {
+    console.log(error);
+    return error.response.data;
+  }
+};
+
+interface Services {
+  value: string;
+  label: string;
 }
 
-export const editPassword = async (currentPassword: string, newPassword: string) => {
-  try {
-      const {data} = await Api.put(sp_endpoints.editPassword, {currentPassword, newPassword})
-      return data 
-  } catch (error: any) {
-      console.log(error)
-      return error.response.data
-  }
+interface SlotData {
+  description: string;
+  timeFrom: Date;
+  timeTo: Date;
+  title: string;
+  status?: "open" | "booked";
+  price: number;
+  date: Date | null;
+  services: Services[]
+  
 }
+
+export const addSlot = async (slotData: SlotData) => {
+  try {
+    const response = await Api.post(sp_endpoints.addSlot, { slotData });
+    return response.data;
+  } catch (error: any) {
+    console.error('Error adding slot:', error.response?.data?.message || error.message || error);
+    toast.error(error.response?.data?.message || "An error occurred while adding the slot.");
+  }
+  
+};
+
+export const getSlotsList = async (
+  page: number,
+  limit: number,
+  query: string
+) => {
+  try {
+    const response = await Api.get(
+      sp_endpoints.getSlots +
+        `?searchQuery=${query}&page=${page}&limit=${limit}`
+    );
+    console.log("Backend response", response); 
+    console.log("Backend responsedata", response.data);     
+    return response.data;
+  } catch (error: any) {
+    return error.response.data;
+  }
+};
+
+export const getDomains = async () => {
+  try {
+    console.log('gvgh');
+    
+    const response = await Api.get(sp_endpoints.getDomains);
+    return response.data;
+  } catch (error: any) {
+    console.error('Error adding slot:', error.response?.data?.message || error.message || error);
+    toast.error(error.response?.data?.message || "An error occurred while adding the slot.");
+  }
+};
+
+export const editSlot = async (slotId: string, slotData: any) => {
+  try {
+    const response = await Api.put(sp_endpoints.editSlot+`/${slotId}`, slotData);
+    console.log("Backend response", response); 
+    console.log("Backend responsedata", response.data); 
+
+
+    return response.data;
+  } catch (error:any) {
+    throw new Error(error.response?.data?.message || 'Error updating slot');
+  }
+};

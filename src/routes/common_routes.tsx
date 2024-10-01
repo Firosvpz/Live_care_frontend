@@ -21,9 +21,9 @@ import ServiceProvidersList from "../pages/admin/SpList";
 import {
   UserProtectedRoute,
   PublicUserProtectedRoute,
-  // PublicSpProtectedRoute,
+  PublicSpProtectedRoute,
   PublicAdminProtectedRoute,
-  // SpProtectedRoute,
+  SpProtectedRoute,
   AdminProtectedRoute,
 } from "../components/ProtectedRoute";
 import UserProfile from "../pages/user/UserProfile";
@@ -33,6 +33,16 @@ import ServiceProviderProfile from "../pages/service_provider/SpProfile";
 import SingleServiceProviderDetails from "../pages/admin/SpDetails";
 import ApprovedSp from "../pages/user/ServiceProvider";
 import ProviderDetails from "../pages/user/SpViewDetails";
+import BlogManagement from "../pages/admin/BlogsList";
+import AddBlog from "../pages/admin/AddBlogs";
+import BlogList from "../pages/user/Blogs";
+import ProviderAndSlotDetails from "../pages/user/SlotDetails";
+import AddSlot from "../pages/service_provider/AddSlot";
+import SlotsList from "../pages/service_provider/SlotList";
+import EditSlot from "../pages/service_provider/EditSlot";
+import PaymentSuccess from "../pages/user/SuccessPayment";
+import UserDetails from "../pages/user/UserVerifyDeatils";
+
 
 const CommonRoutes: React.FC = () => {
   return (
@@ -52,11 +62,11 @@ const CommonRoutes: React.FC = () => {
       </Route>
 
       {/* protected routes for logged-in service providers */}
-      {/* <Route element={<PublicSpProtectedRoute />}> */}
+      <Route element={<PublicSpProtectedRoute />}>
       <Route path="/sp-login" element={<ServiceProviderLogin />} />
       <Route path="/sp-register" element={<ServiceProviderRegister />} />
       <Route path="/sp/verify-sp-otp" element={<ServiceProviderOtp />} />
-      {/* </Route> */}
+      </Route>
 
       {/* protected routes for Admin */}
       <Route element={<PublicAdminProtectedRoute />}>
@@ -66,44 +76,59 @@ const CommonRoutes: React.FC = () => {
       {/* user routes */}
       <Route element={<UserProtectedRoute />}>
         <Route path="/user/user-home" element={<UserLanding />} />
-        <Route path="/user/get-profile" element={<UserProfile/>}/>
-        <Route path="/user/service-providers" element={<ApprovedSp/>}/>
-        <Route path="/user/sp-details/:id" element={<ProviderDetails/>}/>
+        <Route path="/user/get-profile" element={<UserProfile />} />
+        <Route path="/user/service-providers" element={<ApprovedSp />} />
+        <Route path="/user/sp-details/:id" element={<ProviderDetails />} />
+        <Route path="/user/blogs" element={<BlogList />} />
+        <Route path="/user/verify-userdetails" element={<UserDetails />} />
+        <Route path="/user/slot-details/:serviceProviderId" element={<ProviderAndSlotDetails />} />
+        <Route path="/user/payment-success" element={<PaymentSuccess />} />
       </Route>
 
       {/* service provider routes */}
-      {/* <Route element={<SpProtectedRoute />}> */}
+      <Route element={<SpProtectedRoute />}>
       <Route path="/sp/verify-details" element={<ServiceProviderDetails />} />
       <Route path="/sp/sp-home" element={<ServiceProviderLanding />} />
       <Route
-  path="/sp/sp-profile"
-  element={
-    <ServiceProviderProfile
-      setShowEdit={(show) => console.log("setShowEdit", show)}
-      serviceProviderDetails={{
-        name: "",
-        phone_number: "",
-        email: "",
-        service: "",
-        gender: "",
-        qualification: "",
-        exp_year: 0,
-        rate: 0,
-      }}
-      onProfileEdit={(updatedData) => console.log("onProfileEdit", updatedData)}
-    />
-  }
-/>
-      {/* </Route> */}
+        path="/sp/sp-profile"
+        element={
+          <ServiceProviderProfile
+            setShowEdit={(show) => console.log("setShowEdit", show)}
+            serviceProviderDetails={{
+              name: "",
+              phone_number: "",
+              email: "",
+              service: "",
+              gender: "",
+              qualification: "",
+              exp_year: 0,
+              rate: 0,
+            }}
+            onProfileEdit={(updatedData) =>
+              console.log("onProfileEdit", updatedData)
+            }
+          />
+        }
+      />
+       <Route path="/sp/add-slot" element={<AddSlot />} />
+       <Route path="/sp/get-slots" element={<SlotsList />} />
+       <Route path="/sp/edit-slot/:slotId" element={<EditSlot />} />
+      </Route>
 
       {/* admin routes */}
       <Route element={<AdminProtectedRoute />}>
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/users-list" element={<UsersList />} />
         <Route path="/admin/sp-list" element={<ServiceProvidersList />} />
-        <Route path="/admin/sp-list/:id" element={<SingleServiceProviderDetails/>}/>
-        <Route path="/admin/categorys-list" element={<CategoryManagement/>}/>
-        <Route path="/admin/add-category" element={<AddCategory/>}/>
+        <Route
+          path="/admin/sp-list/:id"
+          element={<SingleServiceProviderDetails />}
+        />
+        <Route path="/admin/categorys-list" element={<CategoryManagement />} />
+        <Route path="/admin/add-category" element={<AddCategory />} />
+        <Route path="/admin/blogs" element={<BlogManagement/>} />
+        <Route path="/admin/add-blogs" element={<AddBlog/>} />
+        
       </Route>
 
       {/* Not Found */}

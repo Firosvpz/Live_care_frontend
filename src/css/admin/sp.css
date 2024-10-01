@@ -1,0 +1,34 @@
+/* Add or adjust styles in your CSS file */
+.flex {
+    display: flex;
+  }
+  
+  .mb-4 {
+    margin-bottom: 1rem; /* Adjust this value as needed */
+  }
+  
+  .max-w-7xl {
+    max-width: 80rem; /* Adjust as necessary */
+  }
+  
+  .p-8 {
+    padding: 2rem; /* Adjust as necessary */
+  }
+  
+  .rounded-2xl {
+    border-radius: 1rem; /* Adjust as necessary */
+  }
+  
+  .bg-gradient-to-br {
+    background: linear-gradient(to bottom right, #38b2ac, #4fd1c5); /* Example gradient */
+  }
+  
+  /* Adjust spacing in sidebar and main content */
+  .md\:w-1\/3 {
+    width: 33.333%;
+  }
+  
+  .md\:w-2\/3 {
+    width: 66.666%;
+  }
+  

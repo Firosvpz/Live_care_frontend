@@ -1,66 +1,65 @@
 .contact-container {
-    font-family: 'Arial', sans-serif;
-    color: #333;
-    background-color: #f5f5f5;
-    padding: 20px;
-  }
-  
-  .hero {
-    background: linear-gradient(to right, #021329, #727ce4);
-    color: white;
-    text-align: center;
-    padding: 40px 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-  }
-  
-  .hero h1 {
-    font-size: 2.5rem;
-    margin: 0;
-  }
-  
-  .hero p {
-    font-size: 1.2rem;
-    margin-top: 10px;
-  }
-  
-  .contact-info {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
-  }
-  
-  .form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .btn-primary {
-    background-color: #007bff;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .btn-primary:hover {
-    background-color: #0056b3;
-  }
-  
+  font-family: "Arial", sans-serif;
+  color: #333;
+  background-color: #f5f5f5;
+  padding: 20px;
+}
+
+.hero {
+  background: linear-gradient(to right, #021329, #727ce4);
+  color: white;
+  text-align: center;
+  padding: 40px 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+.contact-info {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}

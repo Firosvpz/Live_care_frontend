@@ -1,6 +1,6 @@
 import { user_endpoints } from "../endpoints/user_endpoints";
 import Api from "./axios";
-import { ServiceProvider } from '../types/serviceproviders';
+import { ServiceProvider } from "../types/serviceproviders";
 
 export const userRegister = async (
   name: string,
@@ -86,55 +86,88 @@ export const userHome = async () => {
   }
 };
 
-export const getProfileDetails = async () => {
+interface UserDetails {
+  dob: Date;
+  user_address: string;
+  medical_history: string;
+  blood_type: string;
+  profile_picture?: File[];
+}
+
+
+export const verfiyUserDetails = async (userDetails: UserDetails) => {
   try {
-    const {data}=await Api.get(user_endpoints.userProfile)
-    return data
+    const formData = new FormData();
+    for (const key in userDetails) {
+      console.log("user:", userDetails);
+
+      if (userDetails.hasOwnProperty(key)) {
+        const value = userDetails[key as keyof UserDetails];
+        if (key === "profile_picture") {
+          formData.append(key, (value as File[])[0]);
+        } else {
+          formData.append(key, value as string);
+        }
+      }
+    }
+
+    const response = await Api.post(user_endpoints.verifyDetails, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log("lastres:", response);
+
+    return response.data;
   } catch (error) {
     console.log(error);
-    
   }
-}
+};
+
+export const getProfileDetails = async () => {
+  try {
+    const { data } = await Api.get(user_endpoints.userProfile);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const editProfile = async (formData: any) => {
   try {
-    
-    const {data} = await Api.put(user_endpoints.editProfile,formData,{
-      headers:{
-        "Content-Type": "application/json"
-      }
-    })
-    console.log('apidata',data);
-    return data
-    
-    
+    const { data } = await Api.put(user_endpoints.editProfile, formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log("apidata", data);
+    return data;
   } catch (error) {
     console.log(error);
   }
-}
+};
 export const editPassword = async (
   currentPassword: string,
-  newPassword: string
+  newPassword: string,
 ) => {
   try {
-    const {data} = await Api.put(user_endpoints.editPassword,{
-      currentPassword,newPassword
-    })
-    
+    const { data } = await Api.put(user_endpoints.editPassword, {
+      currentPassword,
+      newPassword,
+    });
+
     return data;
-   
-    
   } catch (error) {
     console.log(error);
-    
   }
-}
+};
 
-
-export const fetchApprovedAndUnblockedProviders = async (): Promise< ServiceProvider[]>  => {
+export const fetchApprovedAndUnblockedProviders = async (): Promise<
+  ServiceProvider[]
+> => {
   try {
     const response = await Api.get(user_endpoints.serviceProviders);
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error("Failed to fetch providers:", error);
     throw new Error("Failed to fetch providers");
@@ -143,10 +176,10 @@ export const fetchApprovedAndUnblockedProviders = async (): Promise< ServiceProv
 
 export const getServiceProviderDetails = async (id: string) => {
   try {
-    console.log('gyv');
-    
+    console.log("gyv");
+
     const response = await Api.get(
-      user_endpoints.getServiceProviderDetails + `/${id}`
+      user_endpoints.getServiceProviderDetails + `/${id}`,
     );
     console.log("res", response);
 
@@ -154,4 +187,58 @@ export const getServiceProviderDetails = async (id: string) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
+
+export const fetchBlogs = async (page: number, limit: number) => {
+  try {
+    const response = await Api.get(
+      `${user_endpoints.getBlogs}?page=${page}&limit=${limit}`
+    );
+    return response.data; // Assumes the API response has data in the body
+  } catch (error) {
+    console.error("Failed to fetch blogs:", error);
+    throw new Error("Failed to fetch blogs");
+  }
+};
+
+export const getServiceProviderSlotDetails = async (
+  serviceProviderId: string
+) => {
+  try {
+    const response = await Api.get(
+      user_endpoints.getSlotDetails + `/${serviceProviderId}`,
+      {}
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getScheduledIbookings = async (page: number, limit: number) => {
+  try {
+    const response = await Api.get(
+      user_endpoints.getScheduledBookings + `?page=${page}&limit=${limit}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const makePayment = async (data: any, previousUrl: string) => {
+  try { 
+    const response = await Api.post(user_endpoints.makePayment, {
+      data,
+      previousUrl,
+    });
+    console.log('userapires',response);
+    
+    
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+

@@ -70,7 +70,7 @@ const UserHeader: React.FC = () => {
               {title}
             </span>
             <ul
-              className={`dropdown-menu bg-dark ${dropdownOpen ? "show" : ""}`}
+              className={`dropdown-menu  submenu ${dropdownOpen ? "show" : ""}`}
               aria-labelledby="navbarDropdown"
             >
               {submenu.map((subitem, subindex) => (
@@ -111,19 +111,17 @@ const UserHeader: React.FC = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-dark sticky-top">
       <div className="container-fluid">
         <a className="navbar-brand ms-3" href="/">
-          <motion.span
-            initial={{ x: -200 }}
-            animate={{ x: 0 }}
-            transition={{ type: "spring", stiffness: 50 }}
-          >
-            LIVE<span className="text-info">CARE</span>
-          </motion.span>
+          <span className="brand-text text-white">
+            LIVE<span className="text-highlight">CARE</span>
+          </span>
+          {/* <br />
+          <div className="text-white font-sm">Your health is our priority</div> */}
         </a>
         <button
-          className="navbar-toggler"
+          className="navbar-toggler "
           type="button"
           onClick={handleClick}
           aria-controls="navbarNav"
@@ -133,7 +131,7 @@ const UserHeader: React.FC = () => {
           <FontAwesomeIcon icon={clicked ? faTimes : faBars} />
         </button>
         <motion.div
-          className={` navbar-collapse ${clicked ? "show" : ""}`}
+          className={`  navbar-collapse ${clicked ? "show" : ""}`}
           id="navbarNav"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

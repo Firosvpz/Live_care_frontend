@@ -1,68 +1,131 @@
-/* Navbar.css */
-
-/* Navbar container */
+/* Advanced Navbar Styles */
 .navbar {
-  display: flex;
-  align-items: center;
-  background-color: #343a40; /* Background color of the navbar */
-  padding: 0 15px; /* Adjust padding as needed */
-  position: -webkit-sticky; /* For Safari */
-  position: sticky; /* Sticky positioning */
-  top: 0; /* Stick to the top */
-  width: 100%; /* Full width */
-  z-index: 1000; /* Ensure it stays above other content */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add shadow for better separation */
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.986), rgba(0, 0, 0, 0.8));
+  /* backdrop-filter: blur(10px); */
+  padding: 0.6rem 1.5rem;
+  transition:
+    background-color 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.829);
 }
 
-/* Custom styling for the brand logo */
-.navbar-brand {
-  font-weight: bold;
-  font-size: 1.5rem;
-  color: #f8f9fa;
+.navbar .submenu {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.8),
+    rgba(51, 51, 51, 0.8)
+  );
+  /* backdrop-filter: blur(10px); */
+  padding: 0.8rem 1.5rem;
+  transition:
+    background-color 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.759);
 }
 
-.navbar-brand .text-info {
-  color: #17a2b8; /* Bootstrap info color */
+.navbar:hover {
+  /* background-color: rgba(0, 0, 0, 0.9); */
 }
 
-/* Custom styling for the navbar links */
+.navbar-collapse {
+  display: none;
+  /* Default hidden */
+}
+
+.navbar-collapse.show {
+  display: block;
+  /* Show when toggled */
+}
+
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+}
+
+.navbar-brand .brand-text {
+  font-weight: 800;
+  font-size: 2rem;
+  color: #0096c7;
+  transition:
+    color 0.3s ease,
+    text-shadow 0.3s ease;
+  /* text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7),
+    0 0 25px rgba(0, 217, 255, 0.8); */
+}
+
+/* Add a hover effect */
+.navbar-brand .brand-text:hover {
+  color: #0096c7;
+  text-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(0, 217, 255, 1);
+}
+
+.navbar-brand .text-highlight {
+  color: #00d9ff;
+}
+
+.navbar-brand:hover .text-highlight {
+  color: #0096c7;
+}
+
+/* Navbar link styling */
 .nav-link {
   color: #f8f9fa;
-  padding: 0.5rem 1rem;
-  transition: color 0.3s ease-in-out;
+  font-size: 1.1rem;
+  padding: 0.8rem 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  transition:
+    color 0.3s ease,
+    border-bottom 0.3s ease,
+    transform 0.3s ease;
 }
 
 .nav-link:hover {
-  color: #17a2b8; /* Bootstrap info color */
+  /* color: #00d9ff; */
+  border-bottom: 1px outset #00d9ff;
+  transform: translateY(-0.5px);
   background-color: transparent;
-  border-bottom: 0.01px solid #17a2b8;
 }
 
-/* Custom styling for the navbar toggler (hamburger icon) */
+.dropdown-menu {
+  background-color: rgba(34, 34, 34, 0.9);
+  border-radius: 8px;
+  border: none;
+  padding: 1rem;
+}
+
+.dropdown-item {
+  color: #fff;
+  transition: color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  color: #00d9ff;
+}
+
 .navbar-toggler {
-  background-color: #ffffff; /* White background for the button */
-  border: none; /* Remove default border */
-  color: #000000; /* Text color */
-  cursor: pointer; /* Pointer cursor on hover */
-  font-size: 1.2rem; /* Adjust icon size */
-  transition: background-color 0.3s ease; /* Smooth background color transition */
+  background-color: transparent;
+  border: 2px solid #00d9ff;
+  border-radius: 50%;
+  padding: 0.4rem;
+  transition: background-color 0.3s ease;
 }
 
 .navbar-toggler:hover {
-  background-color: #f0f0f0; /* Light gray background on hover */
+  background-color: #00d9ff;
+  color: #fff;
 }
 
-.navbar-toggler:focus {
-  box-shadow: none; /* Remove box-shadow on focus */
-}
+/* Responsive styles for mobile */
+@media (max-width: 768px) {
+  .nav-link {
+    font-size: 1rem;
+  }
 
-/* Adjusting the dropdown menu styles for mobile view */
-.collapse.navbar-collapse.show {
-  background-color: rgba(0, 0, 0, 0.8); /* Dark background for dropdown */
-  padding: 1rem; /* Add padding for dropdown content */
-}
-
-/* Optional: adding transition to the dropdown */
-.collapse.navbar-collapse {
-  transition: height 0.3s ease-in-out;
+  .navbar-brand .brand-text {
+    font-size: 1.5rem;
+  }
 }

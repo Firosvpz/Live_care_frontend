@@ -67,7 +67,10 @@ const ServiceProviderDetails: React.FC = () => {
         <Form noValidate onSubmit={handleSubmit(onSubmit)}>
           <Row>
             <Col md={6} className="mb-3">
-              <Form.Group controlId="validationCustomGender" className="register-form-input w-100">
+              <Form.Group
+                controlId="validationCustomGender"
+                className="register-form-input w-100"
+              >
                 <Form.Select
                   aria-label="Gender"
                   className="form-select bg-dark text-white"
@@ -86,7 +89,10 @@ const ServiceProviderDetails: React.FC = () => {
             </Col>
 
             <Col md={6} className="mb-3">
-              <Form.Group controlId="validationCustomService" className="register-form-input w-100">
+              <Form.Group
+                controlId="validationCustomService"
+                className="register-form-input w-100"
+              >
                 <Form.Select
                   aria-label="Service"
                   className="form-select bg-dark text-white"
@@ -111,7 +117,10 @@ const ServiceProviderDetails: React.FC = () => {
             </Col>
 
             <Col md={6} className="mb-3">
-              <Form.Group controlId="validationCustomSpecialization" className="register-form-input w-100">
+              <Form.Group
+                controlId="validationCustomSpecialization"
+                className="register-form-input w-100"
+              >
                 <Form.Control
                   type="text"
                   placeholder="Specialization"
@@ -128,7 +137,10 @@ const ServiceProviderDetails: React.FC = () => {
             </Col>
 
             <Col md={6} className="mb-3">
-              <Form.Group controlId="validationCustomQualification" className="register-form-input w-100">
+              <Form.Group
+                controlId="validationCustomQualification"
+                className="register-form-input w-100"
+              >
                 <Form.Control
                   type="text"
                   placeholder="Qualification"
@@ -145,7 +157,10 @@ const ServiceProviderDetails: React.FC = () => {
             </Col>
 
             <Col md={6} className="mb-3">
-              <Form.Group controlId="validationCustomExpYear" className="register-form-input w-100">
+              <Form.Group
+                controlId="validationCustomExpYear"
+                className="register-form-input w-100"
+              >
                 <Form.Control
                   type="number"
                   placeholder="Years of Experience"
@@ -166,7 +181,10 @@ const ServiceProviderDetails: React.FC = () => {
             </Col>
 
             <Col md={6} className="mb-3">
-              <Form.Group controlId="validationCustomRate" className="register-form-input w-100">
+              <Form.Group
+                controlId="validationCustomRate"
+                className="register-form-input w-100"
+              >
                 <Form.Control
                   type="number"
                   placeholder="Rate"
@@ -187,7 +205,10 @@ const ServiceProviderDetails: React.FC = () => {
             </Col>
 
             <Col md={6} className="mb-3">
-              <Form.Group controlId="validationCustomProfilePic" className="register-form-input w-100">
+              <Form.Group
+                controlId="validationCustomProfilePic"
+                className="register-form-input w-100"
+              >
                 <Form.Label className="text-light">Profile photo</Form.Label>
                 <Form.Control
                   type="file"
@@ -204,8 +225,13 @@ const ServiceProviderDetails: React.FC = () => {
             </Col>
 
             <Col md={6} className="mb-3">
-              <Form.Group controlId="validationCustomExpCert" className="register-form-input w-100">
-                <Form.Label className="text-light">Experience certificate</Form.Label>
+              <Form.Group
+                controlId="validationCustomExpCert"
+                className="register-form-input w-100"
+              >
+                <Form.Label className="text-light">
+                  Experience certificate
+                </Form.Label>
                 <Form.Control
                   type="file"
                   autoComplete="off"
@@ -221,7 +247,11 @@ const ServiceProviderDetails: React.FC = () => {
             </Col>
 
             <Col md={12} className="d-flex justify-content-center">
-              <Button variant="primary" type="submit" className="register-btn w-50">
+              <Button
+                variant="primary"
+                type="submit"
+                className="register-btn w-50"
+              >
                 Submit
               </Button>
             </Col>

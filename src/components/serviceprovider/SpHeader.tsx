@@ -70,7 +70,7 @@ const SpHeader: React.FC = () => {
               {title}
             </span>
             <ul
-              className={`dropdown-menu bg-dark ${dropdownOpen ? "show" : ""}`}
+              className={`dropdown-menu submenu  ${dropdownOpen ? "show" : ""}`}
               aria-labelledby="navbarDropdown"
             >
               {submenu.map((subitem, subindex) => (
@@ -111,16 +111,12 @@ const SpHeader: React.FC = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-dark sticky-top">
       <div className="container-fluid">
         <a className="navbar-brand ms-3" href="/">
-          <motion.span
-            initial={{ x: -200 }}
-            animate={{ x: 0 }}
-            transition={{ type: "spring", stiffness: 50 }}
-          >
-            LIVE<span className="text-info">CARE</span>
-          </motion.span>
+        <span className="brand-text text-white">
+            LIVE<span className="text-highlight">CARE</span>
+          </span>
         </a>
         <button
           className="navbar-toggler"
