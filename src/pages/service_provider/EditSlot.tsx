@@ -75,7 +75,9 @@ const EditSlot: React.FC = () => {
     e.preventDefault();
     const fromDate = new Date(slotData.from);
     const toDate = new Date(slotData.to);
-
+    console.log('from',fromDate);
+    console.log('to',toDate);
+    
     if (toDate <= fromDate) {
       setError('The "To" date must be greater than the "From" date.');
       return;

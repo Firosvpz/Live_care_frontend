@@ -5,6 +5,7 @@ export const user_endpoints = {
   resend_otp: "/user/resend-otp",
   login: "/user/user-login",
   home: "/user/user-home",
+  verifyDetails: "/user/verify-userdetails",
   userProfile: "/user/get-profile",
   editProfile: "/user/edit-profile",
   editPassword: "/user/edit-password",
@@ -13,5 +14,5 @@ export const user_endpoints = {
   getBlogs:"/user/blogs",
   getSlotDetails:"/user/slot-details",
   getScheduledBookings: "/user/get-scheduled-Bookings",
-
+  makePayment: "/payment/create-payment",
 };

@@ -86,6 +86,44 @@ export const userHome = async () => {
   }
 };
 
+interface UserDetails {
+  dob: Date;
+  user_address: string;
+  medical_history: string;
+  blood_type: string;
+  profile_picture?: File[];
+}
+
+
+export const verfiyUserDetails = async (userDetails: UserDetails) => {
+  try {
+    const formData = new FormData();
+    for (const key in userDetails) {
+      console.log("user:", userDetails);
+
+      if (userDetails.hasOwnProperty(key)) {
+        const value = userDetails[key as keyof UserDetails];
+        if (key === "profile_picture") {
+          formData.append(key, (value as File[])[0]);
+        } else {
+          formData.append(key, value as string);
+        }
+      }
+    }
+
+    const response = await Api.post(user_endpoints.verifyDetails, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    console.log("lastres:", response);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getProfileDetails = async () => {
   try {
     const { data } = await Api.get(user_endpoints.userProfile);
@@ -187,3 +225,20 @@ export const getScheduledIbookings = async (page: number, limit: number) => {
     console.log(error);
   }
 };
+
+export const makePayment = async (data: any, previousUrl: string) => {
+  try { 
+    const response = await Api.post(user_endpoints.makePayment, {
+      data,
+      previousUrl,
+    });
+    console.log('userapires',response);
+    
+    
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+

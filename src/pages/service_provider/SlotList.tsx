@@ -51,7 +51,7 @@ const SlotsList = () => {
         navigate('/sp/add-slot');
     };
 
-    const handleEditSlot = (slotId: string) => {
+    const handleEditSlot = (slotId: string) => {      
         navigate(`/sp/edit-slot/${slotId}`);
     };
 
@@ -128,41 +128,59 @@ const SlotsList = () => {
                         placeholder="Search by title or date..."
                         value={searchQuery}
                         onChange={handleSearch}
-                        className="input-field"
+                        className="input-field bg-black/10 text-white"
                     />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
                     {loading ? (
-                        <p className="text-center">Loading...</p>
-                    ) : (
-                        slotsList.length > 0 ? (
-                            slotsList.map((slot) => (
-                                slot.schedule.map((schedule, index) => (
-                                    <Card key={`${slot._id}-${index}`} className="shadow-lg p-4">
-                                        <CardBody>
-                                            <CardTitle tag="h5" className="text-lg font-semibold">{schedule.title}</CardTitle>
-                                            <CardText className="text-gray-700">
-                                                <strong>From:</strong> {new Date(schedule.from).toLocaleString()}<br />
-                                                <strong>To:</strong> {new Date(schedule.to).toLocaleString()}<br />
-                                                <strong>Price:</strong> ${schedule.price}<br />
-                                                <strong>Status:</strong>
-                                                <span style={{ color: isExpired(new Date(schedule.from), schedule.status) ? 'grey' : (schedule.status === 'open' ? 'green' : 'red') }}>
-                                                    {isExpired(new Date(schedule.from), schedule.status) ? 'Expired' : schedule.status}
-                                                </span>
-                                            </CardText>
-                                            {!isExpired(new Date(schedule.from), schedule.status) && schedule.status === 'open' && (
-                                                <Button color="primary" className="mt-2" onClick={() => handleEditSlot(slot._id)}>Edit</Button>
-                                            )}
-                                        </CardBody>
+                        <p className="text-center text-2xl font-bold">Loading...</p>
+                    ) : slotsList.length > 0 ? (
+                        slotsList.map((slot) =>
+                            slot.schedule.map((schedule, index) => (
+                                <div
+                                    key={`${slot._id}-${index}`}
+                                    className="relative flex flex-col rounded-lg shadow-lg overflow-hidden"
+                                >
+                                    {/* Background gradient for the card */}
+                                    <div className="absolute inset-0 bg opacity-60" />
+                                    <Card className="relative bg-black/80 rounded-2xl flex-grow p-6 z-10">
+                                        <CardTitle tag="h5" className="text-xl font-bold text-yellow-400 mb-2">{schedule.title}</CardTitle>
+                                        <CardText className="text-gray-200 mb-4 p-4">
+                                            <strong className="text-white">Price:</strong> ${schedule.price}<br />
+                                            <strong className="text-white">From:</strong> {new Date(schedule.from).toLocaleString()}<br />
+                                            <strong className="text-white">To:</strong> {new Date(schedule.to).toLocaleString()}<br />
+                                            <strong className="text-white">Status:</strong>
+                                            <span
+                                                className={`font-bold ${isExpired(new Date(schedule.from), schedule.status)
+                                                    ? 'text-gray-400'
+                                                    : schedule.status === 'open'
+                                                        ? 'text-green-400'
+                                                        : 'text-red-400'
+                                                    }`}
+                                            >
+                                                {isExpired(new Date(schedule.from), schedule.status) ? 'Expired' : schedule.status}
+                                            </span>
+                                        </CardText>
+                                        {/* Button for editing slot */}
+                                        {!isExpired(new Date(schedule.from), schedule.status) && schedule.status === 'open' && (
+                                            <button
+                                                onClick={() => handleEditSlot(slot._id)}
+                                                style={{ padding: '0.5rem 1rem', color: '#fff', backgroundColor: '#007bff', border: 'none', borderRadius: '0.25rem', cursor: 'pointer' }}
+                                            >
+                                                Edit
+                                            </button>
+                                        )}
                                     </Card>
-                                ))
+                                </div>
                             ))
-                        ) : (
-                            <p className="text-center">No slots available</p>
                         )
+                    ) : (
+                        <p className="text-center text-xl font-semibold">No slots available</p>
                     )}
                 </div>
+
+
             </div>
             <Footer />
             {showPopUp && (

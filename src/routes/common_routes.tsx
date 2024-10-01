@@ -40,6 +40,8 @@ import ProviderAndSlotDetails from "../pages/user/SlotDetails";
 import AddSlot from "../pages/service_provider/AddSlot";
 import SlotsList from "../pages/service_provider/SlotList";
 import EditSlot from "../pages/service_provider/EditSlot";
+import PaymentSuccess from "../pages/user/SuccessPayment";
+import UserDetails from "../pages/user/UserVerifyDeatils";
 
 
 const CommonRoutes: React.FC = () => {
@@ -78,7 +80,9 @@ const CommonRoutes: React.FC = () => {
         <Route path="/user/service-providers" element={<ApprovedSp />} />
         <Route path="/user/sp-details/:id" element={<ProviderDetails />} />
         <Route path="/user/blogs" element={<BlogList />} />
+        <Route path="/user/verify-userdetails" element={<UserDetails />} />
         <Route path="/user/slot-details/:serviceProviderId" element={<ProviderAndSlotDetails />} />
+        <Route path="/user/payment-success" element={<PaymentSuccess />} />
       </Route>
 
       {/* service provider routes */}

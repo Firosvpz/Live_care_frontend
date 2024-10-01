@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { fetchApprovedAndUnblockedProviders } from "../../api/user_api";
+import { fetchApprovedAndUnblockedProviders, getProfileDetails } from "../../api/user_api";
 import { ServiceProvider } from "../../types/serviceproviders";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/common/Footer";
 import UserHeader from "../../components/user/Header";
 import { AiOutlineLoading } from "react-icons/ai"; // Loading spinner icon
 import { motion } from "framer-motion";
+import { updateUserInfo } from "../../redux/slices/user_slice";
+import { useDispatch } from "react-redux";
+
 
 const ApprovedSp: React.FC = () => {
+  const dispatch = useDispatch();
   const [providers, setProviders] = useState<ServiceProvider[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +28,7 @@ const ApprovedSp: React.FC = () => {
         const providersData = await fetchApprovedAndUnblockedProviders();
         setProviders(providersData);
         setFilteredProviders(providersData);
-      } catch (err) {
+      } catch (err) { 
         setError("Failed to fetch data");
       } finally {
         setLoading(false);
@@ -54,12 +58,29 @@ const ApprovedSp: React.FC = () => {
     setSearchTerm(event.target.value);
   };
 
-  const handleViewDetails = (providerId: string) => {
-    navigate(`/user/sp-details/${providerId}`);
+  const fetchUserInfo = async () => {
+    const response = await getProfileDetails();
+    if (response.success) {
+        dispatch(updateUserInfo(response.data));
+        return response.data;
+    }
+    return null;
+};
+
+  const handleViewDetails = async(providerId: string) => {
+    navigate(`/user/sp-details/${providerId}`)
   };
 
-  const handleSlotDetails = (serviceProviderId: string) => {
-    navigate(`/user/slot-details/${serviceProviderId}`);
+  const handleSlotDetails = async (serviceProviderId: string) => {
+    const userInfo = await fetchUserInfo();
+    console.log('userinfo',userInfo);
+    
+    if(userInfo.hasCompletedDetails !== true){
+      navigate(`/user/verify-userdetails`);
+    }else{
+      navigate(`/user/slot-details/${serviceProviderId}`);
+    }
+   
   };
 
   if (loading)

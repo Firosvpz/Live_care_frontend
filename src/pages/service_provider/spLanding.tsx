@@ -7,6 +7,9 @@ import { ServiceProvider } from "../../types/serviceproviders";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { updateServiceProviderInfo } from "../../redux/slices/sp_slice";
+import { useDispatch } from "react-redux";
+
 
 const ServiceProviderLanding: React.FC = () => {
   const [profileData, setProfileData] = useState<{
@@ -18,6 +21,7 @@ const ServiceProviderLanding: React.FC = () => {
   const [providers, setProviders] = useState<ServiceProvider[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // Fetch services and service providers
   useEffect(() => {
@@ -59,6 +63,28 @@ const ServiceProviderLanding: React.FC = () => {
     };
     fetchUserData();
   }, []);
+
+  const fetchProviderInfo = async () => {
+    const response = await getSpProfileDetails();
+    if (response.success) {
+        dispatch(updateServiceProviderInfo(response.data));
+        return response.data;
+    }
+    return null;
+};
+
+  const handleScheduleSlot = async() => {
+    const providerInfo = await fetchProviderInfo();
+    console.log('userinfo',providerInfo);
+    
+    if(providerInfo.hasCompletedDetails !== true){
+      navigate(`/sp/verify-details`);
+    }else{
+      navigate('navigate("/sp/get-slots")');
+    }
+    
+  };
+  
 
   return (
     <>
@@ -131,11 +157,11 @@ const ServiceProviderLanding: React.FC = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             className="bg-red-400 hover:bg-orange-500 px-8 py-3 rounded-full font-semibold text-lg shadow-lg transition mb-4"
-            onClick={() => navigate("/sp/get-slots")}
+            onClick={handleScheduleSlot} // Use the new function here
           >
             Schedule a Slot
           </motion.button>
-         
+
         </div>
       </section>
 
