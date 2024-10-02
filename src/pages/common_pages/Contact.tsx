@@ -13,15 +13,15 @@ const Contact: React.FC = () => {
   const renderHeader = () => {
     if (location.pathname.includes("sp")) {
       return <SpHeader />;
-    } else if((location.pathname.includes("user"))) {
+    } else if (location.pathname.includes("user")) {
       return <UserHeader />;
-    }else {
-      return <Header/>
+    } else {
+      return <Header />;
     }
   };
   return (
     <>
-    {renderHeader()}
+      {renderHeader()}
       <div className="bg-gray-100 contact-container">
         <section className="hero bg-blue-500 text-white text-center py-16">
           <h1 className="text-4xl font-bold">Contact LiveCare</h1>

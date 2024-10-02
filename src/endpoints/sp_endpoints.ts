@@ -9,8 +9,12 @@ export const sp_endpoints = {
   getProfileDetails: "/sp/sp-profile",
   editProfile: "/sp/edit-profile",
   editPassword: "/sp/edit-password",
-  addSlot: '/sp/add-slot',
-  getSlots: '/sp/get-slots',
-  getDomains:"/sp/get-domains",
-  editSlot:"/sp/edit-slot"
+  addSlot: "/sp/add-slot",
+  getSlots: "/sp/get-slots",
+  getDomains: "/sp/get-domains",
+  editSlot: "/sp/edit-slot",
+  getBookings: "/sp/get-bookings",
+  refund: "/payment/refund",
+  updateBookingStatus: "/sp/update-booking-status",
+  leave: "/sp/leave",
 };

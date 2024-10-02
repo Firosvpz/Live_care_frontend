@@ -10,14 +10,15 @@ import toast from "react-hot-toast";
 import { updateServiceProviderInfo } from "../../redux/slices/sp_slice";
 import { useDispatch } from "react-redux";
 
-
 const ServiceProviderLanding: React.FC = () => {
   const [profileData, setProfileData] = useState<{
     name: string;
     role: string;
   } | null>(null);
   const [services, setServices] = useState<string[]>([]);
-  const [filteredProviders, setFilteredProviders] = useState<ServiceProvider[]>([]);
+  const [filteredProviders, setFilteredProviders] = useState<ServiceProvider[]>(
+    [],
+  );
   const [providers, setProviders] = useState<ServiceProvider[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
@@ -67,32 +68,32 @@ const ServiceProviderLanding: React.FC = () => {
   const fetchProviderInfo = async () => {
     const response = await getSpProfileDetails();
     if (response.success) {
-        dispatch(updateServiceProviderInfo(response.data));
-        return response.data;
+      dispatch(updateServiceProviderInfo(response.data));
+      return response.data;
     }
     return null;
-};
-
-  const handleScheduleSlot = async() => {
-    const providerInfo = await fetchProviderInfo();
-    console.log('userinfo',providerInfo);
-    
-    if(providerInfo.hasCompletedDetails !== true){
-      navigate(`/sp/verify-details`);
-    }else{
-      navigate('navigate("/sp/get-slots")');
-    }
-    
   };
-  
+
+  const handleScheduleSlot = async () => {
+    const providerInfo = await fetchProviderInfo();
+    console.log("userinfo", providerInfo);
+
+    if (providerInfo.hasCompletedDetails !== true) {
+      navigate(`/sp/verify-details`);
+    } else {
+      navigate("/sp/get-slots");
+    }
+  };
 
   return (
     <>
       <SpHeader />
 
       {/* Hero Section */}
-      <div className="relative h-screen flex items-center justify-center bg-cover bg-center"
-        style={{ backgroundImage: `url('/images/home.jpg')` }}>
+      <div
+        className="relative h-screen flex items-center justify-center bg-cover bg-center"
+        style={{ backgroundImage: `url('/images/home.jpg')` }}
+      >
         <div className="absolute inset-0 bg-black/50 z-0"></div>
         <div className="relative flex flex-col items-center justify-center h-full w-full text-white text-center p-8">
           <motion.h1
@@ -121,7 +122,9 @@ const ServiceProviderLanding: React.FC = () => {
             Explore Our Services
           </div>
           <p className="text-lg text-gray-600 mb-12">
-            We offer a wide range of services to meet the needs of senior citizens and their families, all delivered through our convenient video call and chat system.
+            We offer a wide range of services to meet the needs of senior
+            citizens and their families, all delivered through our convenient
+            video call and chat system.
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {services.map((service, index) => (
@@ -134,15 +137,14 @@ const ServiceProviderLanding: React.FC = () => {
                   {service}
                 </h3>
                 <p className="text-lg text-white mb-4 italic">
-                  Connect with expert providers specializing in {service} via video calls or chat.
+                  Connect with expert providers specializing in {service} via
+                  video calls or chat.
                 </p>
-
               </motion.div>
             ))}
           </div>
         </div>
       </section>
-
 
       {/* Schedule Your Slot Section */}
       <section className="py-16 bg-gradient-to-r from-teal-500 to-blue-600 text-white">
@@ -151,8 +153,10 @@ const ServiceProviderLanding: React.FC = () => {
             Welcome to the Team!
           </div>
           <div className="text-lg mb-12">
-            Thank you for joining our dedicated team of professionals! You’re making a difference in the lives of senior citizens every day.
-            Now, let’s schedule your consultation slots to connect with those in need.
+            Thank you for joining our dedicated team of professionals! You’re
+            making a difference in the lives of senior citizens every day. Now,
+            let’s schedule your consultation slots to connect with those in
+            need.
           </div>
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -161,11 +165,8 @@ const ServiceProviderLanding: React.FC = () => {
           >
             Schedule a Slot
           </motion.button>
-
         </div>
       </section>
-
-
 
       {/* Service Providers Section */}
       <section className="py-16 bg-gray-100">
@@ -185,7 +186,10 @@ const ServiceProviderLanding: React.FC = () => {
                   whileHover={{ scale: 1.05 }}
                 >
                   <img
-                    src={provider.profile_picture || "https://via.placeholder.com/150"}
+                    src={
+                      provider.profile_picture ||
+                      "https://via.placeholder.com/150"
+                    }
                     alt={provider.name}
                     className="h-32 w-32 rounded-full mx-auto mb-4 shadow-md"
                   />

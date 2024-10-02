@@ -147,7 +147,7 @@ export const rejectServiceProvider = async (serviceProviderId: string) => {
 export const getBlogs = async (page: number, limit: number) => {
   try {
     const response = await Api.get(
-      admin_endpoints.getBlogs + `?page=${page}&limit=${limit}`
+      admin_endpoints.getBlogs + `?page=${page}&limit=${limit}`,
     );
     console.log("Fetched blogs:", response.data);
     return response.data;
@@ -167,7 +167,6 @@ export const unlistBlog = async (blogId: string) => {
     throw error; // Ensure errors are thrown so they can be caught in the component
   }
 };
-
 
 export const addBlog = async (formData: FormData) => {
   try {
@@ -192,11 +191,33 @@ export const updateBlogStatus = async (blogId: string, isListed: boolean) => {
   try {
     const response = await Api.put(
       `${admin_endpoints.updateBlogStatus}/${blogId}`,
-      { isListed }
+      { isListed },
     );
     return response.data;
   } catch (error) {
     console.log("Error updating blog status:", error);
     throw error; // Rethrow the error to handle it in the component
+  }
+};
+
+export const getBookings = async (page: number, limit: number) => {
+  try {
+    const response = await Api.get(
+      `${admin_endpoints.getBookings}?page=${page}&limit=${limit}`,
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch bookings");
+  }
+};
+
+export const getDashboardDetails = async () => {
+  try {
+    const { data } = await Api.get(admin_endpoints.getDashboard);
+    console.log("dfgg", data);
+
+    return data;
+  } catch (error) {
+    console.log(error);
   }
 };

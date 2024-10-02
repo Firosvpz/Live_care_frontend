@@ -11,8 +11,10 @@ export const admin_endpoints = {
   addCategory: "/admin/add-category",
   getCategorys: "/admin/categorys-list",
   unlistCategory: "/admin/unlist-category",
-  getBlogs: '/admin/blogs', // Endpoint for fetching blogs
-  unlistBlog: '/admin/unlist-blog', 
-  addBlog: '/admin/add-blogs', // Add this line
-  updateBlogStatus: '/admin/blog',
+  getBlogs: "/admin/blogs", // Endpoint for fetching blogs
+  unlistBlog: "/admin/unlist-blog",
+  addBlog: "/admin/add-blogs", // Add this line
+  updateBlogStatus: "/admin/blog",
+  getBookings: "/admin/bookings",
+  getDashboard: "/admin/dashboard",
 };

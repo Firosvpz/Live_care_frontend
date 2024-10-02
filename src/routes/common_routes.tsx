@@ -42,7 +42,9 @@ import SlotsList from "../pages/service_provider/SlotList";
 import EditSlot from "../pages/service_provider/EditSlot";
 import PaymentSuccess from "../pages/user/SuccessPayment";
 import UserDetails from "../pages/user/UserVerifyDeatils";
-
+import OutsourcedBookings from "../pages/user/Bookings";
+import ScheduledBookings from "../pages/service_provider/Appointments";
+import AdminBookingList from "../pages/admin/Bookings";
 
 const CommonRoutes: React.FC = () => {
   return (
@@ -63,9 +65,9 @@ const CommonRoutes: React.FC = () => {
 
       {/* protected routes for logged-in service providers */}
       <Route element={<PublicSpProtectedRoute />}>
-      <Route path="/sp-login" element={<ServiceProviderLogin />} />
-      <Route path="/sp-register" element={<ServiceProviderRegister />} />
-      <Route path="/sp/verify-sp-otp" element={<ServiceProviderOtp />} />
+        <Route path="/sp-login" element={<ServiceProviderLogin />} />
+        <Route path="/sp-register" element={<ServiceProviderRegister />} />
+        <Route path="/sp/verify-sp-otp" element={<ServiceProviderOtp />} />
       </Route>
 
       {/* protected routes for Admin */}
@@ -81,38 +83,43 @@ const CommonRoutes: React.FC = () => {
         <Route path="/user/sp-details/:id" element={<ProviderDetails />} />
         <Route path="/user/blogs" element={<BlogList />} />
         <Route path="/user/verify-userdetails" element={<UserDetails />} />
-        <Route path="/user/slot-details/:serviceProviderId" element={<ProviderAndSlotDetails />} />
+        <Route
+          path="/user/slot-details/:serviceProviderId"
+          element={<ProviderAndSlotDetails />}
+        />
         <Route path="/user/payment-success" element={<PaymentSuccess />} />
+        <Route path="/user/get-bookings" element={<OutsourcedBookings />} />
       </Route>
 
       {/* service provider routes */}
       <Route element={<SpProtectedRoute />}>
-      <Route path="/sp/verify-details" element={<ServiceProviderDetails />} />
-      <Route path="/sp/sp-home" element={<ServiceProviderLanding />} />
-      <Route
-        path="/sp/sp-profile"
-        element={
-          <ServiceProviderProfile
-            setShowEdit={(show) => console.log("setShowEdit", show)}
-            serviceProviderDetails={{
-              name: "",
-              phone_number: "",
-              email: "",
-              service: "",
-              gender: "",
-              qualification: "",
-              exp_year: 0,
-              rate: 0,
-            }}
-            onProfileEdit={(updatedData) =>
-              console.log("onProfileEdit", updatedData)
-            }
-          />
-        }
-      />
-       <Route path="/sp/add-slot" element={<AddSlot />} />
-       <Route path="/sp/get-slots" element={<SlotsList />} />
-       <Route path="/sp/edit-slot/:slotId" element={<EditSlot />} />
+        <Route path="/sp/verify-details" element={<ServiceProviderDetails />} />
+        <Route path="/sp/sp-home" element={<ServiceProviderLanding />} />
+        <Route
+          path="/sp/sp-profile"
+          element={
+            <ServiceProviderProfile
+              setShowEdit={(show) => console.log("setShowEdit", show)}
+              serviceProviderDetails={{
+                name: "",
+                phone_number: "",
+                email: "",
+                service: "",
+                gender: "",
+                qualification: "",
+                exp_year: 0,
+                rate: 0,
+              }}
+              onProfileEdit={(updatedData) =>
+                console.log("onProfileEdit", updatedData)
+              }
+            />
+          }
+        />
+        <Route path="/sp/add-slot" element={<AddSlot />} />
+        <Route path="/sp/get-slots" element={<SlotsList />} />
+        <Route path="/sp/edit-slot/:slotId" element={<EditSlot />} />
+        <Route path="/sp/get-bookings" element={<ScheduledBookings />} />
       </Route>
 
       {/* admin routes */}
@@ -126,9 +133,9 @@ const CommonRoutes: React.FC = () => {
         />
         <Route path="/admin/categorys-list" element={<CategoryManagement />} />
         <Route path="/admin/add-category" element={<AddCategory />} />
-        <Route path="/admin/blogs" element={<BlogManagement/>} />
-        <Route path="/admin/add-blogs" element={<AddBlog/>} />
-        
+        <Route path="/admin/blogs" element={<BlogManagement />} />
+        <Route path="/admin/add-blogs" element={<AddBlog />} />
+        <Route path="/admin/bookings" element={<AdminBookingList />} />
       </Route>
 
       {/* Not Found */}

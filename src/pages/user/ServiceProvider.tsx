@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { fetchApprovedAndUnblockedProviders, getProfileDetails } from "../../api/user_api";
+import {
+  fetchApprovedAndUnblockedProviders,
+  getProfileDetails,
+} from "../../api/user_api";
 import { ServiceProvider } from "../../types/serviceproviders";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/common/Footer";
@@ -8,7 +11,6 @@ import { AiOutlineLoading } from "react-icons/ai"; // Loading spinner icon
 import { motion } from "framer-motion";
 import { updateUserInfo } from "../../redux/slices/user_slice";
 import { useDispatch } from "react-redux";
-
 
 const ApprovedSp: React.FC = () => {
   const dispatch = useDispatch();
@@ -28,7 +30,7 @@ const ApprovedSp: React.FC = () => {
         const providersData = await fetchApprovedAndUnblockedProviders();
         setProviders(providersData);
         setFilteredProviders(providersData);
-      } catch (err) { 
+      } catch (err) {
         setError("Failed to fetch data");
       } finally {
         setLoading(false);
@@ -61,26 +63,25 @@ const ApprovedSp: React.FC = () => {
   const fetchUserInfo = async () => {
     const response = await getProfileDetails();
     if (response.success) {
-        dispatch(updateUserInfo(response.data));
-        return response.data;
+      dispatch(updateUserInfo(response.data));
+      return response.data;
     }
     return null;
-};
+  };
 
-  const handleViewDetails = async(providerId: string) => {
-    navigate(`/user/sp-details/${providerId}`)
+  const handleViewDetails = async (providerId: string) => {
+    navigate(`/user/sp-details/${providerId}`);
   };
 
   const handleSlotDetails = async (serviceProviderId: string) => {
     const userInfo = await fetchUserInfo();
-    console.log('userinfo',userInfo);
-    
-    if(userInfo.hasCompletedDetails !== true){
+    console.log("userinfo", userInfo);
+
+    if (userInfo.hasCompletedDetails !== true) {
       navigate(`/user/verify-userdetails`);
-    }else{
+    } else {
       navigate(`/user/slot-details/${serviceProviderId}`);
     }
-   
   };
 
   if (loading)
@@ -95,10 +96,12 @@ const ApprovedSp: React.FC = () => {
   return (
     <>
       <UserHeader />
-      <div className="min-h-screen bg-cover bg-center bg-no-repeat py-24 px-4 sm:px-6 lg:px-8"
+      <div
+        className="min-h-screen bg-cover bg-center bg-no-repeat py-24 px-4 sm:px-6 lg:px-8"
         style={{
           backgroundImage: "url('../../images/login.jpg')",
-        }}>
+        }}
+      >
         <div className="flex-grow p-6 bg-gray-100 bg-opacity-70 backdrop-blur-lg">
           <div className="flex flex-col items-center">
             <div className="text-3xl font-bold mb-8 text-gray-800">
@@ -180,10 +183,8 @@ const ApprovedSp: React.FC = () => {
             </div>
           </div>
         </div>
-       
       </div>
       <Footer />
-
     </>
   );
 };

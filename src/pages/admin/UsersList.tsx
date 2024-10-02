@@ -109,7 +109,7 @@ const UsersList: React.FC = () => {
         isSidebarOpen={isSidebarOpen}
         setSidebarOpen={setIsSidebarOpen}
       />
-      <AdminSidebar isOpen={isSidebarOpen} />
+      <AdminSidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <main className="flex flex-col items-center mx-auto p-6  rounded-lg shadow-md w-full max-w-6xl">
         <h1 className="text-center text-3xl font-bold text-gray-800 mb-8">
           Users List
