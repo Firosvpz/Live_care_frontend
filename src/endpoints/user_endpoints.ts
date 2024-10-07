@@ -11,8 +11,9 @@ export const user_endpoints = {
   editPassword: "/user/edit-password",
   serviceProviders: "/user/service-providers",
   getServiceProviderDetails: "/user/sp-details",
-  getBlogs:"/user/blogs",
-  getSlotDetails:"/user/slot-details",
-  getScheduledBookings: "/user/get-scheduled-Bookings",
+  getBlogs: "/user/blogs",
+  getSlotDetails: "/user/slot-details",
+  getScheduledBookings: "/user/get-bookings",
   makePayment: "/payment/create-payment",
+  cancelBooking: "/payment/cancelBooking",
 };

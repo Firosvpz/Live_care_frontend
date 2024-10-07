@@ -115,7 +115,7 @@ const SingleServiceProviderDetails: React.FC = () => {
         setSidebarOpen={setIsSidebarOpen}
       />
       <div className="flex min-h-screen">
-        <AdminSidebar isOpen={isSidebarOpen} />
+        <AdminSidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
         <main className="flex-grow p-6 bg-gradient-to-br from-teal-100 via-white to-teal-50">
           {loading ? (
             <div className="flex items-center justify-center h-screen">
@@ -186,8 +186,16 @@ const ProfileSidebar: React.FC<{ serviceProvider: ServiceProviderDetails }> = ({
     />
     <div>
       <DetailItem icon={<FiUser />} label="Name" value={serviceProvider.name} />
-      <DetailItem icon={<FiMail />} label="Email" value={serviceProvider.email} />
-      <DetailItem icon={<FiPhone />} label="Mobile" value={serviceProvider.phone_number.toString()} />
+      <DetailItem
+        icon={<FiMail />}
+        label="Email"
+        value={serviceProvider.email}
+      />
+      <DetailItem
+        icon={<FiPhone />}
+        label="Mobile"
+        value={serviceProvider.phone_number.toString()}
+      />
     </div>
   </motion.div>
 );
@@ -207,11 +215,29 @@ const MainContent: React.FC<{
   >
     {serviceProvider.hasCompletedDetails ? (
       <div className="text-center">
-        <h2 className="text-3xl font-bold mb-3 text-white">Professional Profile</h2>
-        <DetailItem icon={<FiBriefcase />} label="Gender" value={serviceProvider.gender} />
-        <DetailItem icon={<FiClock />} label="Years of Experience" value={serviceProvider.exp_year.toString()} />
-        <DetailItem icon={<FiBook />} label="Specialization" value={serviceProvider.specialization} />
-        <DetailItem icon={<FiBook />} label="Qualification" value={serviceProvider.qualification} />
+        <h2 className="text-3xl font-bold mb-3 text-white">
+          Professional Profile
+        </h2>
+        <DetailItem
+          icon={<FiBriefcase />}
+          label="Gender"
+          value={serviceProvider.gender}
+        />
+        <DetailItem
+          icon={<FiClock />}
+          label="Years of Experience"
+          value={serviceProvider.exp_year.toString()}
+        />
+        <DetailItem
+          icon={<FiBook />}
+          label="Specialization"
+          value={serviceProvider.specialization}
+        />
+        <DetailItem
+          icon={<FiBook />}
+          label="Qualification"
+          value={serviceProvider.qualification}
+        />
 
         <div className="mt-8 space-y-4">
           <div className="flex justify-center space-x-4 mb-5">
@@ -220,31 +246,34 @@ const MainContent: React.FC<{
               label="View Experience Certificate"
               onClick={() => onDocumentView(serviceProvider.experience_crt)}
             />
-            {serviceProvider.is_approved !== "Approved" && serviceProvider.is_approved !== "Rejected" && ( 
-              <>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={onApprove}
-                  className="bg-gradient-to-r from-green-400 to-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg"
-                >
-                  Approve
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={onReject}
-                  className="bg-gradient-to-r from-red-400 to-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg"
-                >
-                  Reject
-                </motion.button>
-              </>
-            )}
+            {serviceProvider.is_approved !== "Approved" &&
+              serviceProvider.is_approved !== "Rejected" && (
+                <>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={onApprove}
+                    className="bg-gradient-to-r from-green-400 to-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg"
+                  >
+                    Approve
+                  </motion.button>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={onReject}
+                    className="bg-gradient-to-r from-red-400 to-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-lg"
+                  >
+                    Reject
+                  </motion.button>
+                </>
+              )}
           </div>
         </div>
       </div>
     ) : (
-      <p className="text-center text-white">Profile details are not complete.</p>
+      <p className="text-center text-white">
+        Profile details are not complete.
+      </p>
     )}
   </motion.div>
 );
@@ -265,7 +294,11 @@ const DocumentButton: React.FC<{
 );
 
 // Detail Item Component
-const DetailItem: React.FC<{ icon: React.ReactNode; label: string; value: string }> = ({ icon, label, value }) => (
+const DetailItem: React.FC<{
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+}> = ({ icon, label, value }) => (
   <div className="flex items-center mb-2">
     <div className="mr-2 text-lg">{icon}</div>
     <span className="text-lg font-semibold">{label}: </span>

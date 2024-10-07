@@ -16,7 +16,9 @@
 }
 
 button {
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease;
 }
 
 button:hover {
@@ -29,11 +31,12 @@ button:hover {
 }
 
 .glass-navbar a {
-  transition: transform 0.3s ease, color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
 }
 
 .glass-navbar a:hover {
   transform: translateY(-2px);
   color: rgba(255, 255, 255, 0.9);
 }
-

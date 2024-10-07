@@ -13,16 +13,16 @@ const About: React.FC = () => {
   const renderHeader = () => {
     if (location.pathname.includes("sp")) {
       return <SpHeader />;
-    } else if((location.pathname.includes("user"))) {
+    } else if (location.pathname.includes("user")) {
       return <UserHeader />;
-    }else {
-      return <Header/>
+    } else {
+      return <Header />;
     }
   };
 
   return (
     <>
-        {renderHeader()}
+      {renderHeader()}
       <div className="bg-gray-100 about-container">
         <section className="hero">
           <div className="text-5xl font-semibold  mb-12 tracking-wide">

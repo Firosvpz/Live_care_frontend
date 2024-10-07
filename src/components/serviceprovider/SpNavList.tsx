@@ -8,10 +8,10 @@ export const SpMenuList = [
     url: "/sp/about",
   },
 
-  // {
-  //   title: "Blogs",
-  //   url: "/blogs",
-  // },
+  {
+    title: "Appointments",
+    url: "/sp/get-bookings",
+  },
   {
     title: "Slots",
     url: "/sp/get-slots",

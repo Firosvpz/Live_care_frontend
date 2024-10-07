@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { adminLogout } from "../../redux/slices/admin_slice";
-import "../../css/admin/admin_navbar.css"; 
+import "../../css/admin/admin_navbar.css";
 
 interface AdminNavbarProps {
   isSidebarOpen: boolean;

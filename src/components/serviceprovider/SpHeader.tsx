@@ -114,7 +114,7 @@ const SpHeader: React.FC = () => {
     <nav className="navbar navbar-expand-lg navbar-dark sticky-top">
       <div className="container-fluid">
         <a className="navbar-brand ms-3" href="/">
-        <span className="brand-text text-white">
+          <span className="brand-text text-white">
             LIVE<span className="text-highlight">CARE</span>
           </span>
         </a>

@@ -1,10 +1,22 @@
-import { faHome,faBlog, faUsers, faListAlt, faThLarge, } from "@fortawesome/free-solid-svg-icons"; // Import the needed icons
+import {
+  faHome,
+  faBlog,
+  faUsers,
+  faListAlt,
+  faThLarge,
+  faClipboardList,
+} from "@fortawesome/free-solid-svg-icons"; // Import the needed icons
 
 export const NavList = [
   {
     title: "Dashboard",
     path: "/admin/dashboard",
     icon: faHome, // Dashboard Icon
+  },
+  {
+    title: "Bookings",
+    path: "/admin/bookings",
+    icon: faClipboardList, // Users Icon
   },
   {
     title: "Users",
@@ -26,5 +38,4 @@ export const NavList = [
     path: "/admin/blogs",
     icon: faBlog, // Blog Icon
   },
-
 ];

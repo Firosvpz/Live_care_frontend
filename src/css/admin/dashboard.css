@@ -1,0 +1,21 @@
+/* .admin-layout {
+    background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(0, 0, 0, 0.8));
+  }
+  
+  .stat-card {
+    transition: transform 0.2s;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .btn-toggle {
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .btn-toggle:hover {
+    background-color: #1d4ed8;
+    transform: scale(1.05);
+  }
+   */

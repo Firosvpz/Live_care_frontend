@@ -8,14 +8,14 @@ import "../../css/admin/admin_sidebar.css"; // Import additional custom styles
 
 interface SidebarProps {
   isOpen: boolean; // Receive sidebar open state as a prop
-  // setIsOpen: React.Dispatch<React.SetStateAction<boolean>>; // Function to toggle sidebar state
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>; // Function to toggle sidebar state
 }
 
-const AdminSidebar: React.FC<SidebarProps> = ({ isOpen }) => {
+const AdminSidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
   // Handle sidebar close
-  // const handleSidebarClose = () => {
-  //   setIsOpen(false); // Set sidebar to closed
-  // };
+  const handleSidebarClose = () => {
+    setIsOpen(false); // Set sidebar to closed
+  };
 
   return (
     <motion.div
@@ -23,13 +23,14 @@ const AdminSidebar: React.FC<SidebarProps> = ({ isOpen }) => {
       initial={{ width: 0 }}
       animate={{ width: isOpen ? 250 : 0 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
+      style={{ overflowY: "auto", height: "100vh" }} // Ensure it takes full height
     >
       {/* Close button */}
       <div className="sidebar-header p-4 flex justify-between items-center">
         <h2 className="text-lg font-semibold">Admin Panel</h2>
         <button
           className="text-white focus:outline-none"
-          // onClick={handleSidebarClose}
+          onClick={handleSidebarClose}
           aria-label="Close sidebar"
         >
           <FontAwesomeIcon icon={faTimes} className="w-6 h-6" />
@@ -39,13 +40,11 @@ const AdminSidebar: React.FC<SidebarProps> = ({ isOpen }) => {
       <div className="sidebar-content">
         <ul className="sidebar-nav list-none p-0 m-0">
           {NavList.map((item, index) => (
-            <motion.li
-              key={index}
-              className="nav-item"
-              whileHover={{ scale: 1.05, x: 10 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <NavLink to={item.path} className="nav-link flex items-center gap-4 p-4  rounded-lg">
+            <motion.li key={index} className="nav-item">
+              <NavLink
+                to={item.path}
+                className="nav-link flex items-center gap-3 p-4 rounded-lg"
+              >
                 <FontAwesomeIcon icon={item.icon} className="w-5 h-5" />
                 <span className="nav-text">{item.title}</span>
               </NavLink>

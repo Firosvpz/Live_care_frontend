@@ -46,7 +46,7 @@ const ServiceProviderLogin: React.FC = () => {
       //   console.log("Dispatching for incomplete details", response.data.token);
       //   navigate("/sp/verify-details");
       // } else
-       if (response.success) {
+      if (response.success) {
         const spInfo = response.data.token;
         console.log("spiNfooo", spInfo);
 
