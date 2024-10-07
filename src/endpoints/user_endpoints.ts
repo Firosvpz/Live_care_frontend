@@ -1,9 +1,11 @@
 export const user_endpoints = {
   register: "/user/user-register",
+  googleRegister: "/user/google-register",
   verify_otp: "/user/verify-user-otp",
   logout: "/user/logout",
   resend_otp: "/user/resend-otp",
   login: "/user/user-login",
+  googleLogin: "/user/google-login",
   home: "/user/user-home",
   verifyDetails: "/user/verify-userdetails",
   userProfile: "/user/get-profile",

@@ -9,12 +9,7 @@ import "../../css/common/Header.css";
 import { UserMenuList } from "./NavList";
 import { useDispatch } from "react-redux";
 import { removeUserCredential } from "../../redux/slices/user_slice";
-
-interface MenuItem {
-  url: string;
-  title: string;
-  submenu?: { title: string; url: string }[];
-}
+import { logoutUser } from "../../api/user_api";
 
 const UserHeader: React.FC = () => {
   const [clicked, setClicked] = useState<boolean>(false);
@@ -30,7 +25,7 @@ const UserHeader: React.FC = () => {
     setDropdownOpen(false);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -40,71 +35,72 @@ const UserHeader: React.FC = () => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, logout!",
       cancelButtonText: "Cancel",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
-        // Clear user credentials from Redux store
-        dispatch(removeUserCredential());
-        toast.success("user logout successfully");
-        navigate("/");
-        console.log("Logged out!");
+        try {
+          await logoutUser(); // Call the logout API function
+
+          // Clear user credentials from Redux store
+          dispatch(removeUserCredential());
+          toast.success("User logged out successfully");
+          navigate("/"); // Redirect to the home page
+        } catch (error) {
+          toast.error("Error logging out. Please try again.");
+          console.error("Logout error:", error);
+        }
       }
     });
   };
 
-  const menuList = UserMenuList.map(
-    ({ url, title, submenu }: MenuItem, index: number) => {
-      if (submenu) {
-        return (
-          <li
-            key={index}
-            className={`nav-item dropdown ${index === UserMenuList.length - 1 ? "ms-auto" : ""}`}
-            onMouseEnter={handleDropdownMouseEnter}
-            onMouseLeave={handleDropdownMouseLeave}
-          >
-            <span
-              className="nav-link dropdown-toggle"
-              id="navbarDropdown"
-              role="button"
-              aria-expanded={dropdownOpen ? "true" : "false"}
-            >
-              {title}
-            </span>
-            <ul
-              className={`dropdown-menu  submenu ${dropdownOpen ? "show" : ""}`}
-              aria-labelledby="navbarDropdown"
-            >
-              {submenu.map((subitem, subindex) => (
-                <li key={subindex}>
-                  {subitem.url === "/logout" ? (
-                    <span
-                      className="nav-link dropdown-item "
-                      onClick={handleLogout}
-                    >
-                      {subitem.title}
-                    </span>
-                  ) : (
-                    <NavLink
-                      to={subitem.url}
-                      className="nav-link dropdown-item "
-                    >
-                      {subitem.title}
-                    </NavLink>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </li>
-        );
-      }
+  const menuList = UserMenuList.map(({ url, title, submenu }, index) => {
+    if (submenu) {
       return (
-        <li key={index} className="nav-item">
-          <NavLink to={url} className="nav-link">
+        <li
+          key={index}
+          className={`nav-item dropdown ${index === UserMenuList.length - 1 ? "ms-auto" : ""}`}
+          onMouseEnter={handleDropdownMouseEnter}
+          onMouseLeave={handleDropdownMouseLeave}
+        >
+          <span
+            className="nav-link dropdown-toggle"
+            id="navbarDropdown"
+            role="button"
+            aria-expanded={dropdownOpen ? "true" : "false"}
+          >
             {title}
-          </NavLink>
+          </span>
+          <ul
+            className={`dropdown-menu submenu ${dropdownOpen ? "show" : ""}`}
+            aria-labelledby="navbarDropdown"
+          >
+            {submenu.map((subitem, subindex) => (
+              <li key={subindex}>
+                {subitem.url === "/logout" ? (
+                  <span
+                    className="nav-link dropdown-item"
+                    onClick={handleLogout}
+                  >
+                    {subitem.title}
+                  </span>
+                ) : (
+                  <NavLink to={subitem.url} className="nav-link dropdown-item">
+                    {subitem.title}
+                  </NavLink>
+                )}
+              </li>
+            ))}
+          </ul>
         </li>
       );
-    },
-  );
+    }
+    return (
+      <li key={index} className="nav-item">
+        <NavLink to={url} className="nav-link">
+          {title}
+        </NavLink>
+      </li>
+    );
+  });
 
   const handleClick = () => {
     setClicked(!clicked);
@@ -117,11 +113,9 @@ const UserHeader: React.FC = () => {
           <span className="brand-text text-white">
             LIVE<span className="text-highlight">CARE</span>
           </span>
-          {/* <br />
-          <div className="text-white font-sm">Your health is our priority</div> */}
         </a>
         <button
-          className="navbar-toggler "
+          className="navbar-toggler"
           type="button"
           onClick={handleClick}
           aria-controls="navbarNav"
@@ -131,13 +125,13 @@ const UserHeader: React.FC = () => {
           <FontAwesomeIcon icon={clicked ? faTimes : faBars} />
         </button>
         <motion.div
-          className={`  navbar-collapse ${clicked ? "show" : ""}`}
+          className={`navbar-collapse ${clicked ? "show" : ""}`}
           id="navbarNav"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <ul className="navbar-nav mx-auto btn">{menuList}</ul>
+          <ul className="navbar-nav mx-auto">{menuList}</ul>
         </motion.div>
       </div>
     </nav>

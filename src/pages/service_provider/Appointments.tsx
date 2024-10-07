@@ -215,8 +215,8 @@ const ScheduledBookings = () => {
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="flex items-center text-sm text-gray-500">
-                            <FaRegClock className="h-5 w-5 mr-2 text-gray-400" />
+                          <div className="flex items-center text-sm text-gray-900">
+                            <FaRegClock className="h-5 w-5 mr-2 text-red-400" />
                             {new Date(booking.fromTime).toLocaleTimeString(
                               "en-US",
                               {
@@ -264,7 +264,7 @@ const ScheduledBookings = () => {
                                       setSelectedBooking(booking);
                                       setShowReasonModal(true);
                                     }}
-                                    className="ml-2 text-blue-500 underline"
+                                    className="ml-2 text-blue-500 btn bg-primary text-white"
                                   >
                                     View
                                   </button>
@@ -295,7 +295,7 @@ const ScheduledBookings = () => {
                                         setSelectedBooking(booking);
                                         handleCancelBooking();
                                       }}
-                                      className="text-red-600 hover:text-red-900"
+                                      className="text-white bg-red-800 hover:text-red-900"
                                     >
                                       Cancel
                                     </Button>
@@ -311,7 +311,7 @@ const ScheduledBookings = () => {
                                 setSelectedBooking(booking);
                                 setShowRefundModal(true);
                               }}
-                              className="text-blue-600 hover:text-blue-900"
+                              className="text-white hover:text-blue-900"
                             >
                               Process Refund
                             </Button>

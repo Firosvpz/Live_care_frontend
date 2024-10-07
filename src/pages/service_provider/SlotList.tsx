@@ -10,6 +10,7 @@ import SpHeader from "../../components/serviceprovider/SpHeader";
 import { Button, Card, CardBody, CardTitle, CardText, Input } from "reactstrap";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import "../../css/serviceprovider/slotList.css"; // Import the CSS file
+
 interface Schedule {
   from: string;
   to: string;
@@ -142,7 +143,7 @@ const SlotsList = () => {
             placeholder="Search by title or date..."
             value={searchQuery}
             onChange={handleSearch}
-            className="input-field bg-black/10 text-white"
+            className="input-field text-dark"
           />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
@@ -175,14 +176,7 @@ const SlotsList = () => {
                       {new Date(schedule.to).toLocaleString()}
                       <br />
                       <strong className="text-white">Status:</strong>
-                      <strong
-                        style={{
-                          borderBottom: "1px solid #ddd",
-                          padding: "0.75rem",
-                        }}
-                      >
-                        Actions
-                      </strong>
+                      &nbsp;&nbsp;&nbsp;
                       <span
                         className={`font-bold ${
                           isExpired(new Date(schedule.from), schedule.status)
@@ -198,22 +192,22 @@ const SlotsList = () => {
                       </span>
                     </CardText>
                     {/* Button for editing slot */}
-                    {!isExpired(new Date(schedule.from), schedule.status) &&
+                    {/* {!isExpired(new Date(schedule.from), schedule.status) &&
                       schedule.status === "open" && (
-                        <button
-                          onClick={() => handleEditSlot(slot._id)}
-                          style={{
-                            padding: "0.5rem 1rem",
-                            color: "#fff",
-                            backgroundColor: "#007bff",
-                            border: "none",
-                            borderRadius: "0.25rem",
-                            cursor: "pointer",
-                          }}
-                        >
-                          Edit
-                        </button>
-                      )}
+                        // <button
+                        //   onClick={() => handleEditSlot(slot._id)}
+                        //   style={{
+                        //     padding: "0.5rem 1rem",
+                        //     color: "#fff",
+                        //     backgroundColor: "#007bff",
+                        //     border: "none",
+                        //     borderRadius: "0.25rem",
+                        //     cursor: "pointer",
+                        //   }}
+                        // >
+                        //   Edit
+                        // </button>
+                      )} */}
                   </Card>
                 </div>
               )),

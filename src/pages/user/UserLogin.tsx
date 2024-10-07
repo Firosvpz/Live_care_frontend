@@ -7,8 +7,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Col from "react-bootstrap/Col";
 import "../../css/user/user_login.css";
-import { userLogin } from "../../api/user_api";
+import { userLogin, googleLogin } from "../../api/user_api";
 import { setUserCredential } from "../../redux/slices/user_slice";
+import { GoogleLogin } from "@react-oauth/google";
+
 interface IFormInput {
   email: string;
   password: string;
@@ -27,9 +29,14 @@ const UserLogin: React.FC = () => {
     const { email, password } = data;
 
     const response = await userLogin(email, password);
-
+    console.log("response", response);
     if (response?.data.success) {
-      const userInfo = response.data.data.token;
+      const userInfo = {
+        token: response.data.data.token, // Store token
+        userId: response.data.data.userId, // Assume userId is returned in response
+      };
+      console.log("userInfo", userInfo);
+
       toast.success("Login successful!");
       dispatch(setUserCredential(userInfo));
       navigate("/user/user-home");
@@ -47,6 +54,27 @@ const UserLogin: React.FC = () => {
           secondary: "#721c24",
         },
       });
+    }
+  };
+
+  // Function to handle Google login response
+  const responseGoogle = async (response: any) => {
+    console.log("Google Login response", response);
+    const { credential } = response;
+
+    // Use the new googleLogin function
+    const res = await googleLogin(credential);
+
+    if (res?.data.success) {
+      const userInfo = {
+        token: res.data.data.token, // Assuming the backend returns a token
+        userId: res.data.data.userId, // Assuming the backend returns a userId
+      };
+      dispatch(setUserCredential(userInfo));
+      toast.success("Google Login successful!");
+      navigate("/user/user-home");
+    } else {
+      toast.error(res?.data.message || "Google Login failed!");
     }
   };
   return (
@@ -121,7 +149,13 @@ const UserLogin: React.FC = () => {
           >
             Login
           </Button>
-
+          {/* Google Login Button */}
+          <GoogleLogin
+            onSuccess={responseGoogle}
+            onFailure={(error: any) => toast.error("Google Login failed!")}
+            cookiePolicy={"single_host_origin"}
+            style={{ marginTop: "10px" }} // Adjust styles if necessary
+          />
           {/* <Button variant="primary" className="login-btn google-login-btn">
             Login with Google
           </Button> */}

@@ -47,7 +47,7 @@ const PaymentSuccess = () => {
         </p>
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <Link
-            to="/user/get-Bookings"
+            to="/user/get-bookings"
             className="inline-block px-8 py-3 bg-[#19328F] text-white font-bold rounded-full transition duration-300 ease-in-out transform hover:shadow-lg"
           >
             View Bookings

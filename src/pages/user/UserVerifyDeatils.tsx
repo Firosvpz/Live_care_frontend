@@ -55,7 +55,6 @@ const UserDetails: React.FC = () => {
                 controlId="validationCustomDob"
                 className="register-form-input w-100"
               >
-                <Form.Label className=" text-white">Date of Birth</Form.Label>
                 <Form.Control
                   type="date"
                   className="bg-dark text-white"
@@ -78,14 +77,12 @@ const UserDetails: React.FC = () => {
             <Col md={6} className="mb-3">
               <Form.Group
                 controlId="validationCustomAddress"
-                className="register-form-input  w-100"
+                className="register-form-input bg-dark w-100"
               >
-                <Form.Label className=" text-white">User Address</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Enter your address"
                   autoComplete="off"
-                  className="bg-dark"
                   style={{
                     height: "60px",
                     backgroundColor: "dark", // Set the background color to black
@@ -108,7 +105,6 @@ const UserDetails: React.FC = () => {
                 controlId="validationCustomMedicalHistory"
                 className="register-form-input w-100"
               >
-                <Form.Label className=" text-white">Medical History</Form.Label>
                 <Form.Control
                   as="select"
                   className="bg-dark text-white" // Dropdown styling
@@ -137,7 +133,6 @@ const UserDetails: React.FC = () => {
                 controlId="validationCustomBloodType"
                 className="register-form-input w-100"
               >
-                <Form.Label className=" text-white">Blood group</Form.Label>
                 <Form.Control
                   as="select"
                   className="bg-dark text-white" // Dropdown styling

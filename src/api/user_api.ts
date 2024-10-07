@@ -76,6 +76,20 @@ export const userLogin = async (email: string, password: string) => {
   }
 };
 
+export const googleLogin = async (idToken: string) => {
+  try {
+    const response = await Api.post(user_endpoints.googleLogin, { idToken });
+    // console.log('es',response);
+
+    return response;
+  } catch (error: any) {
+    if (error.response) {
+      return error.response;
+    }
+    console.log(error);
+  }
+};
+
 export const userHome = async () => {
   try {
     const response = await Api.get(user_endpoints.home);
@@ -253,5 +267,21 @@ export const cancelBooking = async (
   } catch (error) {
     console.error("Error cancelling booking:", error);
     throw error;
+  }
+};
+
+export const logoutUser = async () => {
+  try {
+    const response = await Api.post(
+      user_endpoints.logout,
+      {},
+      {
+        withCredentials: true, // Include cookies if you're using them for sessions
+      },
+    );
+
+    return response.data; // Return the response data
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || "Logout failed"); // Throw an error with a message
   }
 };

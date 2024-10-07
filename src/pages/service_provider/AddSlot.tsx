@@ -41,6 +41,7 @@ const AddSlot = () => {
   const serviceProviderInfo = useSelector(
     (state: RootState) => state.spInfo.spInfo,
   );
+  //   console.log('service',serviceProviderInfo);
 
   const navigate = useNavigate();
 

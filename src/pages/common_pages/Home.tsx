@@ -81,7 +81,7 @@ const Home: React.FC = () => {
             <Carousel
               indicators={false}
               controls={false}
-              interval={3000}
+              interval={2000}
               className="py-8 w-100 md:w-6/4 mx-auto text-center shadow-lg rounded-lg"
             >
               <h5 className="mb-14">
@@ -91,7 +91,7 @@ const Home: React.FC = () => {
                   transition={{ duration: 0.8, ease: "easeOut" }}
                   className="text-5xl lg:text-5xl font-bold leading-tight text-white"
                 >
-                  Welcome to <span className="text-info">LiveCare</span>
+                  {/* Welcome to <span className="text-info">LiveCare</span> */}
                 </motion.div>
               </h5>
 
