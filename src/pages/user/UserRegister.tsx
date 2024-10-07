@@ -5,7 +5,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa";
 import toast from "react-hot-toast";
 import "../../css/user/verifySp.css";
-import { userRegister } from "../../api/user_api";
+import { userRegister,googleLogin } from "../../api/user_api";
+import { GoogleLogin } from "@react-oauth/google";
+import { setUserCredential } from "../../redux/slices/user_slice";
+import { useDispatch } from "react-redux";
 
 interface IFormInput {
   name: string;
@@ -17,6 +20,7 @@ interface IFormInput {
 }
 
 const UserRegister: React.FC = () => {
+  const dispatch = useDispatch()
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
@@ -53,6 +57,25 @@ const UserRegister: React.FC = () => {
       console.error(error);
     }
   };
+
+   // Handle Google login response
+   const responseGoogle = async (credentialResponse: any) => {
+    const { credential } = credentialResponse;
+    const res = await googleLogin(credential);
+
+    if (res?.data.success) {
+      const userInfo = {
+        token: res.data.data.token,
+        userId: res.data.data.userId,
+      };
+      dispatch(setUserCredential(userInfo));
+      toast.success("Google Login successful!");
+      navigate("/user/user-home");
+    } else {
+      toast.error(res?.data.message || "Google Login failed!");
+    }
+  };
+
 
   return (
     <section className="register-page-container">
@@ -236,6 +259,13 @@ const UserRegister: React.FC = () => {
           >
             {loading ? <FaSpinner className="animate-spin" /> : "Register"}
           </Button>
+          
+          {/* Google Login Button */}
+          <GoogleLogin
+            onSuccess={responseGoogle}
+            onError={() => toast.error("Google Login failed!")}
+            // style={{ marginTop: "16px", width: "50%" }}
+          />
 
           <Link to="/user-login">
             <Button variant="link" className="signup-btn">

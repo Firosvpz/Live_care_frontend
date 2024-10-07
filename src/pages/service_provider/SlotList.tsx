@@ -192,22 +192,22 @@ const SlotsList = () => {
                       </span>
                     </CardText>
                     {/* Button for editing slot */}
-                    {/* {!isExpired(new Date(schedule.from), schedule.status) &&
+                    {!isExpired(new Date(schedule.from), schedule.status) &&
                       schedule.status === "open" && (
-                        // <button
-                        //   onClick={() => handleEditSlot(slot._id)}
-                        //   style={{
-                        //     padding: "0.5rem 1rem",
-                        //     color: "#fff",
-                        //     backgroundColor: "#007bff",
-                        //     border: "none",
-                        //     borderRadius: "0.25rem",
-                        //     cursor: "pointer",
-                        //   }}
-                        // >
-                        //   Edit
-                        // </button>
-                      )} */}
+                        <button
+                          onClick={() => handleEditSlot(slot._id)}
+                          style={{
+                            padding: "0.5rem 1rem",
+                            color: "#fff",
+                            backgroundColor: "#007bff",
+                            border: "none",
+                            borderRadius: "0.25rem",
+                            cursor: "pointer",
+                          }}
+                        >
+                          Edit
+                        </button>
+                      )}
                   </Card>
                 </div>
               )),

@@ -129,35 +129,7 @@ const UserLanding: React.FC = () => {
                         your needs. At LiveCare, we prioritize your comfort and
                         well-being with the utmost care and professionalism.
                       </div>
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
-                        className="mt-8"
-                      >
-                        <Link to="/user/service-providers">
-                          <button
-                            className="px-6 py-3 btn btn-outline-info border-r-2 text-info rounded-lg 
-                        ext-lg font-semibold shadow-md hover:bg-transparent transition flex items-center justify-center space-x-2"
-                          >
-                            <span>Go for a Service</span>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-6 w-6 text-info"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M13 7l5 5m0 0l-5 5m5-5H6"
-                              />
-                            </svg>
-                          </button>
-                        </Link>
-                      </motion.div>
+                   
                     </motion.div>
                   </Carousel.Item>
                 ))
@@ -190,6 +162,35 @@ const UserLanding: React.FC = () => {
                 </Carousel.Item>
               )}
             </Carousel>
+            <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        className="mt-8"
+                      >
+                        <Link to="/user/service-providers">
+                          <button
+                            className="px-6 py-3 btn btn-outline-info border-r-2 text-info rounded-lg 
+                        ext-lg font-semibold shadow-md hover:bg-transparent transition flex items-center justify-center space-x-2"
+                          >
+                            <span>Go for a Service</span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-6 w-6 text-info"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M13 7l5 5m0 0l-5 5m5-5H6"
+                              />
+                            </svg>
+                          </button>
+                        </Link>
+                      </motion.div>
           </div>
         </div>
       </section>

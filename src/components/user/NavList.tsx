@@ -12,6 +12,10 @@ export const UserMenuList = [
     url: "/user/blogs",
   },
   {
+    title: "Service Providers",
+    url: "/user/service-providers",
+  },
+  {
     title: "Bookings",
     url: "/user/get-bookings",
   },

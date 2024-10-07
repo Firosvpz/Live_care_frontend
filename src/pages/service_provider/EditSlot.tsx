@@ -25,26 +25,22 @@ const EditSlot: React.FC = () => {
     const fetchSlotDetails = async () => {
       try {
         const { data } = await getSlotsList(1, 100, "");
-        console.log("slotId", slotId);
-        console.log("slot._id", data);
         const foundSlot = data.find((slot: any) => slot._id === slotId);
-
+    
         if (foundSlot) {
           const schedule = foundSlot.schedule[0] || {};
-
+    
           const formatDate = (date: string) => {
+            if (!date) return ""; // Avoid formatting if date is not available
             const localDate = new Date(date);
-
-            // Adjust the date to local time zone using individual components
             const year = localDate.getFullYear();
-            const month = String(localDate.getMonth() + 1).padStart(2, "0"); // Months are zero-indexed
+            const month = String(localDate.getMonth() + 1).padStart(2, "0");
             const day = String(localDate.getDate()).padStart(2, "0");
             const hours = String(localDate.getHours()).padStart(2, "0");
             const minutes = String(localDate.getMinutes()).padStart(2, "0");
-
             return `${year}-${month}-${day}T${hours}:${minutes}`;
           };
-
+    
           setSlotData({
             title: foundSlot.title || "",
             from: formatDate(schedule.from || ""),
@@ -59,7 +55,7 @@ const EditSlot: React.FC = () => {
       } catch (error: any) {
         console.error("Error fetching slot details:", error.message);
         setLoading(false);
-      }
+      }
     };
 
     fetchSlotDetails();
@@ -76,24 +72,23 @@ const EditSlot: React.FC = () => {
     e.preventDefault();
     const fromDate = new Date(slotData.from);
     const toDate = new Date(slotData.to);
-    console.log("from", fromDate);
-    console.log("to", toDate);
-
+  
     if (toDate <= fromDate) {
       setError('The "To" date must be greater than the "From" date.');
       return;
     }
-
+  
     setError(null);
-
+  
     try {
+      // Only submit if there are changes to the date or other fields
       await editSlot(slotId as string, slotData);
       toast.success("Slot updated successfully.");
       navigate("/sp/get-slots", { state: { refresh: true } });
     } catch (error: any) {
       console.error("Error updating slot:", error.message);
       toast.error(error.message);
-    }
+    }
   };
 
   const currentDateTime = new Date().toISOString().slice(0, 16);
