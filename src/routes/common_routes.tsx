@@ -45,6 +45,8 @@ import UserDetails from "../pages/user/UserVerifyDeatils";
 import OutsourcedBookings from "../pages/user/Bookings";
 import ScheduledBookings from "../pages/service_provider/Appointments";
 import AdminBookingList from "../pages/admin/Bookings";
+import UserVideoCall from "../pages/user/VideoCall";
+import ProviderVideoCall from "../pages/service_provider/SpVideoCall";
 
 const CommonRoutes: React.FC = () => {
   return (
@@ -89,6 +91,10 @@ const CommonRoutes: React.FC = () => {
         />
         <Route path="/user/payment-success" element={<PaymentSuccess />} />
         <Route path="/user/get-bookings" element={<OutsourcedBookings />} />
+        <Route
+            path="/user/video-call/:roomId/:userId"
+            element={<UserVideoCall></UserVideoCall>}
+          />
       </Route>
 
       {/* service provider routes */}
@@ -120,6 +126,7 @@ const CommonRoutes: React.FC = () => {
         <Route path="/sp/get-slots" element={<SlotsList />} />
         <Route path="/sp/edit-slot/:slotId" element={<EditSlot />} />
         <Route path="/sp/get-bookings" element={<ScheduledBookings />} />
+        <Route path="/video-call/:roomId/:serviceProviderId" element={<ProviderVideoCall />} />
       </Route>
 
       {/* admin routes */}

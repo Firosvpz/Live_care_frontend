@@ -19,8 +19,8 @@ export const setupInterceptors = (navigate: any) => {
         if (status === 403) {
           // Handle user authentication issues
           const userState = store.getState();
-          console.log("User State:", userState);
           const userInfo = userState.user.userInfo;
+          console.log("User State:", userState);
           console.log("User Info:", userInfo);
 
           if (userInfo) {

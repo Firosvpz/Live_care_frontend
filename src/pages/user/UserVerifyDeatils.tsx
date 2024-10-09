@@ -54,7 +54,7 @@ const UserDetails: React.FC = () => {
               <Form.Group
                 controlId="validationCustomDob"
                 className="register-form-input w-100"
-              >
+              ><Form.Label className="text-white">Date of Birth</Form.Label>
                 <Form.Control
                   type="date"
                   className="bg-dark text-white"
@@ -75,6 +75,7 @@ const UserDetails: React.FC = () => {
 
             {/* Address */}
             <Col md={6} className="mb-3">
+            <Form.Label className="text-white">Enter your Address</Form.Label>
               <Form.Group
                 controlId="validationCustomAddress"
                 className="register-form-input bg-dark w-100"

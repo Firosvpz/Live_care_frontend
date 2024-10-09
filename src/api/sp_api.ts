@@ -64,6 +64,7 @@ export const resendSpOtp = async () => {
 };
 
 export const spLogin = async (email: string, password: string) => {
+
   try {
     const response = await Api.post(sp_endpoints.login, {
       email,
@@ -72,6 +73,7 @@ export const spLogin = async (email: string, password: string) => {
     console.log("response: ", response);
     return response.data;
   } catch (error: any) {
+    console.error("Login error:", error); // Log the error for debugging
     return error.response.data;
   }
 };
@@ -190,6 +192,8 @@ interface SlotData {
 export const addSlot = async (slotData: SlotData) => {
   try {
     const response = await Api.post(sp_endpoints.addSlot, { slotData });
+    console.log("Slot Data being sent:", slotData);
+
     return response.data;
   } catch (error: any) {
     console.error(

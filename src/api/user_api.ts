@@ -182,7 +182,7 @@ export const fetchApprovedAndUnblockedProviders = async (): Promise<
     const response = await Api.get(user_endpoints.serviceProviders);
     return response.data;
   } catch (error) {
-    console.error("Failed to fetch providers:", error);
+    console.error("Failed to fetch providers:", error);    
     throw new Error("Failed to fetch providers");
   }
 };
@@ -192,7 +192,7 @@ export const getServiceProviderDetails = async (id: string) => {
     console.log("gyv");
 
     const response = await Api.get(
-      user_endpoints.getServiceProviderDetails + `/${id}`,
+      user_endpoints.getServiceProviderDetails + `/${id}`,  
     );
     console.log("res", response);
 

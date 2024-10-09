@@ -17,7 +17,7 @@ interface Schedule {
   title: string;
   price: number;
   description: string;
-  status: "open" | "booked";
+  status: "open" | "booked" | "completed"
   services: string[];
 }
 
@@ -151,66 +151,66 @@ const SlotsList = () => {
             <p className="text-center text-2xl font-bold">Loading...</p>
           ) : slotsList.length > 0 ? (
             slotsList.map((slot) =>
-              slot.schedule.map((schedule, index) => (
-                <div
-                  key={`${slot._id}-${index}`}
-                  className="relative flex flex-col rounded-lg shadow-lg overflow-hidden"
-                >
-                  {/* Background gradient for the card */}
-                  <div className="absolute inset-0 bg opacity-60" />
-                  <Card className="relative bg-black/80 rounded-2xl flex-grow p-6 z-10">
-                    <CardTitle
-                      tag="h5"
-                      className="text-xl font-bold text-yellow-400 mb-2"
-                    >
-                      {schedule.title}
-                    </CardTitle>
-                    <CardText className="text-gray-200 mb-4 p-4">
-                      <strong className="text-white">Price:</strong> $
-                      {schedule.price}
-                      <br />
-                      <strong className="text-white">From:</strong>{" "}
-                      {new Date(schedule.from).toLocaleString()}
-                      <br />
-                      <strong className="text-white">To:</strong>{" "}
-                      {new Date(schedule.to).toLocaleString()}
-                      <br />
-                      <strong className="text-white">Status:</strong>
-                      &nbsp;&nbsp;&nbsp;
-                      <span
-                        className={`font-bold ${
-                          isExpired(new Date(schedule.from), schedule.status)
-                            ? "text-gray-400"
-                            : schedule.status === "open"
-                              ? "text-green-400"
-                              : "text-red-400"
-                        }`}
+              slot.schedule
+                .filter(schedule => schedule.status !== "completed") // Filter out completed schedules
+                .map((schedule, index) => (
+                  <div
+                    key={`${slot._id}-${index}`}
+                    className="relative flex flex-col rounded-lg shadow-lg overflow-hidden"
+                  >
+                    {/* Background gradient for the card */}
+                    <div className="absolute inset-0 bg opacity-60" />
+                    <Card className="relative bg-black/80 rounded-2xl flex-grow p-6 z-10">
+                      <CardTitle
+                        tag="h5"
+                        className="text-xl font-bold text-yellow-400 mb-2"
                       >
-                        {isExpired(new Date(schedule.from), schedule.status)
-                          ? "Expired"
-                          : schedule.status}
-                      </span>
-                    </CardText>
-                    {/* Button for editing slot */}
-                    {!isExpired(new Date(schedule.from), schedule.status) &&
-                      schedule.status === "open" && (
-                        <button
-                          onClick={() => handleEditSlot(slot._id)}
-                          style={{
-                            padding: "0.5rem 1rem",
-                            color: "#fff",
-                            backgroundColor: "#007bff",
-                            border: "none",
-                            borderRadius: "0.25rem",
-                            cursor: "pointer",
-                          }}
+                        {schedule.title}
+                      </CardTitle>
+                      <CardText className="text-gray-200 mb-4 p-4">
+                        <strong className="text-white">Price:</strong> ${schedule.price}
+                        <br />
+                        <strong className="text-white">From:</strong>{" "}
+                        {new Date(schedule.from).toLocaleString()}
+                        <br />
+                        <strong className="text-white">To:</strong>{" "}
+                        {new Date(schedule.to).toLocaleString()}
+                        <br />
+                        <strong className="text-white">Status:</strong>
+                        &nbsp;&nbsp;&nbsp;
+                        <span
+                          className={`font-bold ${isExpired(new Date(schedule.from), schedule.status)
+                              ? "text-gray-400"
+                              : schedule.status === "open"
+                                ? "text-green-400"
+                                : "text-red-400"
+                            }`}
                         >
-                          Edit
-                        </button>
-                      )}
-                  </Card>
-                </div>
-              )),
+                          {isExpired(new Date(schedule.from), schedule.status)
+                            ? "Expired"
+                            : schedule.status}
+                        </span>
+                      </CardText>
+                      {/* Button for editing slot */}
+                      {!isExpired(new Date(schedule.from), schedule.status) &&
+                        schedule.status === "open" && (
+                          <button
+                            onClick={() => handleEditSlot(slot._id)}
+                            style={{
+                              padding: "0.5rem 1rem",
+                              color: "#fff",
+                              backgroundColor: "#007bff",
+                              border: "none",
+                              borderRadius: "0.25rem",
+                              cursor: "pointer",
+                            }}
+                          >
+                            Edit
+                          </button>
+                        )}
+                    </Card>
+                  </div>
+                ))
             )
           ) : (
             <p className="text-center text-xl font-semibold">

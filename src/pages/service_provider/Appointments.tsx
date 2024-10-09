@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { FaRegClock } from "react-icons/fa";
+import { MdVideoCameraBack } from "react-icons/md";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-hot-toast";
 import {
@@ -30,9 +31,9 @@ interface ScheduledBooking {
 }
 
 const ScheduledBookings = () => {
-  const [scheduledBookings, setScheduledBookings] = useState<
-    ScheduledBooking[]
-  >([]);
+  const [scheduledBookings, setScheduledBookings] = useState<ScheduledBooking[]>(
+    []
+  );
   const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [totalPages, setTotalPages] = useState(1);
@@ -110,7 +111,7 @@ const ScheduledBookings = () => {
     try {
       const response = await getScheduledIbookings(page, limit);
       const updatedBookings = response.data.map((booking: ScheduledBooking) =>
-        checkAndUpdateStatus(booking),
+        checkAndUpdateStatus(booking)
       );
       setScheduledBookings(updatedBookings);
       setTotalPages(Math.ceil(response.total / limit));
@@ -120,6 +121,13 @@ const ScheduledBookings = () => {
       setLoading(false);
     }
   };
+
+  const handleStartCall = useCallback(
+    (roomId: string, serviceProviderId: string) => {
+      navigate(`/video-call/${roomId}/${serviceProviderId}`);
+    },
+    [navigate]
+  );
 
   const handleMarkAsCompleted = async () => {
     if (selectedBooking) {
@@ -160,9 +168,7 @@ const ScheduledBookings = () => {
               <h1 className="text-4xl font-bold text-gray-800 mb-2">
                 Scheduled Bookings
               </h1>
-              <p className="text-gray-600">
-                See information about all Bookings
-              </p>
+              <p className="text-gray-600">See information about all bookings</p>
             </div>
           </div>
 
@@ -204,14 +210,11 @@ const ScheduledBookings = () => {
                       >
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm font-medium text-gray-900">
-                            {new Date(booking.date).toLocaleDateString(
-                              "en-US",
-                              {
-                                day: "numeric",
-                                month: "long",
-                                year: "numeric",
-                              },
-                            )}
+                            {new Date(booking.date).toLocaleDateString("en-US", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                            })}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -222,7 +225,7 @@ const ScheduledBookings = () => {
                               {
                                 hour: "2-digit",
                                 minute: "2-digit",
-                              },
+                              }
                             )}
                             {" - "}
                             {new Date(booking.toTime).toLocaleTimeString(
@@ -230,7 +233,7 @@ const ScheduledBookings = () => {
                               {
                                 hour: "2-digit",
                                 minute: "2-digit",
-                              },
+                              }
                             )}
                           </div>
                         </td>
@@ -245,76 +248,53 @@ const ScheduledBookings = () => {
                               booking.status === "Expired"
                                 ? "bg-gray-100 text-gray-800"
                                 : booking.status === "Completed"
-                                  ? "bg-green-100 text-green-800"
-                                  : booking.status === "Cancelled"
-                                    ? "bg-red-100 text-red-800"
-                                    : "bg-green-100 text-green-800"
+                                ? "bg-green-100 text-green-800"
+                                : booking.status === "Cancelled"
+                                ? "bg-red-100 text-red-800"
+                                : "bg-green-100 text-green-800"
                             }`}
                           >
                             {booking.status}
                           </span>
-
-                          {booking.status === "Cancelled" &&
-                            booking.cancellationReason && (
-                              <div className="mt-2 text-sm text-gray-600">
-                                <p>
-                                  <strong>Reason:</strong>
-                                  <button
-                                    onClick={() => {
-                                      setSelectedBooking(booking);
-                                      setShowReasonModal(true);
-                                    }}
-                                    className="ml-2 text-blue-500 btn bg-primary text-white"
-                                  >
-                                    View
-                                  </button>
-                                </p>
-                              </div>
-                            )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                          {booking.status === "Scheduled" && (
-                            <>
-                              {isExpired ? (
-                                <span className="text-red-500">Expired</span>
-                              ) : (
-                                <>
-                                  {isWithinSchedule ? (
-                                    <Button
-                                      onClick={() => {
-                                        setSelectedBooking(booking);
-                                        setShowCompletedModal(true);
-                                      }}
-                                      className="text-blue-600 hover:text-blue-900"
-                                    >
-                                      Mark as Completed
-                                    </Button>
-                                  ) : (
-                                    <Button
-                                      onClick={() => {
-                                        setSelectedBooking(booking);
-                                        handleCancelBooking();
-                                      }}
-                                      className="text-white bg-red-800 hover:text-red-900"
-                                    >
-                                      Cancel
-                                    </Button>
-                                  )}
-                                </>
-                              )}
-                            </>
-                          )}
-
-                          {booking.status === "Cancelled" && (
+                          {isWithinSchedule && (
                             <Button
-                              onClick={() => {
-                                setSelectedBooking(booking);
-                                setShowRefundModal(true);
-                              }}
-                              className="text-white hover:text-blue-900"
+                              variant="success"
+                              onClick={() =>
+                                handleStartCall(
+                                  booking.roomId,
+                                  booking.serviceProviderId
+                                )
+                              }
+                              className="me-2"
                             >
-                              Process Refund
+                              <MdVideoCameraBack className="h-5 w-5 mr-1" />
+                              Start Call
                             </Button>
+                          )}
+                          {booking.status === "Completed" ? null : (
+                            <>
+                              <Button
+                                variant="danger"
+                                onClick={() => {
+                                  setSelectedBooking(booking);
+                                  handleCancelBooking();
+                                }}
+                                className="me-2"
+                              >
+                                Cancel
+                              </Button>
+                              <Button
+                                variant="primary"
+                                onClick={() => {
+                                  setSelectedBooking(booking);
+                                  setShowCompletedModal(true);
+                                }}
+                              >
+                                Mark Completed
+                              </Button>
+                            </>
                           )}
                         </td>
                       </tr>
@@ -323,14 +303,12 @@ const ScheduledBookings = () => {
                 </tbody>
               )}
             </table>
-          </div>
 
-          <div className="flex justify-center mt-6">
-            <Pagination>
+            <Pagination className="p-3 d-flex justify-content-center">
               {Array.from({ length: totalPages }, (_, index) => (
                 <Pagination.Item
                   key={index + 1}
-                  active={index + 1 === currentPage}
+                  active={currentPage === index + 1}
                   onClick={() => handlePageChange(index + 1)}
                 >
                   {index + 1}
@@ -340,57 +318,27 @@ const ScheduledBookings = () => {
           </div>
         </div>
 
-        <Footer />
-
-        {/* Refund Modal */}
         <Modal show={showRefundModal} onHide={() => setShowRefundModal(false)}>
           <Modal.Header closeButton>
-            <Modal.Title>Process Refund</Modal.Title>
+            <Modal.Title>Confirm Refund</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            Are you sure you want to process the refund for this booking?
+            Are you sure you want to refund this booking?
           </Modal.Body>
           <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowRefundModal(false)}>
+              Close
+            </Button>
             <Button
-              variant="primary"
+              variant="danger"
               onClick={handleRefund}
               disabled={refundProcessing}
             >
-              {refundProcessing ? "Processing..." : "Confirm"}
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => setShowRefundModal(false)}
-              disabled={refundProcessing}
-            >
-              Cancel
+              {refundProcessing ? "Processing..." : "Refund"}
             </Button>
           </Modal.Footer>
         </Modal>
 
-        {/* Cancel Confirmation Modal */}
-        <Modal
-          show={showCancelConfirmModal}
-          onHide={() => setShowCancelConfirmModal(false)}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>Cancel Booking</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Are you sure you want to cancel this booking?</Modal.Body>
-          <Modal.Footer>
-            <Button variant="primary" onClick={handleCancelConfirmed}>
-              Yes, cancel
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => setShowCancelConfirmModal(false)}
-            >
-              No, keep it
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
-        {/* Reason Input Modal */}
         <Modal
           show={showReasonInputModal}
           onHide={() => setShowReasonInputModal(false)}
@@ -400,75 +348,70 @@ const ScheduledBookings = () => {
           </Modal.Header>
           <Modal.Body>
             <textarea
+              className="form-control"
+              placeholder="Enter the reason for cancellation"
               value={cancelReason}
               onChange={(e) => setCancelReason(e.target.value)}
-              placeholder="Enter reason here..."
-              className="w-100 p-2 border rounded-md"
-              rows={4}
-            ></textarea>
+              rows={3}
+            />
           </Modal.Body>
           <Modal.Footer>
             <Button
               variant="primary"
               onClick={handleReasonEntered}
-              disabled={!cancelReason.trim()}
+              disabled={refundProcessing}
             >
-              Submit Reason
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => setShowReasonInputModal(false)}
-            >
-              Cancel
+              {refundProcessing ? "Processing..." : "Submit Reason"}
             </Button>
           </Modal.Footer>
         </Modal>
 
-        {/* Mark as Completed Modal */}
+        <Modal
+          show={showCancelConfirmModal}
+          onHide={() => setShowCancelConfirmModal(false)}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Confirm Cancellation</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Are you sure you want to cancel this booking? This will also trigger
+            a refund.
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              variant="secondary"
+              onClick={() => setShowCancelConfirmModal(false)}
+            >
+              Close
+            </Button>
+            <Button variant="danger" onClick={handleCancelConfirmed}>
+              Confirm
+            </Button>
+          </Modal.Footer>
+        </Modal>
+
         <Modal
           show={showCompletedModal}
           onHide={() => setShowCompletedModal(false)}
         >
           <Modal.Header closeButton>
-            <Modal.Title>Mark as Completed</Modal.Title>
+            <Modal.Title>Confirm Completion</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            Are you sure you want to mark this booking as completed?
-          </Modal.Body>
+          <Modal.Body>Are you sure this booking is completed?</Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" onClick={handleMarkAsCompleted}>
-              Yes, mark as completed
-            </Button>
             <Button
               variant="secondary"
               onClick={() => setShowCompletedModal(false)}
             >
-              Cancel
+              Close
+            </Button>
+            <Button variant="success" onClick={handleMarkAsCompleted}>
+              Confirm
             </Button>
           </Modal.Footer>
         </Modal>
 
-        {/* View Reason Modal */}
-        <Modal show={showReasonModal} onHide={() => setShowReasonModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Cancellation Reason</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {selectedBooking?.cancellationReason ? (
-              <p>{selectedBooking.cancellationReason}</p>
-            ) : (
-              <p>No reason provided</p>
-            )}
-          </Modal.Body>
-          <Modal.Footer>
-            <Button
-              variant="secondary"
-              onClick={() => setShowReasonModal(false)}
-            >
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        <Footer />
       </div>
     </>
   );
