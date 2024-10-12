@@ -13,20 +13,22 @@ import { logoutUser } from "../../api/user_api";
 
 const UserHeader: React.FC = () => {
   const [clicked, setClicked] = useState<boolean>(false);
-  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+  const [dropdownOpen, setDropdownOpen] = useState<number | null>(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleDropdownMouseEnter = () => {
-    setDropdownOpen(true);
+  // Manage dropdown hover states for submenu items
+  const handleDropdownMouseEnter = (index: number) => {
+    setDropdownOpen(index);
   };
 
   const handleDropdownMouseLeave = () => {
-    setDropdownOpen(false);
+    setDropdownOpen(null);
   };
 
+  // Handle user logout
   const handleLogout = async () => {
-    Swal.fire({
+    const result = await Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
       icon: "warning",
@@ -35,51 +37,48 @@ const UserHeader: React.FC = () => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, logout!",
       cancelButtonText: "Cancel",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await logoutUser(); // Call the logout API function
-
-          // Clear user credentials from Redux store
-          dispatch(removeUserCredential());
-          toast.success("User logged out successfully");
-          navigate("/"); // Redirect to the home page
-        } catch (error) {
-          toast.error("Error logging out. Please try again.");
-          console.error("Logout error:", error);
-        }
-      }
     });
+
+    if (result.isConfirmed) {
+      try {
+        await logoutUser(); // Call the logout API function
+        dispatch(removeUserCredential());
+        toast.success("User logged out successfully");
+        navigate("/"); // Redirect to the home page
+      } catch (error) {
+        toast.error("Error logging out. Please try again.");
+        console.error("Logout error:", error);
+      }
+    }
   };
 
-  const menuList = UserMenuList.map(({ url, title, submenu }, index) => {
+  // Generate menu items
+  const menuList = UserMenuList.map(({ title, url, submenu }, index) => {
     if (submenu) {
+      // Items with submenus
       return (
         <li
           key={index}
-          className={`nav-item dropdown ${index === UserMenuList.length - 1 ? "ms-auto" : ""}`}
-          onMouseEnter={handleDropdownMouseEnter}
+          className={`nav-item dropdown`}
+          onMouseEnter={() => handleDropdownMouseEnter(index)}
           onMouseLeave={handleDropdownMouseLeave}
         >
           <span
             className="nav-link dropdown-toggle"
-            id="navbarDropdown"
+            id={`navbarDropdown${index}`}
             role="button"
-            aria-expanded={dropdownOpen ? "true" : "false"}
+            aria-expanded={dropdownOpen === index ? "true" : "false"}
           >
             {title}
           </span>
           <ul
-            className={`dropdown-menu submenu ${dropdownOpen ? "show" : ""}`}
-            aria-labelledby="navbarDropdown"
+            className={`dropdown-menu submenu ${dropdownOpen === index ? "show" : ""}`}
+            aria-labelledby={`navbarDropdown${index}`}
           >
             {submenu.map((subitem, subindex) => (
               <li key={subindex}>
                 {subitem.url === "/logout" ? (
-                  <span
-                    className="nav-link dropdown-item"
-                    onClick={handleLogout}
-                  >
+                  <span className="nav-link dropdown-item" onClick={handleLogout}>
                     {subitem.title}
                   </span>
                 ) : (
@@ -92,14 +91,16 @@ const UserHeader: React.FC = () => {
           </ul>
         </li>
       );
+    } else {
+      // Items without submenus, such as "Home"
+      return (
+        <li key={index} className="nav-item">
+          <NavLink to={url} className="nav-link">
+            {title}
+          </NavLink>
+        </li>
+      );
     }
-    return (
-      <li key={index} className="nav-item">
-        <NavLink to={url} className="nav-link">
-          {title}
-        </NavLink>
-      </li>
-    );
   });
 
   const handleClick = () => {
@@ -139,3 +140,5 @@ const UserHeader: React.FC = () => {
 };
 
 export default UserHeader;
+
+

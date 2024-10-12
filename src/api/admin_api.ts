@@ -221,3 +221,36 @@ export const getDashboardDetails = async () => {
     console.log(error);
   }
 };
+
+export const fetchComplaints = async () => {
+  try {
+    const response = await Api.get(`${admin_endpoints.getAllComplaints}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching complaints:", error);
+    throw error;
+  }
+};
+
+interface RespondToComplaintParams {
+  complaintId: string;
+  response: string;
+}
+
+export const respondToComplaint = async ({
+  complaintId,
+  response,
+}: RespondToComplaintParams) => {
+  try {
+    const res = await Api.put(
+      `${admin_endpoints.respondToComplaint}/${complaintId}`,
+      { responseMessage: response }
+    );
+    console.log("res", res);
+
+    return res.data;
+  } catch (error) {
+    console.error("Error responding to complaint:", error);
+    throw new Error("Failed to respond to complaint");
+  }
+};

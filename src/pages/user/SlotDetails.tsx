@@ -85,7 +85,7 @@ const ProviderAndSlotDetails = () => {
             <div className="lg:w-2/3 p-6 lg:p-10">
               <div className="flex items-center mb-8">
                 <button
-                  onClick={() => navigate("/user/user-home")}
+                  onClick={() => navigate("/user/service-providers")}
                   className="mr-4 p-2 rounded-full text-indigo-600 hover:bg-indigo-200 transition duration-300"
                 >
                   <FaArrowLeft className="text-xl" />
