@@ -316,7 +316,7 @@ export const fileComplaint = async (
 };
 
 export const addReview = async (providerId: string, rating: number, comment: string) => {
-  const response = await Api.post(`/user/add-review`, {
+  const response = await Api.post(`/api/user/add-review`, {
     providerId,
     rating,
     comment,
