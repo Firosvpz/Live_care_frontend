@@ -108,7 +108,7 @@ const CategoryManagement = () => {
         isSidebarOpen={isSidebarOpen}
         setSidebarOpen={setIsSidebarOpen}
       />
-      <AdminSidebar isOpen={isSidebarOpen} />
+      <AdminSidebar isOpen={isSidebarOpen}  setIsOpen={setIsSidebarOpen} />
 
       <div className="min-h-screen p-8">
         <div className="container mx-auto">
