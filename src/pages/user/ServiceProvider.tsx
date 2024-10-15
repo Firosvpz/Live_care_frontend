@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  fetchApprovedAndUnblockedProviders,
-  getProfileDetails,
-} from "../../api/user_api";
+import { fetchApprovedAndUnblockedProviders, getProfileDetails } from "../../api/user_api";
 import { ServiceProvider } from "../../types/serviceproviders";
 import { useNavigate } from "react-router-dom";
 import Footer from "../../components/common/Footer";
@@ -11,6 +8,7 @@ import { AiOutlineLoading } from "react-icons/ai"; // Loading spinner icon
 import { motion } from "framer-motion";
 import { updateUserInfo } from "../../redux/slices/user_slice";
 import { useDispatch } from "react-redux";
+import { Container, Row, Col, Button, Form, Table } from "react-bootstrap";
 
 const ApprovedSp: React.FC = () => {
   const dispatch = useDispatch();
@@ -18,10 +16,16 @@ const ApprovedSp: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [filteredProviders, setFilteredProviders] = useState<ServiceProvider[]>(
-    [],
-  );
+  const [filteredProviders, setFilteredProviders] = useState<ServiceProvider[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage] = useState<number>(5);
+
   const navigate = useNavigate();
+
+  const indexOfLastProvider = currentPage * itemsPerPage; // Index of the last provider
+  const indexOfFirstProvider = indexOfLastProvider - itemsPerPage; // Index of the first provider
+  const currentProviders = filteredProviders.slice(indexOfFirstProvider, indexOfLastProvider); // Slice the array
+
 
   // Fetch service providers on component load
   useEffect(() => {
@@ -36,7 +40,6 @@ const ApprovedSp: React.FC = () => {
         setLoading(false);
       }
     };
-
     loadServiceProviders();
   }, []);
 
@@ -51,8 +54,8 @@ const ApprovedSp: React.FC = () => {
         );
       });
       setFilteredProviders(filtered);
+      setCurrentPage(1);
     };
-
     filterProviders();
   }, [searchTerm, providers]);
 
@@ -75,8 +78,6 @@ const ApprovedSp: React.FC = () => {
 
   const handleSlotDetails = async (serviceProviderId: string) => {
     const userInfo = await fetchUserInfo();
-    console.log("userinfo", userInfo);
-
     if (userInfo.hasCompletedDetails !== true) {
       navigate(`/user/verify-userdetails`);
     } else {
@@ -90,99 +91,129 @@ const ApprovedSp: React.FC = () => {
         <AiOutlineLoading className="animate-spin text-4xl text-blue-500" />
       </div>
     );
-  if (error)
-    return <div className="text-red-500 text-center mt-4">{error}</div>;
+  if (error) return <div className="text-red-500 text-center mt-4">{error}</div>;
 
+  const renderStars = (rating:any) => {
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+    const emptyStars = 5 - fullStars - halfStar;
+
+    return (
+      <>
+        {Array(fullStars)
+          .fill(0)
+          .map((_, index) => (
+            <span key={index} className="text-yellow-500">★</span>
+          ))}
+        {halfStar === 1 && <span className="text-yellow-500">☆</span>}
+        {Array(emptyStars)
+          .fill(0)
+          .map((_, index) => (
+            <span key={index} className="text-gray-400">☆</span>
+          ))}
+      </>
+    );
+  };
+  const totalPages = Math.ceil(filteredProviders.length / itemsPerPage);
   return (
     <>
       <UserHeader />
       <div
         className="min-h-screen bg-cover bg-center bg-no-repeat py-24 px-4 sm:px-6 lg:px-8"
-        style={{
-          backgroundImage: "url('../../images/login.jpg')",
-        }}
+        style={{ backgroundImage: "url('../../images/login.jpg')" }}
       >
-        <div className="flex-grow p-6 bg-gray-100 bg-opacity-70 backdrop-blur-lg">
-          <div className="flex flex-col items-center">
-            <div className="text-3xl font-bold mb-8 text-gray-800">
-              Service Providers
-            </div>
-
-            {/* Search Filter */}
-            <div className="w-full max-w-md mb-6">
-              <input
+        <Container className="bg-black/60 rounded-lg p-5">
+          <Row className="justify-content-center mb-5">
+            <Col lg={8} className="text-center">
+              <div className="text-4xl font-bold mt-4 text-gray-100">
+                Service Providers
+              </div>
+              <Form.Control
                 type="text"
-                placeholder="Search by name, service"
+                placeholder="Search by name or service"
                 value={searchTerm}
                 onChange={handleSearchChange}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 shadow-md"
+                className="mt-3 p-3 shadow-sm"
               />
-            </div>
+            </Col>
+          </Row>
 
-            {/* Cards for displaying providers */}
-            <div className="container">
-              <div className="row">
-                {filteredProviders.length > 0 ? (
-                  filteredProviders.map((provider) => (
-                    <div key={provider._id} className="col-md-4 mb-4 ">
-                      <div className="card h-100 shadow-lg border border-gray-200  bg-gray-100 rounded-lg hover:shadow-2xl transition-shadow duration-300">
-                        <div className="p-4 flex flex-col items-center  bg-opacity-90 rounded-lg">
-                          <img
-                            src={
-                              provider.profile_picture ||
-                              "https://via.placeholder.com/60"
-                            }
-                            alt={provider.name}
-                            className="h-16 w-16 rounded-full border-2 border-blue-500 shadow-md"
-                          />
-                          <div className="text-center mt-4">
-                            <h5 className="text-xl font-semibold text-gray-700">
-                              {provider.name}
-                            </h5>
-                            <p className="text-sm text-gray-500">
-                              <strong>Service:</strong> {provider.service}
-                            </p>
-                            <p className="text-sm text-gray-500">
-                              <strong>Specialization:</strong>{" "}
-                              {provider.specialization}
-                            </p>
-                          </div>
-
-                          {/* Flexbox container for buttons */}
-                          <div className="mt-4 flex space-x-4">
-                            <button
-                              className="px-4 py-2 bg-green-700 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors duration-300 shadow-md"
-                              onClick={() => handleViewDetails(provider._id)}
-                            >
-                              View Details
-                            </button>
-
-                            <motion.div
-                              initial={{ opacity: 0, scale: 0.8 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{ duration: 0.5, ease: "easeOut" }}
-                            >
-                              <button
-                                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-blue-700 transition duration-300"
-                                onClick={() => handleSlotDetails(provider._id)}
-                              >
-                                View Slots
-                              </button>
-                            </motion.div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-center py-6 text-gray-500">
+          {/* Table for displaying providers */}
+          <Table striped bordered hover responsive className="table-dark table-striped mt-4">
+            <thead>
+              <tr>
+                <th>Profile</th>
+                <th>Name</th>
+                <th>Service</th>
+                <th>Specialization</th>
+                <th>Rating</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentProviders.length > 0 ? (
+                currentProviders.map((provider) => (
+                  <tr key={provider._id}>
+                    <td>
+                      <img
+                        src={provider.profile_picture || "https://via.placeholder.com/60"}
+                        alt={provider.name}
+                        className="rounded-circle"
+                        style={{ width: "60px", height: "60px" }}
+                      />
+                    </td>
+                    <td>{provider.name}</td>
+                    <td>{provider.service}</td>
+                    <td>{provider.specialization}</td>
+                    <td>{renderStars(provider.ratingAverage)}</td>
+                    <td>
+                      <Button
+                        variant="primary"
+                        className="me-2"
+                        onClick={() => handleViewDetails(provider._id)}
+                      >
+                        View Details
+                      </Button>
+                      <Button
+                        variant="success"
+                        onClick={() => handleSlotDetails(provider._id)}
+                      >
+                        View Slots
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} className="text-center">
                     No service providers found.
-                  </div>
-                )}
-              </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+          <div className="d-flex justify-content-between align-items-center mt-3">
+            <Button
+              variant="light" // Change to outline style for a cleaner look
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
+              Previous
+            </Button>
+            <div className="text-white">
+              Page {currentPage} of {totalPages}
             </div>
+            <Button
+              variant="light" // Change to outline style for a cleaner look
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              Next
+            </Button>
           </div>
-        </div>
+
+        </Container>
+
       </div>
       <Footer />
     </>

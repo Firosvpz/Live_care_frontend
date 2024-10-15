@@ -4,28 +4,47 @@ export const UserMenuList = [
     url: "/user/user-home",
   },
   {
-    title: "About",
-    url: "/user/about",
-  },
-  {
-    title: "Blogs",
-    url: "/user/blogs",
-  },
-  {
-    title: "Service Providers",
-    url: "/user/service-providers",
+    title: "Main",
+    submenu: [
+      {
+        title: "About",
+        url: "/user/about",
+      },
+      {
+        title: "Blogs",
+        url: "/user/blogs",
+      },
+      {
+        title: "Service Providers",
+        url: "/user/service-providers",
+      },
+    ],
   },
   {
     title: "Bookings",
-    url: "/user/get-bookings",
+    submenu: [
+      {
+        title: "Bookings",
+        url: "/user/get-bookings",
+      },
+     
+    ],
   },
   {
-    title: "Contact",
-    url: "/user/contacts",
+    title: "Support",
+    submenu: [
+      {
+        title: "Complaints",
+        url: "/user/complaints",
+      },
+      {
+        title: "Contact",
+        url: "/user/contacts",
+      },
+    ],
   },
   {
     title: "Profile",
-    url: "",
     submenu: [
       { title: "User-profile", url: "/user/get-profile" },
       { title: "Logout", url: "/logout" },

@@ -47,6 +47,9 @@ import ScheduledBookings from "../pages/service_provider/Appointments";
 import AdminBookingList from "../pages/admin/Bookings";
 import UserVideoCall from "../pages/user/VideoCall";
 import ProviderVideoCall from "../pages/service_provider/SpVideoCall";
+import FileComplaint from "../pages/user/FileComplaint";
+import ComplaintsList from "../pages/user/Complaints";
+import ComplaintsPage from "../pages/admin/Complaints";
 
 const CommonRoutes: React.FC = () => {
   return (
@@ -95,6 +98,8 @@ const CommonRoutes: React.FC = () => {
             path="/user/video-call/:roomId/:userId"
             element={<UserVideoCall></UserVideoCall>}
           />
+           <Route path="/user/new-complaint" element={<FileComplaint />} />
+           <Route path="/user/complaints" element={<ComplaintsList />} />
       </Route>
 
       {/* service provider routes */}
@@ -143,6 +148,7 @@ const CommonRoutes: React.FC = () => {
         <Route path="/admin/blogs" element={<BlogManagement />} />
         <Route path="/admin/add-blogs" element={<AddBlog />} />
         <Route path="/admin/bookings" element={<AdminBookingList />} />
+        <Route path="/admin/complaints" element={<ComplaintsPage />} />
       </Route>
 
       {/* Not Found */}

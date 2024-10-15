@@ -285,3 +285,41 @@ export const logoutUser = async () => {
     throw new Error(error.response?.data?.message || "Logout failed"); // Throw an error with a message
   }
 };
+
+export const getUserComplaints = async (userId: string) => {
+  try {
+    const { data } = await Api.get(`${user_endpoints.getComplaints}/${userId}`);
+    return data;
+  } catch (error) {
+    console.error("Error fetching user complaints:", error);
+    throw error;
+  }
+};
+
+export const fileComplaint = async (
+  userId: string,
+  subject: string,
+  description: string
+) => {
+  try {
+    const response = await Api.post(user_endpoints.submitComplaint, {
+      userId,
+      subject,
+      message: description,
+    });
+    console.log("Complaint filed successfully:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to file complaint:", error);
+    throw new Error("Failed to file complaint");
+  }
+};
+
+export const addReview = async (providerId: string, rating: number, comment: string) => {
+  const response = await Api.post(`/user/add-review`, {
+    providerId,
+    rating,
+    comment,
+  });
+  return response.data;
+};

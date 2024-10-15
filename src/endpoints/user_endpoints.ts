@@ -18,4 +18,6 @@ export const user_endpoints = {
   getScheduledBookings: "/user/get-bookings",
   makePayment: "/payment/create-payment",
   cancelBooking: "/payment/cancelBooking",
+  submitComplaint: '/user/complaints',
+  getComplaints: '/user/complaints',
 };

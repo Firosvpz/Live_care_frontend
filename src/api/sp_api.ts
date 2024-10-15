@@ -192,33 +192,26 @@ interface SlotData {
 export const addSlot = async (slotData: SlotData) => {
   try {
     const response = await Api.post(sp_endpoints.addSlot, { slotData });
-    console.log("Slot Data being sent:", slotData);
-
     return response.data;
   } catch (error: any) {
-    console.error(
-      "Error adding slot:",
-      error.response?.data?.message || error.message || error,
-    );
-    toast.error(
-      error.response?.data?.message ||
-        "An error occurred while adding the slot.",
-    );
+    console.error('Error adding slot:', error.response?.data?.message || error.message || error);
+    toast.error(error.response?.data?.message || "An error occurred while adding the slot.");
   }
+  
 };
 
 export const getSlotsList = async (
   page: number,
   limit: number,
-  query: string,
+  query: string
 ) => {
   try {
     const response = await Api.get(
       sp_endpoints.getSlots +
-        `?searchQuery=${query}&page=${page}&limit=${limit}`,
+        `?searchQuery=${query}&page=${page}&limit=${limit}`
     );
-    console.log("Backend response", response);
-    console.log("Backend responsedata", response.data);
+    console.log("Backend response", response); 
+    console.log("Backend responsedata", response.data);     
     return response.data;
   } catch (error: any) {
     return error.response.data;

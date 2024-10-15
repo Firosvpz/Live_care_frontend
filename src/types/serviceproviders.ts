@@ -15,4 +15,5 @@ export interface ServiceProvider {
   is_blocked: boolean;
   createdAt: string;
   hasCompletedDetails: boolean;
+  ratingAverage:number
 }

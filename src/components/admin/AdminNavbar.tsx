@@ -38,4 +38,9 @@ export const NavList = [
     path: "/admin/blogs",
     icon: faBlog, // Blog Icon
   },
+  {
+    title: "Complaints",
+    path: "/admin/complaints",
+    icon: faBlog, // Blog Icon
+  },
 ];
