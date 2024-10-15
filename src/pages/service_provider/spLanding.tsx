@@ -199,6 +199,9 @@ const ServiceProviderLanding: React.FC = () => {
                   <p className="text-lg text-gray-500 mb-4">
                     {provider.specialization}
                   </p>
+                  <p className="text-lg text-gray-500 mb-4">
+                    {/* {provider.ratingAverage} */}
+                  </p>
                   {/* <motion.button
                     whileHover={{ scale: 1.1 }}
                     className="px-6 py-2 bg-indigo-600 text-white rounded-lg"

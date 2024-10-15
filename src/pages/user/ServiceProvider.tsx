@@ -17,7 +17,15 @@ const ApprovedSp: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredProviders, setFilteredProviders] = useState<ServiceProvider[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage] = useState<number>(5);
+
   const navigate = useNavigate();
+
+  const indexOfLastProvider = currentPage * itemsPerPage; // Index of the last provider
+  const indexOfFirstProvider = indexOfLastProvider - itemsPerPage; // Index of the first provider
+  const currentProviders = filteredProviders.slice(indexOfFirstProvider, indexOfLastProvider); // Slice the array
+
 
   // Fetch service providers on component load
   useEffect(() => {
@@ -46,6 +54,7 @@ const ApprovedSp: React.FC = () => {
         );
       });
       setFilteredProviders(filtered);
+      setCurrentPage(1);
     };
     filterProviders();
   }, [searchTerm, providers]);
@@ -84,9 +93,9 @@ const ApprovedSp: React.FC = () => {
     );
   if (error) return <div className="text-red-500 text-center mt-4">{error}</div>;
 
-  const renderStars = (rating) => {
-    const fullStars = Math.floor(rating); 
-    const halfStar = rating % 1 >= 0.5 ? 1 : 0; 
+  const renderStars = (rating:any) => {
+    const fullStars = Math.floor(rating);
+    const halfStar = rating % 1 >= 0.5 ? 1 : 0;
     const emptyStars = 5 - fullStars - halfStar;
 
     return (
@@ -105,7 +114,7 @@ const ApprovedSp: React.FC = () => {
       </>
     );
   };
-
+  const totalPages = Math.ceil(filteredProviders.length / itemsPerPage);
   return (
     <>
       <UserHeader />
@@ -142,8 +151,8 @@ const ApprovedSp: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredProviders.length > 0 ? (
-                filteredProviders.map((provider) => (
+              {currentProviders.length > 0 ? (
+                currentProviders.map((provider) => (
                   <tr key={provider._id}>
                     <td>
                       <img
@@ -183,7 +192,28 @@ const ApprovedSp: React.FC = () => {
               )}
             </tbody>
           </Table>
+          <div className="d-flex justify-content-between align-items-center mt-3">
+            <Button
+              variant="light" // Change to outline style for a cleaner look
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+            >
+              Previous
+            </Button>
+            <div className="text-white">
+              Page {currentPage} of {totalPages}
+            </div>
+            <Button
+              variant="light" // Change to outline style for a cleaner look
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              Next
+            </Button>
+          </div>
+
         </Container>
+
       </div>
       <Footer />
     </>

@@ -22,6 +22,13 @@ import AdminSidebar from "../../components/admin/AdminSidebar";
 import Footer from "../../components/common/Footer";
 import { Button, Modal, Spinner } from "react-bootstrap";
 
+// Interface for review
+interface Review {
+  reviewerName: string;
+  rating: number;
+  comment: string;
+}
+
 // Interface for service provider details
 interface ServiceProviderDetails {
   name: string;
@@ -38,6 +45,8 @@ interface ServiceProviderDetails {
   rate: string;
   exp_year: string;
   hasCompletedDetails: boolean;
+  reviews: Review[];
+  ratingAverage: number;
 }
 
 const SingleServiceProviderDetails: React.FC = () => {
@@ -143,6 +152,31 @@ const SingleServiceProviderDetails: React.FC = () => {
                   onReject={() => setOpenRejectModal(true)}
                 />
               </div>
+              {/* Display reviews and average rating */}
+              <div className="mt-8 p-6 bg-gray-800 rounded-lg shadow-lg">
+                <h2 className="text-3xl font-bold text-white mb-4">
+                  Reviews and Ratings
+                </h2>
+                <p className="text-white mb-2">
+                  Average Rating: <span className="font-semibold text-yellow-400">{serviceProviderDetails.ratingAverage}</span>/5
+                </p>
+                {serviceProviderDetails.reviews.length > 0 ? (
+                  serviceProviderDetails.reviews.map((review, index) => (
+                    <div
+                      key={index}
+                      className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-lg p-4 mb-4 shadow-lg "
+                    >
+                      <p className="text-yellow-300 text-lg font-semibold">
+                        Rating: {review.rating} ⭐
+                      </p>
+                      <p className="text-white mt-2">{review.comment}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-400">No reviews yet.</p>
+                )}
+              </div>
+
             </motion.div>
           ) : (
             <p className="text-center text-white">
