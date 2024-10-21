@@ -67,7 +67,7 @@ const OutsourcedBookings = () => {
 
 
   const handleReviewSubmit = async () => {
-    if (!reviewText.trim()) {
+    if (!reviewText.trim()) {  
       setErrorMessage("Review cannot be empty.");
       return;
     }
