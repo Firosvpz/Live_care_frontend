@@ -12,6 +12,7 @@ export const user_endpoints = {
   editProfile: "/api/user/edit-profile",
   editPassword: "/api/user/edit-password",
   serviceProviders: "/api/user/service-providers",
+  serviceProvidersPublic: "/api/user/public/service-providers",
   getServiceProviderDetails: "/api/user/sp-details",
   getBlogs: "/api/user/blogs",
   getSlotDetails: "/api/user/slot-details",

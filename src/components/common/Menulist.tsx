@@ -11,10 +11,10 @@ export const MenuList = [
   //   title: "Services",
   //   url: "/services",
   // },
-  {
-    title: "Blogs",
-    url: "/blogs",
-  },
+  // {
+  //   title: "Blogs",
+  //   url: "/blogs",
+  // },
   {
     title: "Contact",
     url: "/contacts",

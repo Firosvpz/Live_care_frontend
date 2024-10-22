@@ -11,7 +11,7 @@ interface IFormInput {
   user_address: string;
   medical_history: string;
   blood_type: string;
-  profile_picture?: File[];
+  // profile_picture?: File[];
 }
 
 const UserDetails: React.FC = () => {
@@ -159,7 +159,7 @@ const UserDetails: React.FC = () => {
             </Col>
 
             {/* Profile Picture */}
-            <Col md={6} className="mb-3">
+            {/* <Col md={6} className="mb-3">
               <Form.Group
                 controlId="validationCustomProfilePic"
                 className="register-form-input w-100"
@@ -178,7 +178,7 @@ const UserDetails: React.FC = () => {
                   {errors.profile_picture?.message}
                 </Form.Control.Feedback>
               </Form.Group>
-            </Col>
+            </Col> */}
 
             {/* Submit Button */}
             <Col md={12} className="d-flex justify-content-center">

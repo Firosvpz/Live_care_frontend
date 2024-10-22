@@ -83,6 +83,8 @@ const CommonRoutes: React.FC = () => {
       {/* user routes */}
       <Route element={<UserProtectedRoute />}>
         <Route path="/user/user-home" element={<UserLanding />} />
+        <Route path="/user/about" element={<About />} />
+        <Route path="/user/contacts" element={<Contact />} />
         <Route path="/user/get-profile" element={<UserProfile />} />
         <Route path="/user/service-providers" element={<ApprovedSp />} />
         <Route path="/user/sp-details/:id" element={<ProviderDetails />} />

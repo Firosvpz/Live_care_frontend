@@ -140,7 +140,7 @@ export const fetchCategories = async () => {
 export const getSpProfileDetails = async () => {
   try {
     const { data } = await Api.get(sp_endpoints.getProfileDetails);
-    console.log("datas:", data);
+    // console.log("datas:", data);
 
     return data;
   } catch (error) {

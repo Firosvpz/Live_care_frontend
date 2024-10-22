@@ -6,8 +6,8 @@ import { fetchCategories } from "../../api/sp_api";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { ServiceProvider } from "../../types/serviceproviders";
-import { fetchApprovedAndUnblockedProviders } from "../../api/user_api";
-import { Link, useNavigate } from "react-router-dom";
+import { fetchApprovedAndUnblockedProvidersPublic } from "../../api/user_api";
+import { Link } from "react-router-dom";
 
 const Home: React.FC = () => {
   const [categories, setCategories] = useState<string[]>([]);
@@ -16,7 +16,7 @@ const Home: React.FC = () => {
   );
   const [providers, setProviders] = useState<ServiceProvider[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const navigate = useNavigate();
+  
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -33,10 +33,11 @@ const Home: React.FC = () => {
   useEffect(() => {
     const loadServiceProviders = async () => {
       try {
-        const providersData = await fetchApprovedAndUnblockedProviders();
+        const providersData = await fetchApprovedAndUnblockedProvidersPublic();
         setProviders(providersData);
         setFilteredProviders(providersData);
       } catch (err) {
+        console.error("Error fetching service providers:", err);
         toast.error("Failed to fetch service providers");
       } finally {
         setLoading(false);
@@ -57,41 +58,42 @@ const Home: React.FC = () => {
     filterProviders();
   }, [providers, categories]);
 
-  // const handleViewDetails = (providerId: string) => {
-  //   navigate(`/user/sp-details/${providerId}`);
-  // };
-
   const groupedProviders = [];
   for (let i = 0; i < filteredProviders.length; i += 3) {
     groupedProviders.push(filteredProviders.slice(i, i + 3));
   }
 
   return (
-    <>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
       <Header />
 
-      {/* Hero Section */}
-      <section
-        className="relative h-screen flex items-center justify-center bg-cover bg-center"
-        style={{ backgroundImage: `url('/images/home.jpg')` }}
-      >
-        <div className="absolute inset-0 bg-black/80 z-0"></div>
-        <div className="container relative z-10 text-center lg:text-left">
-          <div className="row align-items-center justify-center lg:justify-start">
+      {/* Enhanced Hero Section */}
+      <section className="relative min-h-screen flex items-center justify-center">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50" />
+          <img
+            src="/images/home.jpg"
+            alt="Background"
+            className="w-full h-full object-cover "
+          />
+        </div>
+
+        <div className="container relative z-10 px-4 py-16 md:py-24">
+          <div className="max-w-6xl mx-auto">
             <Carousel
               indicators={false}
               controls={false}
               interval={2000}
-              className="py-8 w-100 md:w-6/4 mx-auto text-center shadow-lg rounded-lg"
+              className="bg-black/30 backdrop-blur-sm rounded-2xl shadow-2xl overflow-hidden"
             >
-              <h5 className="mb-14">
+              <h5 className="text-center py-8">
                 <motion.div
                   initial={{ opacity: 0, y: -30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
-                  className="text-5xl lg:text-5xl font-bold leading-tight text-white"
+                  transition={{ duration: 0.8 }}
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold text-white"
                 >
-                  {/* Welcome to <span className="text-info">LiveCare</span> */}
+                  {/* Welcome text preserved as in original */}
                 </motion.div>
               </h5>
 
@@ -101,18 +103,17 @@ const Home: React.FC = () => {
                     <motion.div
                       initial={{ opacity: 0, y: 60 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, ease: "easeOut" }}
-                      className="p-8 shadow-xl rounded-lg transform transition-transform hover:scale-105 hover:shadow-2xl"
+                      transition={{ duration: 0.8 }}
+                      className="p-8 md:p-12"
                     >
-                      <div className="text-6xl font-bold text-info mb-4">
+                      <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-cyan-400 mb-6">
                         {category} Services
                       </div>
-                      <div className="mt-4 text-lg text-white leading-relaxed italic">
+                      <div className="text-lg md:text-xl text-gray-200 leading-relaxed italic max-w-3xl mx-auto">
                         Discover exceptional {category} services tailored to
                         your needs. At LiveCare, we prioritize your comfort and
                         well-being with the utmost care and professionalism.
                       </div>
-                    
                     </motion.div>
                   </Carousel.Item>
                 ))
@@ -121,129 +122,124 @@ const Home: React.FC = () => {
                   <motion.div
                     initial={{ opacity: 0, y: 60 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="p-8 shadow-xl rounded-lg transform transition-transform hover:scale-105 hover:shadow-2xl"
+                    transition={{ duration: 0.8 }}
+                    className="p-8 md:p-12 text-center"
                   >
-                    <h3 className="text-3xl font-semibold text-red-600 mb-4">
+                    <h3 className="text-3xl font-semibold text-red-500 mb-4">
                       No Services Available
                     </h3>
-                    <p className="mt-4 text-lg italic text-info leading-relaxed">
-                      Please check back soon. We’re expanding our services to
+                    <p className="text-lg text-cyan-400 italic leading-relaxed">
+                      Please check back soon. We're expanding our services to
                       offer the best care experience for you.
                     </p>
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.5, ease: "easeOut" }}
-                      className="mt-8"
-                    >
-                      <button className="px-6 py-3 bg-info text-white rounded-lg text-lg font-semibold shadow-md hover:bg-blue-500 transition">
-                        Book a Service
-                      </button>
-                    </motion.div>
                   </motion.div>
                 </Carousel.Item>
               )}
             </Carousel>
+
             <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
-                        className="mt-8"
-                      >
-                        <Link to="/user/service-providers">
-                          <button
-                            className="px-6 py-3 btn btn-outline-info border-r-2 text-info rounded-lg 
-                        ext-lg font-semibold shadow-md hover:bg-transparent transition flex items-center justify-center space-x-2"
-                          >
-                            <span>Go for a Service</span>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="h-6 w-6 text-info"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M13 7l5 5m0 0l-5 5m5-5H6"
-                              />
-                            </svg>
-                          </button>
-                        </Link>
-                      </motion.div>
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="mt-12 text-center"
+            >
+              <Link to="/user/service-providers">
+                <button className="px-8 py-4 border-2 border-cyan-500 bg-transparent hover:bg-cyan-500 text-cyan-500 hover:text-white rounded-lg transform transition-all hover:scale-105 focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:outline-none">
+                  <span className="text-lg font-semibold">Go for a Service</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 inline-block ml-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M13 7l5 5m0 0l-5 5m5-5H6"
+                    />
+                  </svg>
+                </button>
+              </Link>
+            </motion.div>
+
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section
-        className="relative h-screen flex items-center justify-center bg-cover bg-center"
-        style={{ backgroundImage: `url('/images/register.jpg')` }}
-      >
-        <div className="absolute inset-0 bg-black/80 z-0"></div>{" "}
-        {/* Overlay for depth */}
-        <div className="container text-center relative z-10">
-          <div className="text-5xl font-bold text-white mb-12 tracking-wide">
+      {/* Enhanced Services Section */}
+      <section className="relative min-h-screen flex items-center justify-center bg-gray-900">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-black/80" />
+          <img
+            src="/images/register.jpg"
+            alt="Background"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        <div className="container relative z-10 px-4 py-16 md:py-24">
+          <div className="text-4xl md:text-5xl font-bold text-white text-center mb-16">
             Our Service Providers
           </div>
-          <Carousel indicators={false} controls={true} interval={2000}>
+
+          <Carousel indicators={false} controls={true} interval={2000} className="p-4">
             {loading ? (
               <Carousel.Item>
-                <div className="text-center text-gray-500">Loading...</div>
+                <div className="flex justify-center items-center h-64">
+                  <div className="text-2xl text-gray-400">Loading...</div>
+                </div>
               </Carousel.Item>
             ) : groupedProviders.length > 0 ? (
               groupedProviders.map((providerGroup, index) => (
                 <Carousel.Item key={index}>
-                  <div className="row justify-content-center p-5">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {providerGroup.map((provider) => (
-                      <div
+                      <motion.div
                         key={provider._id}
-                        className="col-lg-3 col-md-6 mb-4 ms-5"
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="bg-white/10 backdrop-blur-sm rounded-xl p-6 transform transition-all hover:scale-105"
                       >
-                        <div className="text-center p-5">
+                        <div className="relative mb-6">
                           <img
-                            src={
-                              provider.profile_picture ||
-                              "https://via.placeholder.com/150"
-                            }
+                            src={provider.profile_picture || "/api/placeholder/150/150"}
                             alt={provider.name}
-                            className="h-48 w-48 rounded-full border-4 border-blue-500 mb-4 shadow-md "
+                            className="w-32 h-32 rounded-full mx-auto border-4 border-cyan-500 shadow-xl"
                           />
-                          <h3 className="text-2xl font-bold text-primary mb-1">
-                            {provider.name}
-                          </h3>
-                          <div className="text-base text-white mb-3">
-                            {provider.specialization}
-                          </div>
-                          <motion.div
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.5, ease: "easeOut" }}
-                          >
-                            {/* <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition duration-300" onClick={() => handleViewDetails(provider._id)}>View Details</button> */}
-                          </motion.div>
+                          {/* <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 bg-cyan-500 px-4 py-1 rounded-full">
+                            <span className="text-sm font-medium text-white text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-xs">
+                              {provider.service}
+                            </span>
+                          </div> */}
                         </div>
-                      </div>
+                        <h3 className="text-2xl font-bold text-white text-center mb-2">
+                          {provider.name}
+                        </h3>
+                        <p className="text-gray-300 text-center mb-4">
+                          {provider.specialization}
+                        </p>
+                      </motion.div>
                     ))}
                   </div>
                 </Carousel.Item>
               ))
             ) : (
               <Carousel.Item>
-                <div className="text-center text-gray-500">
+                <div className="text-center text-xl text-gray-400">
                   No service providers found.
                 </div>
               </Carousel.Item>
             )}
           </Carousel>
+
         </div>
       </section>
 
       <Footer />
-    </>
+    </div>
   );
 };
 

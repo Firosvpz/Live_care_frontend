@@ -10,6 +10,7 @@ import "../../css/user/user_login.css";
 import { userLogin, googleLogin } from "../../api/user_api";
 import { setUserCredential } from "../../redux/slices/user_slice";
 import { GoogleLogin } from "@react-oauth/google";
+import { FaArrowLeft } from "react-icons/fa";
 
 interface IFormInput {
   email: string;
@@ -65,10 +66,17 @@ const UserLogin: React.FC = () => {
   return (
     <section className="login-page-container">
       <div className="login-page-overlay outset bg-black/70"></div>
+     
       <div className="login-form-container">
-        <h1 className="login-title">
+      <button
+              className="mb-4 inline-flex items-center text-sm font-medium text-blue-300 hover:text-white"
+              onClick={() => window.history.back()}
+            >
+              <FaArrowLeft className="mr-2" /> Back to Home
+            </button>
+        <div className="login-title">
           Welcome!! <span className="text-info">LIVECARE</span>
-        </h1>
+        </div>
         <p className="login-caption italic text-gray-600">
           Providing compassionate and personalized care for seniors. Login to continue your journey with us.
         </p>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Footer from "../../components/common/Footer";
 import SpHeader from "../../components/serviceprovider/SpHeader";
 import { getSpProfileDetails, fetchCategories } from "../../api/sp_api";
-import { fetchApprovedAndUnblockedProviders } from "../../api/user_api";
+import { fetchApprovedAndUnblockedProvidersPublic } from "../../api/user_api";
 import { ServiceProvider } from "../../types/serviceproviders";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
@@ -40,7 +40,7 @@ const ServiceProviderLanding: React.FC = () => {
   useEffect(() => {
     const loadServiceProviders = async () => {
       try {
-        const providersData = await fetchApprovedAndUnblockedProviders();
+        const providersData = await fetchApprovedAndUnblockedProvidersPublic();
         setProviders(providersData);
         setFilteredProviders(providersData);
       } catch (err) {

@@ -10,6 +10,16 @@ const Header: React.FC = () => {
   const [clicked, setClicked] = useState<boolean>(false);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
 
+  const handleDropdownToggle = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const handleClick = () => {
+    setClicked(!clicked);
+    // Close dropdown when clicking the navbar toggle
+    if (dropdownOpen) setDropdownOpen(false);
+  };
+
   const handleDropdownMouseEnter = () => {
     setDropdownOpen(true);
   };
@@ -18,8 +28,9 @@ const Header: React.FC = () => {
     setDropdownOpen(false);
   };
 
-  const handleClick = () => {
-    setClicked(!clicked);
+  const handleDropdownItemClick = () => {
+    // Close dropdown on item click, especially for mobile
+    if (dropdownOpen) setDropdownOpen(false);
   };
 
   const menuList = MenuList.map(({ url, title, submenu }, index) => {
@@ -34,6 +45,7 @@ const Header: React.FC = () => {
           <span
             className="nav-link dropdown-toggle cursor-pointer text-white"
             role="button"
+            onClick={handleDropdownToggle} // Toggle dropdown on click
           >
             {title}
           </span>
@@ -51,6 +63,7 @@ const Header: React.FC = () => {
                 <NavLink
                   to={subitem.url}
                   className="nav-link dropdown-item text-white"
+                  onClick={handleDropdownItemClick} // Close dropdown on item click
                 >
                   {subitem.title}
                 </NavLink>
@@ -62,7 +75,7 @@ const Header: React.FC = () => {
     }
     return (
       <li key={index} className="nav-item">
-        <NavLink to={url} className="nav-link text-white">
+        <NavLink to={url} className="nav-link text-white" onClick={handleClick}>
           {title}
         </NavLink>
       </li>
@@ -70,7 +83,7 @@ const Header: React.FC = () => {
   });
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark  sticky-top">
+    <nav className="navbar navbar-expand-lg navbar-dark sticky-top">
       <div className="container">
         <a className="navbar-brand ms-3" href="/">
           <span className="brand-text text-white">
@@ -88,10 +101,7 @@ const Header: React.FC = () => {
         >
           <FontAwesomeIcon icon={clicked ? faTimes : faBars} />
         </button>
-        <div
-          className={`navbar-collapse ${clicked ? "show" : ""}`}
-          id="navbarNav"
-        >
+        <div className={`navbar-collapse ${clicked ? "show" : ""}`} id="navbarNav">
           <ul className="navbar-nav mx-auto text-white">{menuList}</ul>
         </div>
       </div>

@@ -116,11 +116,9 @@ export const verfiyUserDetails = async (userDetails: UserDetails) => {
 
       if (userDetails.hasOwnProperty(key)) {
         const value = userDetails[key as keyof UserDetails];
-        if (key === "profile_picture") {
-          formData.append(key, (value as File[])[0]);
-        } else {
+      
           formData.append(key, value as string);
-        }
+        
       }
     }
 
@@ -186,6 +184,19 @@ export const fetchApprovedAndUnblockedProviders = async (): Promise<
     throw new Error("Failed to fetch providers");
   }
 };
+
+export const fetchApprovedAndUnblockedProvidersPublic = async (): Promise<
+  ServiceProvider[]
+> => {
+  try {
+    const response = await Api.get(user_endpoints.serviceProvidersPublic);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch providers:", error);    
+    throw new Error("Failed to fetch providers");
+  }
+};
+
 
 export const getServiceProviderDetails = async (id: string) => {
   try {

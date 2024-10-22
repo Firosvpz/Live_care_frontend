@@ -39,9 +39,9 @@ export const setupInterceptors = (navigate: any) => {
         } else if (status === 401) {
           // Handle service provider authentication issues
           const spState = store.getState();
-          console.log("Service Provider State:", spState);
+          // console.log("Service Provider State:", spState);
           const spInfo = spState.spInfo.spInfo;
-          console.log("Service Provider Info:", spInfo);
+          // console.log("Service Provider Info:", spInfo);
 
           if (spInfo) {
             store.dispatch(removeServiceProviderCredential());

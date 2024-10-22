@@ -7,8 +7,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Col from "react-bootstrap/Col";
 import { spLogin } from "../../api/sp_api";
 import { setServiceProviderCredential } from "../../redux/slices/sp_slice";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store/store";
+import { useDispatch} from "react-redux";
+import { FaArrowLeft } from "react-icons/fa";
 
 interface IFormInput {
   email: string;
@@ -16,11 +16,9 @@ interface IFormInput {
 }
 
 const ServiceProviderLogin: React.FC = () => {
-  const spInfo = useSelector((state: RootState) => state.spInfo.spInfo); // Correctly accessing the Redux state
-  console.log("Current Service Provider Info:", spInfo);
 
   const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch = useDispatch();
   const {
     register,
     formState: { errors },
@@ -32,26 +30,17 @@ const ServiceProviderLogin: React.FC = () => {
     try {
       const response = await spLogin(email, password);
 
-      if (!response) {
+      if (!response.success) {
         toast.error('res',response.data.message);
         return;
       }
 
-      console.log("API Response:", response);
-
-      // const { hasCompletedDetails } = response.data;
-
-      // if (!hasCompletedDetails) {
-      //   dispatch(setServiceProviderCredential(response.data.token));
-      //   console.log("Dispatching for incomplete details", response.data.token);
-      //   navigate("/sp/verify-details");
-      // } else
       if (response.success) {
         const spInfo = response.data.token;
-        console.log("spiNfooo", spInfo);
+        // console.log("spiNfooo", spInfo);
 
         dispatch(setServiceProviderCredential(spInfo));
-        console.log("Dispatching for complete details", spInfo);
+        // console.log("Dispatching for complete details", spInfo);
         navigate("/sp/sp-home");
       }
     } catch (error) {
@@ -62,12 +51,18 @@ const ServiceProviderLogin: React.FC = () => {
 
   return (
     <section className="login-page-container">
-      <div className="login-page-overlay"></div>
+      <div className="login-page-overlay  outset bg-black/70"></div>
       <div className="login-form-container">
-        <h1 className="login-title">
+      <button
+              className="mb-4 inline-flex items-center text-sm font-medium text-blue-300 hover:text-white"
+              onClick={() => window.history.back()}
+            >
+              <FaArrowLeft className="mr-2" /> Back to Home
+            </button>
+        <div className="login-title">
           Welcome!! <span className="text-primary">LIVECARE</span>
-        </h1>
-        <p className="login-caption text-info">
+        </div>
+        <p className="login-caption  text-gray-600 italic">
           Providing compassionate and personalized care for seniors. Login to
           continue your journey with us.
         </p>
