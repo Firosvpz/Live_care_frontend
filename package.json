@@ -49,6 +49,7 @@
     "reactstrap": "^9.2.2",
     "redux-logger": "^3.0.6",
     "rrule": "^2.8.1",
+    "socket.io-client": "^4.8.0",
     "styled-components": "^6.1.13",
     "sweetalert2": "^11.13.3",
     "sweetalert2-react-content": "^5.0.7",

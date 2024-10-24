@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
-import { MdOutlineCurrencyRupee } from "react-icons/md";
+import { MdCalendarToday, MdCancel, MdInfo, MdOutlineCurrencyRupee, MdStar } from "react-icons/md";
 import { Button, Pagination, Modal } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import UserHeader from "../../components/user/Header";
-import TableShimmer from "../../components/common/Table";
+// import TableShimmer from "../../components/common/Table";
 import Footer from "../../components/common/Footer";
 import { getScheduledIbookings, cancelBooking, addReview } from "../../api/user_api";
 import StarRating from "../../components/user/StarRating";
+import { motion } from "framer-motion";
 
 
 export interface IScheduledBooking {
   _id: string;
   date: Date;
-  fromTime: Date;
-  toTime: Date;
+  fromTime: string;
+  toTime: string;
   description: string;
   title: string;
   price: number;
@@ -163,7 +164,7 @@ const OutsourcedBookings = () => {
   return (
     <>
       <UserHeader />
-      <div
+      <div 
         style={{
           backgroundImage: `url('../../images/register.jpg')`,
           backgroundSize: "cover",
@@ -175,116 +176,90 @@ const OutsourcedBookings = () => {
           justifyContent: "space-between",
         }}
       >
-        <div className="max-w-7xl text-[#070913] mx-auto w-full">
-          <h1 className="text-2xl font-bold text-center mb-5 text-[#333]">Bookings List</h1>
-          <div className="flex flex-col">
-            <div className="overflow-x-auto">
-              <div className="p-1.5 w-full inline-block align-middle">
-                <div className="overflow-hidden border rounded-lg shadow-lg bg-white">
-                  <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-                    <thead className="bg-gradient-to-r from-[#595b60] to-[#0d80f3]">
-                      <tr>
-                        {["ROLL NAME", "SCHEDULED ON", "PRICE", "STATUS", "ACTION"].map((header) => (
-                          <th
-                            key={header}
-                            className="px-4 py-3 text-xs md:text-sm font-bold text-left text-white uppercase tracking-wider"
-                          >
-                            {header}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    {loading ? (
-                      <TableShimmer columns={5} />
-                    ) : (
-                      <tbody className="divide-y divide-gray-200">
-                        {scheduledBookings.map((booking: IScheduledBooking) => (
-                          <tr
-                            key={booking._id}
-                            className="hover:bg-gray-100 transition-colors duration-200 ease-in-out cursor-pointer"
-                          >
-                            {/* Roll Name */}
-                            <td className="px-4 py-4 text-xs md:text-sm font-medium text-gray-800">
-                              {booking.title}
-                            </td>
-
-                            {/* Scheduled On */}
-                            <td className="px-4 py-4 text-xs md:text-sm text-gray-600">
-                              {new Date(booking.date).toLocaleDateString("en-US", {
-                                day: "numeric",
-                                month: "long",
-                                year: "numeric",
-                              })}
-                            </td>
-
-                            {/* Price */}
-                            <td className="px-4 py-4 text-xs md:text-sm text-gray-600">
-                              <div className="flex items-center">
-                                <MdOutlineCurrencyRupee className="text-blue-500 mr-1" />
-                                <span>{booking.price}</span>
-                              </div>
-                            </td>
-
-                            {/* Status */}
-                            <td className="px-4 py-4">
-                              <span
-                                className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full 
-                ${booking.status === "Completed" ? "bg-green-100 text-green-800"
-                                    : booking.status === "Scheduled" ? "bg-blue-100 text-blue-800"
-                                      : booking.status === "Cancelled" ? "bg-yellow-100 text-yellow-800"
-                                        : booking.status === "Expired" ? "bg-gray-100 text-gray-800"
-                                          : booking.status === "Refunded" ? "bg-red-100 text-red-800"
-                                            : ""}`}
-                              >
-                                {booking.status}
-                              </span>
-                            </td>
-
-                            {/* Action Buttons */}
-                            <td className="px-4 py-4 whitespace-nowrap">
-                              <button
-                                onClick={() => handleOpenDetailsModal(booking)}
-                                className="px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition duration-150 ease-in-out shadow-md"
-                              >
-                                Booking Details
-                              </button>
-
-                              {booking.status === "Completed" && (
-                                <button
-                                  onClick={() => handleOpenReviewForm(booking)}
-                                  className="ml-4 px-4 py-2 bg-green-500 text-white rounded-lg font-semibold hover:bg-green-600 transition duration-150 ease-in-out shadow-md"
-                                >
-                                  Leave a Review
-                                </button>
-                              )}
-
-                              {booking.status !== "Completed" && (
-                                <button
-                                  onClick={() => handleOpenCancellationModal(booking)}
-                                  className="ml-4 px-4 py-2 bg-red-500 text-white rounded-lg font-semibold hover:bg-red-600 transition duration-150 ease-in-out shadow-md"
-                                >
-                                  Cancel Booking
-                                </button>
-                              )}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    )}
-                  </table>
-
-                  <Pagination
-                    className="mt-4"
-                    currentPage={currentPage}
-                    totalCount={scheduledBookings.length}
-                    pageSize={limit}
-                    onPageChange={handlePageChange}
-                  />
+        <div className="max-w-7xl text-[#070913] mx-auto w-full px-4 sm:px-6 lg:px-8">
+      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-5 text-[#333]">Bookings List</h1>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {loading
+          ? Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
+                <div className="p-4">
+                  <div className="h-5 bg-gray-200 rounded w-3/4 mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
+                  <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
+                  <div className="flex gap-2">
+                    <div className="h-10 bg-gray-200 rounded flex-1"></div>
+                    <div className="h-10 bg-gray-200 rounded flex-1"></div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
+            ))
+          : scheduledBookings.map((booking) => (
+              <motion.div
+                key={booking._id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="bg-black/60 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+              >
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-gray-100 mb-2">{booking.title}</h3>
+                  <div className="flex items-center text-sm text-gray-100 mb-2">
+                    <MdCalendarToday className="mr-2 text-red-500" />
+                    {new Date(booking.date).toLocaleDateString("en-US", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </div>
+                  <div className="flex items-center text-sm text-gray-100 mb-2">
+                    <MdOutlineCurrencyRupee className="mr-2 text-red-500" />
+                    {booking.price}
+                  </div>
+                  <div className="mb-4">
+                    <span
+                      className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                        booking.status === "Completed" ? "bg-green-100 text-green-800" :
+                        booking.status === "Scheduled" ? "bg-blue-100 text-blue-800" :
+                        booking.status === "Cancelled" ? "bg-yellow-100 text-yellow-800" :
+                        booking.status === "Expired" ? "bg-gray-100 text-gray-800" :
+                        booking.status === "Refunded" ? "bg-red-100 text-red-800" : ""
+                      }`}
+                    >
+                      {booking.status}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      onClick={() => handleOpenDetailsModal(booking)}
+                      className="flex-1 inline-flex justify-center items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    >
+                      <MdInfo className="mr-2" />
+                      Details
+                    </button>
+                    {booking.status === "Completed" ? (
+                      <button
+                        onClick={() => handleOpenReviewForm(booking)}
+                        className="flex-1 inline-flex justify-center items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                      >
+                        <MdStar className="mr-2" />
+                        Review
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleOpenCancellationModal(booking)}
+                        className="flex-1 inline-flex justify-center items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                      >
+                        <MdCancel className="mr-2" />
+                        Cancel
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+      </div>
+    </div>
 
         {/* Booking Details Modal */}
         <Modal
@@ -374,7 +349,7 @@ const OutsourcedBookings = () => {
           show={showCancellationModal}
           onHide={() => setShowCancellationModal(false)}
           centered
-          size="md"
+          // size="md"
           className="rounded-lg shadow-lg"
         >
           <Modal.Header

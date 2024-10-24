@@ -105,10 +105,11 @@ const UserProfile: React.FC = () => {
   return (
     <>
       {/* <UserHeader /> */}
-      <div className="bg-gray-100 min-h-screen p-8 md:p-12">
-        <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+      <div    className="min-h-screen bg-cover  bg-center bg-fixed py-12 px-4 sm:px-6 lg:px-8 "
+        style={{ backgroundImage: "url(../images/spHomee.jpg)" }}>
+        <div className="max-w-4xl mx-auto  outset bg-black/80 rounded-xl shadow-lg overflow-hidden">
           <div className="bg-gradient-to-r from-gray-900 to-blue-500 p-6 text-white">
-            <h1 className="text-3xl font-bold">Profile Settings</h1>
+            <div className="text-3xl font-bold">Profile Settings</div>
             <button
               className="mt-4 inline-flex items-center text-sm font-medium text-gray-300 hover:text-white"
               onClick={() => window.history.back()}
@@ -121,20 +122,20 @@ const UserProfile: React.FC = () => {
               onSubmit={handleSubmitProfile(saveProfileChanges)}
               className="space-y-4"
             >
-              <h3 className="text-xl font-semibold border-b pb-2">
+              <div className="text-xl font-semibold text-gray-100 border-b pb-2">
                 Personal Information
-              </h3>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label
                     htmlFor="name"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-gray-100"
                   >
                     Name
                   </label>
                   <div className="relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaUser className="text-blue-900" />
+                      <FaUser className="text-blue-600" />
                     </div>
                     <input
                       type="text"
@@ -146,7 +147,7 @@ const UserProfile: React.FC = () => {
                             value.trim() !== "" || "Name cannot be empty",
                         },
                       })}
-                      className="input-field ms-4 border-light w-75"
+                      className="input-field ms-5 text-gray-100 border-light w-75 bg-black/60"
                       required
                     />
                   </div>
@@ -160,20 +161,20 @@ const UserProfile: React.FC = () => {
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-gray-100"
                   >
                     Email
                   </label>
                   <div className="relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaEnvelope className="text-blue-900" />
+                      <FaEnvelope className="text-blue-600" />
                     </div>
                     <input
                       type="email"
                       id="email"
                       {...registerProfile("email", { required: true })}
                       readOnly
-                      className="input-field  ms-4 border-light w-75"
+                      className="input-field ms-5 text-gray-100 border-light w-75 bg-black/60"
                     />
                   </div>
                 </div>
@@ -181,13 +182,13 @@ const UserProfile: React.FC = () => {
                 <div>
                   <label
                     htmlFor="mobile"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-gray-100"
                   >
                     Phone
                   </label>
                   <div className="relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <FaPhone className="text-blue-900" />
+                      <FaPhone className="text-blue-600" />
                     </div>
                     <input
                       type="text"
@@ -199,7 +200,7 @@ const UserProfile: React.FC = () => {
                           message: "Enter a valid number",
                         },
                       })}
-                      className="input-field  ms-4 border-light w-75"
+                      className="input-field ms-5 text-gray-100 border-light w-75 bg-black/60"
                       required
                     />
                   </div>
@@ -219,20 +220,20 @@ const UserProfile: React.FC = () => {
               onSubmit={handleSubmitPassword(handleChangePassword)}
               className="space-y-4"
             >
-              <h3 className="text-xl font-semibold border-b pb-2">
+              <div className="text-xl font-semibold border-b text-gray-100 pb-2">
                 Change Password
-              </h3>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label
                     htmlFor="currentPassword"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-gray-100"
                   >
                     Current Password
                   </label>
                   <div className="relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                      <FaLock className="text-black-900" />
+                      <FaLock className="text-blue-600" />
                     </div>
                     <input
                       type={showCurrentPassword ? "text" : "password"}
@@ -240,7 +241,7 @@ const UserProfile: React.FC = () => {
                       {...registerPassword("currentPassword", {
                         required: "Current password cannot be empty",
                       })}
-                      className="input-field ms-4 border-light w-75"
+                      className="input-field ms-5 text-gray-100 border-light w-75 bg-black/60 "
                     />
                     <div
                       className="absolute inset-y-0 right-0 pr-2 flex items-center cursor-pointer"
@@ -249,9 +250,9 @@ const UserProfile: React.FC = () => {
                       }
                     >
                       {showCurrentPassword ? (
-                        <FaEyeSlash className="text-gray-400" />
+                        <FaEyeSlash className="text-gray-100" />
                       ) : (
-                        <FaEye className="text-gray-400" />
+                        <FaEye className="text-gray-100" />
                       )}
                     </div>
                   </div>
@@ -265,13 +266,13 @@ const UserProfile: React.FC = () => {
                 <div>
                   <label
                     htmlFor="newPassword"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-gray-100"
                   >
                     New Password
                   </label>
                   <div className="relative rounded-md shadow-sm">
                     <div className="absolute inset-y-0 left-0 pl-2 flex items-center pointer-events-none">
-                      <FaLock className="text-black-900" />
+                      <FaLock className="text-blue-600" />
                     </div>
                     <input
                       type={showNewPassword ? "text" : "password"}
@@ -285,7 +286,7 @@ const UserProfile: React.FC = () => {
                             "Password must be 6-16 characters long and contain at least one number and one special character.",
                         },
                       })}
-                      className="input-field ms-4 border-light w-75"
+                      className="input-field ms-5 text-gray-100 border-light w-75 bg-black/60"
                     />
                     <div
                       className="absolute inset-y-0 right-0 pr-2 flex items-center cursor-pointer"
