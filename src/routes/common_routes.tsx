@@ -108,6 +108,8 @@ const CommonRoutes: React.FC = () => {
       <Route element={<SpProtectedRoute />}>
         <Route path="/sp/verify-details" element={<ServiceProviderDetails />} />
         <Route path="/sp/sp-home" element={<ServiceProviderLanding />} />
+        <Route path="/user/about" element={<About />} />
+        <Route path="/user/contacts" element={<Contact />} />
         <Route
           path="/sp/sp-profile"
           element={
