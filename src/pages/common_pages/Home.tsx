@@ -16,7 +16,6 @@ const Home: React.FC = () => {
   );
   const [providers, setProviders] = useState<ServiceProvider[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -145,7 +144,9 @@ const Home: React.FC = () => {
             >
               <Link to="/user/service-providers">
                 <button className="px-8 py-4 border-2 border-cyan-500 bg-transparent hover:bg-cyan-500 text-cyan-500 hover:text-white rounded-lg transform transition-all hover:scale-105 focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:outline-none">
-                  <span className="text-lg font-semibold">Go for a Service</span>
+                  <span className="text-lg font-semibold">
+                    Go for a Service
+                  </span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6 inline-block ml-2"
@@ -163,7 +164,6 @@ const Home: React.FC = () => {
                 </button>
               </Link>
             </motion.div>
-
           </div>
         </div>
       </section>
@@ -184,7 +184,12 @@ const Home: React.FC = () => {
             Our Service Providers
           </div>
 
-          <Carousel indicators={false} controls={true} interval={2000} className="p-4">
+          <Carousel
+            indicators={false}
+            controls={true}
+            interval={2000}
+            className="p-4"
+          >
             {loading ? (
               <Carousel.Item>
                 <div className="flex justify-center items-center h-64">
@@ -205,7 +210,10 @@ const Home: React.FC = () => {
                       >
                         <div className="relative mb-6">
                           <img
-                            src={provider.profile_picture || "/api/placeholder/150/150"}
+                            src={
+                              provider.profile_picture ||
+                              "/api/placeholder/150/150"
+                            }
                             alt={provider.name}
                             className="w-32 h-32 rounded-full mx-auto border-4 border-cyan-500 shadow-xl"
                           />
@@ -234,7 +242,6 @@ const Home: React.FC = () => {
               </Carousel.Item>
             )}
           </Carousel>
-
         </div>
       </section>
 

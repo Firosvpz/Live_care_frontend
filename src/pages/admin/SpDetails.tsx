@@ -158,7 +158,11 @@ const SingleServiceProviderDetails: React.FC = () => {
                   Reviews and Ratings
                 </h2>
                 <p className="text-white mb-2">
-                  Average Rating: <span className="font-semibold text-yellow-400">{serviceProviderDetails.ratingAverage}</span>/5
+                  Average Rating:{" "}
+                  <span className="font-semibold text-yellow-400">
+                    {serviceProviderDetails.ratingAverage}
+                  </span>
+                  /5
                 </p>
                 {serviceProviderDetails.reviews.length > 0 ? (
                   serviceProviderDetails.reviews.map((review, index) => (
@@ -176,7 +180,6 @@ const SingleServiceProviderDetails: React.FC = () => {
                   <p className="text-gray-400">No reviews yet.</p>
                 )}
               </div>
-
             </motion.div>
           ) : (
             <p className="text-center text-white">

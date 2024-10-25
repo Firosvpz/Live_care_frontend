@@ -7,7 +7,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Col from "react-bootstrap/Col";
 import { spLogin } from "../../api/sp_api";
 import { setServiceProviderCredential } from "../../redux/slices/sp_slice";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { FaArrowLeft } from "react-icons/fa";
 
 interface IFormInput {
@@ -16,7 +16,6 @@ interface IFormInput {
 }
 
 const ServiceProviderLogin: React.FC = () => {
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {
@@ -31,7 +30,7 @@ const ServiceProviderLogin: React.FC = () => {
       const response = await spLogin(email, password);
 
       if (!response.success) {
-        toast.error('res',response.data.message);
+        toast.error("res", response.data.message);
         return;
       }
 
@@ -53,12 +52,12 @@ const ServiceProviderLogin: React.FC = () => {
     <section className="login-page-container">
       <div className="login-page-overlay  outset bg-black/70"></div>
       <div className="login-form-container">
-      <button
-              className="mb-4 inline-flex items-center text-sm font-medium text-blue-300 hover:text-white"
-              onClick={() => window.history.back()}
-            >
-              <FaArrowLeft className="mr-2" /> Back to Home
-            </button>
+        <button
+          className="mb-4 inline-flex items-center text-sm font-medium text-blue-300 hover:text-white"
+          onClick={() => window.history.back()}
+        >
+          <FaArrowLeft className="mr-2" /> Back to Home
+        </button>
         <div className="login-title">
           Welcome!! <span className="text-primary">LIVECARE</span>
         </div>

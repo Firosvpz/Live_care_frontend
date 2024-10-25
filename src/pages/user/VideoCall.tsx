@@ -6,7 +6,6 @@ const UserVideoCall: React.FC = () => {
   const { roomId, userId } = useParams<{ roomId: string; userId: string }>();
   console.log("Room ID:", roomId, "User ID:", userId);
 
-
   const meetingContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -24,7 +23,7 @@ const UserVideoCall: React.FC = () => {
         serverSecret,
         roomId,
         userId,
-        "user"
+        "user",
       );
 
       const zc = ZegoUIKitPrebuilt.create(kitToken);

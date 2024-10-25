@@ -11,7 +11,7 @@ interface IFormInput {
   user_address: string;
   medical_history: string;
   blood_type: string;
-  // profile_picture?: File[];
+  profile_picture?: File[];
 }
 
 const UserDetails: React.FC = () => {
@@ -54,7 +54,8 @@ const UserDetails: React.FC = () => {
               <Form.Group
                 controlId="validationCustomDob"
                 className="register-form-input w-100"
-              ><Form.Label className="text-white">Date of Birth</Form.Label>
+              >
+                <Form.Label className="text-white">Date of Birth</Form.Label>
                 <Form.Control
                   type="date"
                   className="bg-dark text-white"
@@ -75,7 +76,7 @@ const UserDetails: React.FC = () => {
 
             {/* Address */}
             <Col md={6} className="mb-3">
-            <Form.Label className="text-white">Enter your Address</Form.Label>
+              <Form.Label className="text-white">Enter your Address</Form.Label>
               <Form.Group
                 controlId="validationCustomAddress"
                 className="register-form-input bg-dark w-100"
@@ -159,7 +160,7 @@ const UserDetails: React.FC = () => {
             </Col>
 
             {/* Profile Picture */}
-            {/* <Col md={6} className="mb-3">
+            <Col md={6} className="mb-3">
               <Form.Group
                 controlId="validationCustomProfilePic"
                 className="register-form-input w-100"
@@ -178,7 +179,7 @@ const UserDetails: React.FC = () => {
                   {errors.profile_picture?.message}
                 </Form.Control.Feedback>
               </Form.Group>
-            </Col> */}
+            </Col>
 
             {/* Submit Button */}
             <Col md={12} className="d-flex justify-content-center">

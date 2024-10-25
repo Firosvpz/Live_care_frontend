@@ -64,7 +64,6 @@ export const resendSpOtp = async () => {
 };
 
 export const spLogin = async (email: string, password: string) => {
-
   try {
     const response = await Api.post(sp_endpoints.login, {
       email,
@@ -194,24 +193,29 @@ export const addSlot = async (slotData: SlotData) => {
     const response = await Api.post(sp_endpoints.addSlot, { slotData });
     return response.data;
   } catch (error: any) {
-    console.error('Error adding slot:', error.response?.data?.message || error.message || error);
-    toast.error(error.response?.data?.message || "An error occurred while adding the slot.");
+    console.error(
+      "Error adding slot:",
+      error.response?.data?.message || error.message || error,
+    );
+    toast.error(
+      error.response?.data?.message ||
+        "An error occurred while adding the slot.",
+    );
   }
-  
 };
 
 export const getSlotsList = async (
   page: number,
   limit: number,
-  query: string
+  query: string,
 ) => {
   try {
     const response = await Api.get(
       sp_endpoints.getSlots +
-        `?searchQuery=${query}&page=${page}&limit=${limit}`
+        `?searchQuery=${query}&page=${page}&limit=${limit}`,
     );
-    console.log("Backend response", response); 
-    console.log("Backend responsedata", response.data);     
+    console.log("Backend response", response);
+    console.log("Backend responsedata", response.data);
     return response.data;
   } catch (error: any) {
     return error.response.data;
@@ -279,12 +283,15 @@ export const processRefund = async (bookingId: string, amount: number) => {
 export const updateBookingStatus = async (
   bookingId: string,
   status: string,
+  prescription: string,
 ) => {
   try {
     const response = await Api.put(
       `${sp_endpoints.updateBookingStatus}/${bookingId}`,
-      { status },
+      { status, prescription },
     );
+    console.log("response", response);
+
     return response.data;
   } catch (error: any) {
     console.log("Error updating booking status:", error);
@@ -297,4 +304,48 @@ export const leaveAndRefund = async (
   cancelReason: string,
 ) => {
   return await Api.post(`${sp_endpoints.leave}/${bookingId}`, { cancelReason });
+};
+
+export const getUserPreviousRecordings = async (userId: string) => {
+  try {
+    console.log("gyv");
+
+    const response = await Api.get(`/api/sp/recordings/${userId}`);
+    console.log("res", response);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteSlot = async (serviceProviderId: string, slotId: string) => {
+  try {
+    console.log("Deleting slot...");
+
+    const response = await Api.delete(
+      `/api/sp/providers/${serviceProviderId}/slots/${slotId}`,
+    );
+
+    console.log("Response:", response);
+
+    // Check for successful deletion based on status code
+    if (response.status === 204) {
+      return {
+        success: true,
+        message: "Slot deleted successfully",
+      };
+    }
+
+    return {
+      success: false,
+      message: response.data?.message || "Failed to delete slot",
+    };
+  } catch (error: any) {
+    console.error("Error deleting slot:", error);
+    return {
+      success: false,
+      message: error.response?.data?.message || "Error deleting slot",
+    };
+  }
 };

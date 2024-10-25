@@ -5,7 +5,6 @@ import AdminSidebar from "../../components/admin/AdminSidebar";
 import AdminNavbar from "../../components/admin/AdminHeader";
 import Footer from "../../components/common/Footer";
 
-
 const ComplaintsPage: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [complaints, setComplaints] = useState<any[]>([]);
@@ -17,7 +16,7 @@ const ComplaintsPage: React.FC = () => {
   const [response, setResponse] = useState<string>("");
   const [responseError, setResponseError] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "responded" | "unresponded">(
-    "all"
+    "all",
   );
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [complaintsPerPage] = useState<number>(10);
@@ -96,7 +95,7 @@ const ComplaintsPage: React.FC = () => {
   };
 
   const totalPages = Math.ceil(
-    getFilteredComplaints().length / complaintsPerPage
+    getFilteredComplaints().length / complaintsPerPage,
   );
 
   const handlePageChange = (page: number) => {
@@ -136,7 +135,7 @@ const ComplaintsPage: React.FC = () => {
 
   return (
     <>
-       <AdminNavbar
+      <AdminNavbar
         isSidebarOpen={isSidebarOpen}
         setSidebarOpen={setIsSidebarOpen}
       />
@@ -145,8 +144,7 @@ const ComplaintsPage: React.FC = () => {
         style={{
           minHeight: "calc(100vh - 60px)",
           padding: "20px",
-          backgroundImage:
-            "url('')",
+          backgroundImage: "url('')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

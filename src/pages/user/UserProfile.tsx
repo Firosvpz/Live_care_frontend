@@ -105,8 +105,10 @@ const UserProfile: React.FC = () => {
   return (
     <>
       {/* <UserHeader /> */}
-      <div    className="min-h-screen bg-cover  bg-center bg-fixed py-12 px-4 sm:px-6 lg:px-8 "
-        style={{ backgroundImage: "url(../images/spHomee.jpg)" }}>
+      <div
+        className="min-h-screen bg-cover  bg-center bg-fixed py-12 px-4 sm:px-6 lg:px-8 "
+        style={{ backgroundImage: "url(../images/spHomee.jpg)" }}
+      >
         <div className="max-w-4xl mx-auto  outset bg-black/80 rounded-xl shadow-lg overflow-hidden">
           <div className="bg-gradient-to-r from-gray-900 to-blue-500 p-6 text-white">
             <div className="text-3xl font-bold">Profile Settings</div>

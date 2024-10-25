@@ -17,4 +17,5 @@ export const sp_endpoints = {
   refund: "/api/payment/refund",
   updateBookingStatus: "/api/sp/update-booking-status",
   leave: "/api/sp/leave",
+  recordings: "/api/recordings/:userId",
 };

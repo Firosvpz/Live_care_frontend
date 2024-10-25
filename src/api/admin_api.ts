@@ -244,7 +244,7 @@ export const respondToComplaint = async ({
   try {
     const res = await Api.put(
       `${admin_endpoints.respondToComplaint}/${complaintId}`,
-      { responseMessage: response }
+      { responseMessage: response },
     );
     console.log("res", res);
 

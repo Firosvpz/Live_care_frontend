@@ -116,9 +116,11 @@ export const verfiyUserDetails = async (userDetails: UserDetails) => {
 
       if (userDetails.hasOwnProperty(key)) {
         const value = userDetails[key as keyof UserDetails];
-      
+        if (key === "profile_picture") {
+          formData.append(key, (value as File[])[0]);
+        } else {
           formData.append(key, value as string);
-        
+        }
       }
     }
 
@@ -180,7 +182,7 @@ export const fetchApprovedAndUnblockedProviders = async (): Promise<
     const response = await Api.get(user_endpoints.serviceProviders);
     return response.data;
   } catch (error) {
-    console.error("Failed to fetch providers:", error);    
+    console.error("Failed to fetch providers:", error);
     throw new Error("Failed to fetch providers");
   }
 };
@@ -192,18 +194,17 @@ export const fetchApprovedAndUnblockedProvidersPublic = async (): Promise<
     const response = await Api.get(user_endpoints.serviceProvidersPublic);
     return response.data;
   } catch (error) {
-    console.error("Failed to fetch providers:", error);    
+    console.error("Failed to fetch providers:", error);
     throw new Error("Failed to fetch providers");
   }
 };
-
 
 export const getServiceProviderDetails = async (id: string) => {
   try {
     console.log("gyv");
 
     const response = await Api.get(
-      user_endpoints.getServiceProviderDetails + `/${id}`,  
+      user_endpoints.getServiceProviderDetails + `/${id}`,
     );
     console.log("res", response);
 
@@ -310,7 +311,7 @@ export const getUserComplaints = async (userId: string) => {
 export const fileComplaint = async (
   userId: string,
   subject: string,
-  description: string
+  description: string,
 ) => {
   try {
     const response = await Api.post(user_endpoints.submitComplaint, {
@@ -326,7 +327,11 @@ export const fileComplaint = async (
   }
 };
 
-export const addReview = async (providerId: string, rating: number, comment: string) => {
+export const addReview = async (
+  providerId: string,
+  rating: number,
+  comment: string,
+) => {
   const response = await Api.post(`/api/user/add-review`, {
     providerId,
     rating,

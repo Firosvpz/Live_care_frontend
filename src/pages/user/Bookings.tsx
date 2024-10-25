@@ -1,14 +1,23 @@
 import { useEffect, useState } from "react";
-import { MdCalendarToday, MdCancel, MdInfo, MdOutlineCurrencyRupee, MdStar } from "react-icons/md";
-import { Button, Pagination, Modal } from "react-bootstrap";
+import {
+  MdCalendarToday,
+  MdCancel,
+  MdInfo,
+  MdOutlineCurrencyRupee,
+  MdStar,
+} from "react-icons/md";
+import { Button, Modal } from "react-bootstrap";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import UserHeader from "../../components/user/Header";
 // import TableShimmer from "../../components/common/Table";
 import Footer from "../../components/common/Footer";
-import { getScheduledIbookings, cancelBooking, addReview } from "../../api/user_api";
+import {
+  getScheduledIbookings,
+  cancelBooking,
+  addReview,
+} from "../../api/user_api";
 import StarRating from "../../components/user/StarRating";
 import { motion } from "framer-motion";
-
 
 export interface IScheduledBooking {
   _id: string;
@@ -25,14 +34,17 @@ export interface IScheduledBooking {
 }
 
 const OutsourcedBookings = () => {
-  const [scheduledBookings, setScheduledBookings] = useState<IScheduledBooking[]>([]);
+  const [scheduledBookings, setScheduledBookings] = useState<
+    IScheduledBooking[]
+  >([]);
   const [loading, setLoading] = useState(false);
   const [showCancellationModal, setShowCancellationModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [selectedRating, setSelectedRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
-  const [selectedBooking, setSelectedBooking] = useState<IScheduledBooking | null>(null);
+  const [selectedBooking, setSelectedBooking] =
+    useState<IScheduledBooking | null>(null);
   const [cancellationReason, setCancellationReason] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
@@ -55,7 +67,7 @@ const OutsourcedBookings = () => {
     try {
       const response = await getScheduledIbookings(page, limit);
       const updatedBookings = response.data.map((booking: IScheduledBooking) =>
-        checkAndUpdateStatus(booking)
+        checkAndUpdateStatus(booking),
       );
       setScheduledBookings(updatedBookings);
       setTotalPages(Math.ceil(response.total / limit));
@@ -66,15 +78,18 @@ const OutsourcedBookings = () => {
     }
   };
 
-
   const handleReviewSubmit = async () => {
-    if (!reviewText.trim()) {  
+    if (!reviewText.trim()) {
       setErrorMessage("Review cannot be empty.");
       return;
     }
     if (selectedBooking) {
       try {
-        await addReview(selectedBooking.serviceProviderId, selectedRating, reviewText); // Call the API to submit the review
+        await addReview(
+          selectedBooking.serviceProviderId,
+          selectedRating,
+          reviewText,
+        ); // Call the API to submit the review
         setShowReviewForm(false); // Hide the review form after submission
         setReviewText(""); // Reset the review text
         fetchScheduledBookings(currentPage, limit); // Optionally refresh bookings
@@ -133,11 +148,11 @@ const OutsourcedBookings = () => {
         "Room IDs:",
         selectedBooking.roomId,
         "User IDs:",
-        selectedBooking.userId
+        selectedBooking.userId,
       );
 
       navigate(
-        `/user/video-call/${selectedBooking.roomId}/${selectedBooking.userId}`
+        `/user/video-call/${selectedBooking.roomId}/${selectedBooking.userId}`,
       );
     }
   };
@@ -153,7 +168,8 @@ const OutsourcedBookings = () => {
   const isCancellationAllowed = (fromTime: Date) => {
     const currentTime = new Date();
     const bookingTime = new Date(fromTime);
-    const hoursDifference = (bookingTime.getTime() - currentTime.getTime()) / (1000 * 60 * 60);
+    const hoursDifference =
+      (bookingTime.getTime() - currentTime.getTime()) / (1000 * 60 * 60);
     return hoursDifference >= 24; // Allows cancellation only if there's more than 24 hours before the booking
   };
 
@@ -164,7 +180,7 @@ const OutsourcedBookings = () => {
   return (
     <>
       <UserHeader />
-      <div 
+      <div
         style={{
           backgroundImage: `url('../../images/register.jpg')`,
           backgroundSize: "cover",
@@ -177,89 +193,102 @@ const OutsourcedBookings = () => {
         }}
       >
         <div className="max-w-7xl text-[#070913] mx-auto w-full px-4 sm:px-6 lg:px-8">
-      <h1 className="text-2xl sm:text-3xl font-bold text-center mb-5 text-[#333]">Bookings List</h1>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {loading
-          ? Array.from({ length: 3 }).map((_, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
-                <div className="p-4">
-                  <div className="h-5 bg-gray-200 rounded w-3/4 mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
-                  <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
-                  <div className="flex gap-2">
-                    <div className="h-10 bg-gray-200 rounded flex-1"></div>
-                    <div className="h-10 bg-gray-200 rounded flex-1"></div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-center mb-5 text-[#333]">
+            Bookings List
+          </h1>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {loading
+              ? Array.from({ length: 3 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse"
+                  >
+                    <div className="p-4">
+                      <div className="h-5 bg-gray-200 rounded w-3/4 mb-2"></div>
+                      <div className="h-4 bg-gray-200 rounded w-1/2 mb-2"></div>
+                      <div className="h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
+                      <div className="h-6 bg-gray-200 rounded w-1/3 mb-4"></div>
+                      <div className="flex gap-2">
+                        <div className="h-10 bg-gray-200 rounded flex-1"></div>
+                        <div className="h-10 bg-gray-200 rounded flex-1"></div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-            ))
-          : scheduledBookings.map((booking) => (
-              <motion.div
-                key={booking._id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="bg-black/60 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
-              >
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-gray-100 mb-2">{booking.title}</h3>
-                  <div className="flex items-center text-sm text-gray-100 mb-2">
-                    <MdCalendarToday className="mr-2 text-red-500" />
-                    {new Date(booking.date).toLocaleDateString("en-US", {
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric",
-                    })}
-                  </div>
-                  <div className="flex items-center text-sm text-gray-100 mb-2">
-                    <MdOutlineCurrencyRupee className="mr-2 text-red-500" />
-                    {booking.price}
-                  </div>
-                  <div className="mb-4">
-                    <span
-                      className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                        booking.status === "Completed" ? "bg-green-100 text-green-800" :
-                        booking.status === "Scheduled" ? "bg-blue-100 text-blue-800" :
-                        booking.status === "Cancelled" ? "bg-yellow-100 text-yellow-800" :
-                        booking.status === "Expired" ? "bg-gray-100 text-gray-800" :
-                        booking.status === "Refunded" ? "bg-red-100 text-red-800" : ""
-                      }`}
-                    >
-                      {booking.status}
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    <button
-                      onClick={() => handleOpenDetailsModal(booking)}
-                      className="flex-1 inline-flex justify-center items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                    >
-                      <MdInfo className="mr-2" />
-                      Details
-                    </button>
-                    {booking.status === "Completed" ? (
-                      <button
-                        onClick={() => handleOpenReviewForm(booking)}
-                        className="flex-1 inline-flex justify-center items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                      >
-                        <MdStar className="mr-2" />
-                        Review
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handleOpenCancellationModal(booking)}
-                        className="flex-1 inline-flex justify-center items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                      >
-                        <MdCancel className="mr-2" />
-                        Cancel
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-      </div>
-    </div>
+                ))
+              : scheduledBookings.map((booking) => (
+                  <motion.div
+                    key={booking._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="bg-black/60 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                  >
+                    <div className="p-4">
+                      <h3 className="text-lg font-semibold text-gray-100 mb-2">
+                        {booking.title}
+                      </h3>
+                      <div className="flex items-center text-sm text-gray-100 mb-2">
+                        <MdCalendarToday className="mr-2 text-red-500" />
+                        {new Date(booking.date).toLocaleDateString("en-US", {
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        })}
+                      </div>
+                      <div className="flex items-center text-sm text-gray-100 mb-2">
+                        <MdOutlineCurrencyRupee className="mr-2 text-red-500" />
+                        {booking.price}
+                      </div>
+                      <div className="mb-4">
+                        <span
+                          className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                            booking.status === "Completed"
+                              ? "bg-green-100 text-green-800"
+                              : booking.status === "Scheduled"
+                                ? "bg-blue-100 text-blue-800"
+                                : booking.status === "Cancelled"
+                                  ? "bg-yellow-100 text-yellow-800"
+                                  : booking.status === "Expired"
+                                    ? "bg-gray-100 text-gray-800"
+                                    : booking.status === "Refunded"
+                                      ? "bg-red-100 text-red-800"
+                                      : ""
+                          }`}
+                        >
+                          {booking.status}
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          onClick={() => handleOpenDetailsModal(booking)}
+                          className="flex-1 inline-flex justify-center items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        >
+                          <MdInfo className="mr-2" />
+                          Details
+                        </button>
+                        {booking.status === "Completed" ? (
+                          <button
+                            onClick={() => handleOpenReviewForm(booking)}
+                            className="flex-1 inline-flex justify-center items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                          >
+                            <MdStar className="mr-2" />
+                            Review
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => handleOpenCancellationModal(booking)}
+                            className="flex-1 inline-flex justify-center items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                          >
+                            <MdCancel className="mr-2" />
+                            Cancel
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+          </div>
+        </div>
 
         {/* Booking Details Modal */}
         <Modal
@@ -281,10 +310,14 @@ const OutsourcedBookings = () => {
             {selectedBooking && (
               <div className="space-y-4">
                 {/* Title */}
-                <h5 className="text-lg font-bold text-gray-800">{selectedBooking.title}</h5>
+                <h5 className="text-lg font-bold text-gray-800">
+                  {selectedBooking.title}
+                </h5>
 
                 {/* Description */}
-                <p className="text-sm text-gray-700">{selectedBooking.description}</p>
+                <p className="text-sm text-gray-700">
+                  {selectedBooking.description}
+                </p>
 
                 {/* Scheduled On */}
                 <div className="flex items-center justify-between">
@@ -301,7 +334,8 @@ const OutsourcedBookings = () => {
                     {new Date(selectedBooking.fromTime).toLocaleTimeString()}
                   </p>
                   <p className="text-sm text-gray-600">
-                    <strong>To:</strong> {new Date(selectedBooking.toTime).toLocaleTimeString()}
+                    <strong>To:</strong>{" "}
+                    {new Date(selectedBooking.toTime).toLocaleTimeString()}
                   </p>
                 </div>
 
@@ -312,17 +346,28 @@ const OutsourcedBookings = () => {
                 </p>
 
                 {/* Status */}
-                <p className={`text-sm font-semibold ${selectedBooking.status === "Completed" ? "text-green-600" :
-                  selectedBooking.status === "Scheduled" ? "text-blue-600" :
-                    selectedBooking.status === "Cancelled" ? "text-red-600" :
-                      selectedBooking.status === "Expired" ? "text-gray-600" : "text-yellow-600"
-                  }`}>
+                <p
+                  className={`text-sm font-semibold ${
+                    selectedBooking.status === "Completed"
+                      ? "text-green-600"
+                      : selectedBooking.status === "Scheduled"
+                        ? "text-blue-600"
+                        : selectedBooking.status === "Cancelled"
+                          ? "text-red-600"
+                          : selectedBooking.status === "Expired"
+                            ? "text-gray-600"
+                            : "text-yellow-600"
+                  }`}
+                >
                   <strong>Status:</strong> {selectedBooking.status}
                 </p>
 
                 {/* Join Call Button */}
                 {selectedBooking.status === "Scheduled" &&
-                  isTimeWithinSlot(selectedBooking.fromTime, selectedBooking.toTime) && (
+                  isTimeWithinSlot(
+                    selectedBooking.fromTime,
+                    selectedBooking.toTime,
+                  ) && (
                     <Button
                       onClick={handleJoinCall}
                       className="mt-3 bg-blue-600 text-white hover:bg-blue-700 transition ease-in-out duration-150 shadow-lg"
@@ -401,7 +446,6 @@ const OutsourcedBookings = () => {
             </Button>
           </Modal.Footer>
         </Modal>
-
       </div>
       <Modal
         show={showReviewForm}
@@ -421,7 +465,9 @@ const OutsourcedBookings = () => {
         <Modal.Body className="p-6 bg-gray-100 space-y-4">
           {/* Star Rating Component */}
           <div className="flex flex-col items-center space-y-2">
-            <h6 className="text-gray-800 font-semibold">Rate your experience</h6>
+            <h6 className="text-gray-800 font-semibold">
+              Rate your experience
+            </h6>
             <StarRating onRatingChange={setSelectedRating} />
           </div>
 
@@ -436,7 +482,9 @@ const OutsourcedBookings = () => {
 
           {/* Error Message */}
           {errorMessage && (
-            <p className="text-sm text-red-600 font-medium mt-2">{errorMessage}</p>
+            <p className="text-sm text-red-600 font-medium mt-2">
+              {errorMessage}
+            </p>
           )}
         </Modal.Body>
 

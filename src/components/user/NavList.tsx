@@ -27,7 +27,6 @@ export const UserMenuList = [
         title: "Bookings",
         url: "/user/get-bookings",
       },
-     
     ],
   },
   {

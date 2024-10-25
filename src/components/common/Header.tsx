@@ -101,7 +101,10 @@ const Header: React.FC = () => {
         >
           <FontAwesomeIcon icon={clicked ? faTimes : faBars} />
         </button>
-        <div className={`navbar-collapse ${clicked ? "show" : ""}`} id="navbarNav">
+        <div
+          className={`navbar-collapse ${clicked ? "show" : ""}`}
+          id="navbarNav"
+        >
           <ul className="navbar-nav mx-auto text-white">{menuList}</ul>
         </div>
       </div>

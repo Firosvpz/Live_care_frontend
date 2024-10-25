@@ -17,6 +17,6 @@ export const admin_endpoints = {
   updateBlogStatus: "/api/admin/blog",
   getBookings: "/api/admin/bookings",
   getDashboard: "/api/admin/dashboard",
-  getAllComplaints:'/api/admin/complaints',
-  respondToComplaint:'/api/admin/respond-to-complaint',
+  getAllComplaints: "/api/admin/complaints",
+  respondToComplaint: "/api/admin/respond-to-complaint",
 };

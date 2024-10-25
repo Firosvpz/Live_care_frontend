@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 interface StarRatingProps {
   onRatingChange: (rating: number) => void;
   initialRating?: number;
 }
 
-const StarRating: React.FC<StarRatingProps> = ({ onRatingChange, initialRating = 0 }) => {
+const StarRating: React.FC<StarRatingProps> = ({
+  onRatingChange,
+  initialRating = 0,
+}) => {
   const [rating, setRating] = useState(initialRating);
   const [hoveredRating, setHoveredRating] = useState<number | null>(null); // To handle hover separately
 
@@ -31,7 +34,9 @@ const StarRating: React.FC<StarRatingProps> = ({ onRatingChange, initialRating =
           onMouseOut={handleMouseOut}
           onClick={() => handleClick(star)}
           className={`cursor-pointer text-3xl transition-colors duration-200 ease-in-out ${
-            (hoveredRating || rating) >= star ? 'text-yellow-500' : 'text-gray-300'
+            (hoveredRating || rating) >= star
+              ? "text-yellow-500"
+              : "text-gray-300"
           }`}
         >
           ★

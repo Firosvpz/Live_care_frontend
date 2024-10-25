@@ -10,7 +10,10 @@ const FileComplaint: React.FC = () => {
   const [subject, setSubject] = useState("");
   const [description, setDescription] = useState("");
   const [userId, setUserId] = useState<string | null>(null);
-  const [errors, setErrors] = useState<{ subject?: string; description?: string }>({});
+  const [errors, setErrors] = useState<{
+    subject?: string;
+    description?: string;
+  }>({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,8 +35,10 @@ const FileComplaint: React.FC = () => {
   const validateForm = () => {
     const newErrors: { subject?: string; description?: string } = {};
     if (!subject) newErrors.subject = "Subject is required";
-    if (subject.length > 100) newErrors.subject = "Subject cannot exceed 100 characters";
-    if (description.length < 15) newErrors.description = "Description must be at least 15 characters long";
+    if (subject.length > 100)
+      newErrors.subject = "Subject cannot exceed 100 characters";
+    if (description.length < 15)
+      newErrors.description = "Description must be at least 15 characters long";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -65,13 +70,15 @@ const FileComplaint: React.FC = () => {
         style={{ backgroundImage: "url('../../images/login.jpg')" }}
       >
         <div className="bg-white/60 bg-opacity-90 shadow-lg rounded-lg p-6 max-w-md w-full mx-4 sm:mx-0">
-        <button
-              className="mt-4 inline-flex items-center text-sm font-medium text-black-800 hover:text-black"
-              onClick={() => window.history.back()}
-            >
-              <FaArrowLeft className="mr-2" /> Back to Complaints
-            </button>
-          <div className="text-2xl font-bold text-center text-gray-800 mb-4">File a Complaint</div>
+          <button
+            className="mt-4 inline-flex items-center text-sm font-medium text-black-800 hover:text-black"
+            onClick={() => window.history.back()}
+          >
+            <FaArrowLeft className="mr-2" /> Back to Complaints
+          </button>
+          <div className="text-2xl font-bold text-center text-gray-800 mb-4">
+            File a Complaint
+          </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-gray-700 mb-1">Subject:</label>
@@ -82,7 +89,9 @@ const FileComplaint: React.FC = () => {
                 className={`w-full p-2 border rounded ${errors.subject ? "border-red-500" : "border-gray-300"} focus:outline-none focus:border-blue-500`}
                 placeholder="Enter subject"
               />
-              {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject}</p>}
+              {errors.subject && (
+                <p className="text-red-500 text-sm mt-1">{errors.subject}</p>
+              )}
             </div>
             <div>
               <label className="block text-gray-700 mb-1">Description:</label>
@@ -92,9 +101,18 @@ const FileComplaint: React.FC = () => {
                 className={`w-full p-2 border rounded ${errors.description ? "border-red-500" : "border-gray-300"} focus:outline-none focus:border-blue-500`}
                 placeholder="Enter complaint description"
               />
-              {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
+              {errors.description && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.description}
+                </p>
+              )}
             </div>
-            <button type="submit" className="w-full bg-red-500 text-white font-bold py-2 rounded hover:bg-red-600 ">Submit Complaint</button>
+            <button
+              type="submit"
+              className="w-full bg-red-500 text-white font-bold py-2 rounded hover:bg-red-600 "
+            >
+              Submit Complaint
+            </button>
           </form>
         </div>
       </div>

@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { editSlot, getSlotsList } from "../../api/sp_api";
 import SpHeader from "../../components/serviceprovider/SpHeader";
 import Footer from "../../components/common/Footer";
+import { FaArrowLeft } from "react-icons/fa";
 
 const EditSlot: React.FC = () => {
   const [slotData, setSlotData] = useState({
@@ -26,10 +27,10 @@ const EditSlot: React.FC = () => {
       try {
         const { data } = await getSlotsList(1, 100, "");
         const foundSlot = data.find((slot: any) => slot._id === slotId);
-    
+
         if (foundSlot) {
           const schedule = foundSlot.schedule[0] || {};
-    
+
           const formatDate = (date: string) => {
             if (!date) return ""; // Avoid formatting if date is not available
             const localDate = new Date(date);
@@ -40,7 +41,7 @@ const EditSlot: React.FC = () => {
             const minutes = String(localDate.getMinutes()).padStart(2, "0");
             return `${year}-${month}-${day}T${hours}:${minutes}`;
           };
-    
+
           setSlotData({
             title: foundSlot.title || "",
             from: formatDate(schedule.from || ""),
@@ -55,7 +56,7 @@ const EditSlot: React.FC = () => {
       } catch (error: any) {
         console.error("Error fetching slot details:", error.message);
         setLoading(false);
-      }
+      }
     };
 
     fetchSlotDetails();
@@ -72,14 +73,14 @@ const EditSlot: React.FC = () => {
     e.preventDefault();
     const fromDate = new Date(slotData.from);
     const toDate = new Date(slotData.to);
-  
+
     if (toDate <= fromDate) {
       setError('The "To" date must be greater than the "From" date.');
       return;
     }
-  
+
     setError(null);
-  
+
     try {
       // Only submit if there are changes to the date or other fields
       await editSlot(slotId as string, slotData);
@@ -88,7 +89,7 @@ const EditSlot: React.FC = () => {
     } catch (error: any) {
       console.error("Error updating slot:", error.message);
       toast.error(error.message);
-    }
+    }
   };
 
   const currentDateTime = new Date().toISOString().slice(0, 16);
@@ -108,6 +109,12 @@ const EditSlot: React.FC = () => {
         >
           Edit Slot
         </h1>
+        <button
+          className="mt-4 inline-flex items-center text-sm font-medium text-gray-300 hover:text-white"
+          onClick={() => window.history.back()}
+        >
+          <FaArrowLeft className="mr-2" /> Back to Home
+        </button>
         <form
           onSubmit={handleSubmit}
           style={{ display: "flex", flexDirection: "column", gap: "1rem" }}

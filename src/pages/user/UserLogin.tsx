@@ -66,24 +66,32 @@ const UserLogin: React.FC = () => {
   return (
     <section className="login-page-container">
       <div className="login-page-overlay outset bg-black/70"></div>
-     
+
       <div className="login-form-container">
-      <button
-              className="mb-4 inline-flex items-center text-sm font-medium text-blue-300 hover:text-white"
-              onClick={() => window.history.back()}
-            >
-              <FaArrowLeft className="mr-2" /> Back to Home
-            </button>
+        <button
+          className="mb-4 inline-flex items-center text-sm font-medium text-blue-300 hover:text-white"
+          onClick={() => window.history.back()}
+        >
+          <FaArrowLeft className="mr-2" /> Back to Home
+        </button>
         <div className="login-title">
           Welcome!! <span className="text-info">LIVECARE</span>
         </div>
         <p className="login-caption italic text-gray-600">
-          Providing compassionate and personalized care for seniors. Login to continue your journey with us.
+          Providing compassionate and personalized care for seniors. Login to
+          continue your journey with us.
         </p>
         <Form noValidate onSubmit={handleSubmit(onSubmit)}>
-          <Form.Group as={Col} md="4" controlId="validationCustomUsername" className="login-form-input w-100">
+          <Form.Group
+            as={Col}
+            md="4"
+            controlId="validationCustomUsername"
+            className="login-form-input w-100"
+          >
             <InputGroup hasValidation>
-              <InputGroup.Text id="inputGroupPrepend" className="border-info">@</InputGroup.Text>
+              <InputGroup.Text id="inputGroupPrepend" className="border-info">
+                @
+              </InputGroup.Text>
               <Form.Control
                 className="w-75 border-info"
                 type="email"
@@ -97,7 +105,12 @@ const UserLogin: React.FC = () => {
             </InputGroup>
           </Form.Group>
 
-          <Form.Group as={Col} md="6" controlId="validationCustom03" className="login-form-input w-100">
+          <Form.Group
+            as={Col}
+            md="6"
+            controlId="validationCustom03"
+            className="login-form-input w-100"
+          >
             <Form.Control
               type="password"
               placeholder="Password"
@@ -106,11 +119,17 @@ const UserLogin: React.FC = () => {
               {...register("password", { required: true })}
             />
             {errors.password && (
-              <p className="text-danger text-start text-sm mt-1">Password is required</p>
+              <p className="text-danger text-start text-sm mt-1">
+                Password is required
+              </p>
             )}
           </Form.Group>
 
-          <Button variant="primary" type="submit" className="login-btn primary-login-btn w-50">
+          <Button
+            variant="primary"
+            type="submit"
+            className="login-btn primary-login-btn w-50"
+          >
             Login
           </Button>
 
@@ -118,9 +137,7 @@ const UserLogin: React.FC = () => {
           <GoogleLogin
             onSuccess={responseGoogle}
             onError={() => toast.error("Google Login failed!")}
-            
           />
-
         </Form>
 
         <Link to="/user-register">

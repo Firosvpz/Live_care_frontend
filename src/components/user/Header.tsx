@@ -78,7 +78,10 @@ const UserHeader: React.FC = () => {
             {submenu.map((subitem, subindex) => (
               <li key={subindex}>
                 {subitem.url === "/logout" ? (
-                  <span className="nav-link dropdown-item" onClick={handleLogout}>
+                  <span
+                    className="nav-link dropdown-item"
+                    onClick={handleLogout}
+                  >
                     {subitem.title}
                   </span>
                 ) : (
@@ -140,5 +143,3 @@ const UserHeader: React.FC = () => {
 };
 
 export default UserHeader;
-
-

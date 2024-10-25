@@ -7,7 +7,7 @@ const store = configureStore({
   reducer: {
     user: user_slice,
     spInfo: sp_slice,
-    adminInfo: admin_slice
+    adminInfo: admin_slice,
   },
 });
 

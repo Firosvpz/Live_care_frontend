@@ -19,6 +19,6 @@ export const user_endpoints = {
   getScheduledBookings: "/api/user/get-bookings",
   makePayment: "/api/payment/create-payment",
   cancelBooking: "/api/payment/cancelBooking",
-  submitComplaint: '/api/user/complaints',
-  getComplaints: '/api/user/complaints',
+  submitComplaint: "/api/user/complaints",
+  getComplaints: "/api/user/complaints",
 };
