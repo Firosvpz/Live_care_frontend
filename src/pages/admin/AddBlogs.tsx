@@ -59,7 +59,7 @@ const AddBlog = () => {
         isSidebarOpen={isSidebarOpen}
         setSidebarOpen={setIsSidebarOpen}
       />
-      <AdminSidebar isOpen={isSidebarOpen} />
+      <AdminSidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       <div className="min-h-screen bg-gradient-to-r from-gray-50 to-gray-200 flex items-center justify-center py-12 px-6 lg:px-8">
         <div className="max-w-3xl w-full bg-white p-10 rounded-lg shadow-lg transform transition-all duration-500 hover:shadow-2xl">
           <div className="flex items-center justify-between mb-8">
