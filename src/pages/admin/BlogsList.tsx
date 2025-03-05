@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
-import { FiPlus, FiEye, FiEyeOff } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 import { getBlogs, updateBlogStatus } from "../../api/admin_api";
 import Pagination from "../../components/common/pagination";
 import TableShimmer from "../../components/common/Table";
@@ -59,7 +59,6 @@ const ConfirmationModal: React.FC<{
 // BlogManagement Component
 const BlogManagement = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState<boolean>(true);
   const navigate = useNavigate();
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [loading, setLoading] = useState(false);

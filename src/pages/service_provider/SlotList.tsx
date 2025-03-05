@@ -18,7 +18,6 @@ import {
   FaCalendarAlt,
   FaClock,
   FaDollarSign,
-  FaEdit,
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import Swal from "sweetalert2";
@@ -66,9 +65,9 @@ const SlotsList: React.FC = () => {
     navigate("/sp/add-slot");
   };
 
-  const handleEditSlot = (slotId: string) => {
-    navigate(`/sp/edit-slot/${slotId}`);
-  };
+  // const handleEditSlot = (slotId: string) => {
+  //   navigate(`/sp/edit-slot/${slotId}`);
+  // };
 
   const fetchProviderInfo = async () => {
     const response = await getSpProfileDetails();
@@ -164,7 +163,7 @@ const SlotsList: React.FC = () => {
           },
         });
 
-        const response = await deleteSlot(providerInfo._id, slotId);
+        // const response = await deleteSlot(providerInfo._id, slotId);
 
         // Update local state first
         setSlotsList((prevSlots) =>

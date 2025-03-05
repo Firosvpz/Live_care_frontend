@@ -56,7 +56,8 @@ const AddCategory = () => {
         isSidebarOpen={isSidebarOpen}
         setSidebarOpen={setIsSidebarOpen}
       />
-      <AdminSidebar isOpen={isSidebarOpen} />
+     <AdminSidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+
       <div className="max-w-2xl mx-auto p-8 bg-white rounded-lg shadow-lg border border-gray-200 mt-5">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-extrabold text-gray-800 flex items-center">

@@ -5,7 +5,7 @@ import { getSpProfileDetails, fetchCategories } from "../../api/sp_api";
 import { fetchApprovedAndUnblockedProvidersPublic } from "../../api/user_api";
 import { ServiceProvider } from "../../types/serviceproviders";
 import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { updateServiceProviderInfo } from "../../redux/slices/sp_slice";
 import { useDispatch } from "react-redux";

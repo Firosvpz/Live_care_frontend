@@ -4,7 +4,6 @@ import {
   useNavigate,
   useParams,
   useLocation,
-  useSearchParams,
 } from "react-router-dom";
 import { FaArrowLeft, FaInfoCircle } from "react-icons/fa";
 import { MdOutlineCurrencyRupee } from "react-icons/md";

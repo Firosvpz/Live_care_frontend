@@ -9,8 +9,6 @@ import TableShimmer from "../../components/common/Table";
 import Swal from "sweetalert2";
 
 import {
-  FiSearch,
-  FiUser,
   FiMail,
   FiPhone,
   FiLock,

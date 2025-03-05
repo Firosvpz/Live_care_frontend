@@ -7,8 +7,6 @@ import {
   Spinner,
   Alert,
   Form,
-  Row,
-  Col,
   Button,
 } from "react-bootstrap";
 import { getBookings } from "../../api/admin_api";
@@ -39,9 +37,9 @@ const AdminBookingList: React.FC = () => {
   const [error, setError] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const [searchQuery, setSearchQuery] = useState<string>(""); // Search query state
-  const [startDate, setStartDate] = useState<string>(""); // Start date state
-  const [endDate, setEndDate] = useState<string>(""); // End date state
-  const [statusFilter, setStatusFilter] = useState<string>("All"); // Status filter state
+  const [startDate] = useState<string>(""); // Start date state
+  const [endDate] = useState<string>(""); // End date state
+  const [statusFilter] = useState<string>("All"); // Status filter state
   const limit = 10; // Number of items per page
 
   useEffect(() => {

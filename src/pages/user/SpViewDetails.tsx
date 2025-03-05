@@ -5,8 +5,6 @@ import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import {
   FiUser,
-  FiMail,
-  FiPhone,
   FiBriefcase,
   FiClock,
   FiBook,

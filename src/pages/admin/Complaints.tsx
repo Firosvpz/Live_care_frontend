@@ -10,11 +10,10 @@ const ComplaintsPage: React.FC = () => {
   const [complaints, setComplaints] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedComplaint, setSelectedComplaint] = useState<any | null>(null);
+  const [ setSelectedComplaint] = useState<any | null>(null);
 
   // State for response management
   const [response, setResponse] = useState<string>("");
-  const [responseError, setResponseError] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "responded" | "unresponded">(
     "all",
   );
