@@ -5,7 +5,7 @@ import { removeUserCredential } from "../redux/slices/user_slice";
 import { removeServiceProviderCredential } from "../redux/slices/sp_slice";
 
 const Api = axios.create({
-  baseURL: "https://live-care.site",
+  baseURL: "http://localhost:5000",
   withCredentials: true,
 });
 
